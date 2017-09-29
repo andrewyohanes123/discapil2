@@ -1,6 +1,30 @@
 var app = angular.module('capil', ['ngRoute']);
-var baseUrl = window.location.origin + "/form_capil/pendaftaran.html";
+var baseUrl = window.location.origin + "/capil2/pendaftaran.html";
 
+app.config(function($routeProvider){
+  $routeProvider
+  .when('/',{
+    templateUrl : "form1.html"
+  })
+  .when('/halaman2', {
+    templateUrl : "form2.html"
+  })
+  .when('/halaman3', {
+    templateUrl : "form3.html"
+  })
+  .when('/halaman4', {
+    templateUrl : "form4.html"
+  })
+  .when('/halaman5', {
+    templateUrl : "form5.html"
+  })
+  .when('/halaman6', {
+    templateUrl : "form6.html"
+  })
+  .when('/halaman7', {
+    templateUrl : "form7.html"
+  });
+});
 
 app.controller('home', function($scope){
   var data = [{
@@ -44,17 +68,20 @@ app.controller('home', function($scope){
       $scope.deskripsi = data[3].deskripsi;
     }
   }
-})
+});
+
+app.controller('pelaporan', function($scope, $location){
+  $scope.pindahHalaman = function(halaman)
+  {
+    window.location.replace(baseUrl + '#!/' + halaman);
+  }
+});
 
 
 $(document).ready(function(){
   $('span.info').click(function(){
     $('#modal').css('display', 'block');
     $('body').css('overflow', 'hidden');
-  })
-
-  $('#cek_status').click(function(){
-    window.location.replace('cek_status.html');
   });
 
   $('#upload_file').click(function(){

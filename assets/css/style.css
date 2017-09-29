@@ -33,7 +33,7 @@ label {
 
 code {
   padding: 5px 10px;
-  margin: 2.5px 15px;
+  margin: 10px 15px;
   background: #f0a432;
   border : 1.5px solid #e49011;
   border-radius: 5px;
@@ -53,12 +53,6 @@ footer {
   right: 0;
   bottom: 0px;
   left : 0;
-}
-
-code:after {
-  content : ".";
-  visibility: hidden;
-  clear: both;
 }
 
 /* - Grid - */
@@ -319,11 +313,11 @@ code:after {
   overflow: hidden;
   /*box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.34);*/
   box-sizing: border-box;
-  border: 1px solid #00B294;
+  border: 1px solid #26384b;
 }
 
 .form-head {
-  background: #00B294;
+  background: #26384b;
   padding: 10px 20px;
   color: white;
 }
@@ -342,13 +336,19 @@ code:after {
   margin: 0 auto;
 }
 
+.form-container .group:after {
+  content : " ";
+  display: block;
+  clear: both;
+}
+
 .input {
   padding: 5px 15px;
   width: 100%;
   margin: 5px auto;
   box-sizing: border-box;
   border-style: none;
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.34);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.54);
   font-size: 15px;
   border-radius: 5px;
 }
@@ -439,8 +439,8 @@ select > .input {
 
 .content-head {
   border-radius: 5px;
-  background: #ddd;
-  color: #444;
+  background: #34495e;
+  color:white;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
