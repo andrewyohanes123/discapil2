@@ -55,6 +55,112 @@ footer {
   left : 0;
 }
 
+/* Table */
+.table {
+  background: white;
+  border: 1px solid #aaa;
+  border-style: solid;
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 900px;
+  box-sizing: border-box;
+  /*margin-left: -5px;*/
+  margin-right: -5px !important;
+  /*margin: -5px -5px;*/
+}
+
+.table thead {
+  border-collapse: inherit;
+  border-bottom: 2.5px solid #bbb;
+}
+
+.table thead tr th {
+  font-weight: bold;
+  padding: 5px 5px;
+  border-right: #bbb solid 1px;
+  text-align: left;
+}
+
+.table tbody tr {
+  border-bottom: #bbb 1.5px solid;
+}
+
+.table tbody tr:nth-child(even) {
+  background: #eee;
+}
+
+.table tbody tr:hover {
+  background-color: #dedede !important;
+}
+
+.table tbody tr td:nth-child(1) {
+  text-align: center;
+}
+
+.table tbody tr td {
+  border-right: #ccc 1.5px solid;
+  padding: 5px 5px;
+  font-size: 15px;
+}
+
+/* input group */
+.input-group {
+  display: block;
+  margin: 5px auto;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 5px;
+  border : 1px solid #c64b52;
+  display: flex;
+}
+
+.input-group .input {
+  display: inline;
+  width: 93%;
+  margin: 0;
+  box-shadow: none;
+}
+
+.input-group .input:focus {
+  box-shadow: none;
+}
+
+.input-group:first-child .input, .input-addon {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: -5px;
+}
+
+.input-group:nth-child(2) .input-addon, .input {
+  border-radius: 0;
+  margin-right: -5px;
+}
+
+.input-group:last-child .input-addon {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.input-group:last-child .input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-shadow: 0 !important;
+  margin-left: -5px;
+}
+
+.input-group .input-addon {
+  display: inline;
+  margin: 0;
+  padding: 5px 15px;
+  width: 25%;
+  text-align: center;
+  background: #dedcdc;
+  color: black;
+  border-radius: 5px;
+  /*box-shadow: 4px 0px 8px 0px rgba(0, 0, 0, 0.5);*/
+  /*flex: 1;*/
+}
+
 /* - Grid - */
 .grid {
   width: 100%;
@@ -94,21 +200,169 @@ footer {
 .col-11 {width: 91.667%;}
 .col-12 { width: 100%;}
 
+.wrapper {
+  display: flex;
+}
+
+.sidebar-area {
+  width: 255px;
+  float: left;
+  position: relative;
+}
+
+.content-area {
+  width: 80%;
+  float: left;
+  flex: 1;
+  position: relative;
+}
+
+.content-area::before {
+  content : " ";
+  display: block;
+  height: 30px;
+}
+
+.sidebar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+  top : 0px;
+  background: #f0f0f0;
+  overflow: auto;
+  z-index: 20;
+}
+
+.sidebar::before {
+  display: block;
+  content: " ";
+  height: 50px;
+}
+
+.sidebar .user {
+  margin: 15px auto;
+  width: 100%;
+  display: block;
+}
+
+.sidebar .user a {
+  margin: 0 auto;
+  padding: 10px 15px;
+  color : #505050;
+  font-size: 20px;
+  text-decoration: none;
+  text-indent: 5px;
+  /*background: rgba(0, 0, 0, 0.24);*/
+  display: block;
+}
+
+.sidebar .user a:hover {
+  color: #717171;
+}
+
+.sidebar .sidebar-menu {
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.sidebar .sidebar-menu li a {
+  padding: 10px 15px;
+  display: block;
+  background: #34495e;
+  text-decoration: none;
+  color: white;
+}
+
+.sidebar-menu li .active {
+  background: #c14a4a !important;
+  border-bottom: 1.5px solid #f1b2b2 !important;
+}
+
+.sidebar-menu li:first-child a {
+  border-bottom: 1.5px solid #55ad7e;
+}
+
+.active::after {
+  content: " ";
+  float: right;
+  padding: 0;
+  margin: 0px -15px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid #f0f0f0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.sidebar-menu .submenu {
+  padding: 0;
+  text-indent: 5px;
+  border-bottom: solid 1.5px rgb(81, 148, 134);
+}
+
+.submenu li a {
+  background: #eee !important;
+  /*border-top: .25px solid #777;*/
+  border-bottom: 0 !important ;
+  color: #555 !important;
+}
+
+.submenu li a.submenu-active {
+  background: #2197da !important;
+  color: white !important;
+}
+
+.submenu-active::after {
+  content: " ";
+  float: right;
+  padding: 0;
+  margin: 0px -15px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid #f0f0f0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.submenu li a.submenu-active:hover {
+  background: #41ace8 !important;
+  color : white !important;
+}
+
+.submenu-active i.fa {
+  color: white !important;
+}
+
+.submenu li a:hover {
+  background: #ddd !important;
+  color: #333 !important;
+}
+
+.submenu .fa {
+  color: #b83e3a !important;
+}
+
+.slide-icon {
+  float: right;
+}
+
+.submenu li:first-child a {
+  border: 0 !important;
+  /*border-bottom:*/
+}
+
 /*- Media query -*/
 
 @media screen and (min-wdth:320px) {
-  .col-1 { width: 8.333%; }
-  .col-2 { width: 16.667%;}
-  .col-3 { width: 25%; }
-  .col-4 { width: 33.332%;}
-  .col-5 { width: 41.667%;}
-  .col-6 { width: 50%;}
-  .col-7 { width: 58.333%;}
-  .col-8 { width: 66.667;}
-  .col-9 { width: 75%;}
-  .col-10 { width: 83.333%;}
-  .col-11 {width: 91.667%;}
-  .col-12 { width: 100%;}
+  .col-1 {
+    width: 16.667%;
+  }
+  .col-2, .col-3, .col-4 {
+    width: 25%;
+  }
 }
 
 @media screen and (max-width : 1268px)
@@ -435,6 +689,89 @@ select > .input {
   background: #f5f5f5;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
+}
+
+.panel {
+  background: #f4f4f4;
+  padding: 10px 15px;
+  margin: 5px 5px;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+}
+
+.panel span.icon {
+  font-size: 65px;
+  float: left;
+  margin: 15px 5px;
+}
+
+.panel::after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+
+[class*='.panel-'] h1, h4 {
+  font-weight: normal;
+}
+
+[class*='.panel-'] h1 {
+
+}
+
+.panel-red {
+  background: #d65341;
+  border: 1px solid #c7412f;
+  color: white;
+}
+
+.panel-red h4, h1 {
+  font-weight: normal !important;
+}
+
+.panel-red h4 {
+  float: right;
+  margin: 2.5px auto;
+}
+
+.panel-red h1 {
+  font-size: 60px;
+  margin: .5px 15px;
+  float: right;
+}
+
+.panel-green {
+  background: #37b65e;
+  color: white !important;
+  border: 1px solid #2fab55;
+}
+
+.panel-green h4 {
+  float: right;
+  margin: 2.5px auto;
+}
+
+.panel-green h1 {
+  font-size: 60px;
+  margin: .5px 15px;
+  float: right;
+}
+
+.panel-blue {
+  background: #5aabd2;
+  color: white !important;
+  border: 1px solid #2384b4;
+}
+
+.panel-blue h4 {
+  float: right;
+  margin: 2.5px auto;
+}
+
+.panel-blue h1 {
+  font-size: 60px;
+  margin: .5px 15px;
+  float: right;
 }
 
 .content-head {

@@ -1,6 +1,8 @@
 var app = angular.module('capil', ['ngRoute']);
 var baseUrl = window.location.origin + "/capil2/pendaftaran.html";
 
+var dash = angular.module('dashboard', ['ngRoute']);
+
 app.config(function($routeProvider){
   $routeProvider
   .when('/',{
@@ -21,10 +23,21 @@ app.config(function($routeProvider){
   .when('/halaman6', {
     templateUrl : "form6.html"
   })
+  // .when()
   .when('/halaman7', {
     templateUrl : "form7.html"
   });
 });
+
+dash.config(function($routeProvider){
+  $routeProvider
+  .when('/', {
+    templateUrl : "dashboard/main.html"
+  })
+  .when('/semua_laporan', {
+    templateUrl : "dashboard/semua_laporan.html"
+  })
+})
 
 app.controller('home', function($scope){
   var data = [{
@@ -82,6 +95,24 @@ $(document).ready(function(){
   $('span.info').click(function(){
     $('#modal').css('display', 'block');
     $('body').css('overflow', 'hidden');
+  });
+
+  $('.submenu li a').click(function(){
+    $('.submenu li a').removeClass('submenu-active');
+    $('.sidebar-menu li:first-child a').removeClass('active');
+    $(this).addClass('submenu-active');
+  })
+
+  $('.sidebar-menu li:first-child a').not('.submenu li:first-child a').click(function(){
+    $('.submenu li a').removeClass('submenu-active');
+    $('.sidebar-menu li:first-child a').not('.submenu li:first-child a').addClass('active');
+  })
+
+  $('.sidebar-menu').children('li').children('a').click(function(){
+    $(this).parent().children('.submenu').slideToggle();
+    $(this).children('span').children('i').toggleClass('fa-angle-right');
+    $(this).children('span').children('i').toggleClass('fa-angle-down');
+    // return false;
   });
 
   $('#upload_file').click(function(){
