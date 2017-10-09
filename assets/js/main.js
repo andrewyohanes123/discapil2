@@ -115,6 +115,21 @@ $(document).ready(function(){
     // return false;
   });
 
+  $(document).on('click', '#dlmManado',function(){
+    $('#manado').show();
+    $('#luar_manado').hide();
+    $('.tab').removeClass('click');
+    $(this).addClass('click');
+  });
+
+  $(document).on('click', '#luarManado',function(){
+    $('#manado').hide();
+    $('#luar_manado').show();
+    $('.tab').removeClass('click');
+    $(this).addClass('click');
+    // console.log('ada');
+  });
+
   $('#upload_file').click(function(){
     window.location.replace('upload_file.html');
   });

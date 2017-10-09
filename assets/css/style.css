@@ -533,6 +533,58 @@ footer {
   float: right;
   margin-right: 5px;
 }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  padding: 0;
+  margin: 15px auto;
+  width: 100%;
+  border-bottom : 1px solid #00B294;
+  /*padding-left: 10px;*/
+}
+
+.tabs .tab {
+  background: #f9f9f9;
+  color: #00B294;
+  padding: 10px 15px;
+  width: 100%;
+  display: inline-block;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin: 0 .5px;
+  border-top : 1px solid #00B294;
+  border-left : 1px solid #00B294;
+  border-right : 1px solid #00B294;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 0px;
+}
+
+.tabs .tab:hover {
+  background: #eee;
+}
+
+.tabs .tab a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tabs .click {
+  background: #f6f6f6 !important;
+  margin-bottom: -1px;
+  /*border: 1px solid black !important;*/
+}
+
+.tabs .click:hover {
+  background: #fafafa !important;
+  /*border: 1px solid black !important;*/
+}
+
+#luar_manado {
+  display: none;
+}
+
 /* --- Content --- */
 
 .jumbotron {
@@ -565,19 +617,42 @@ footer {
   margin: 15px auto;
   border-radius: 5px;
   overflow: hidden;
-  /*box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.34);*/
   box-sizing: border-box;
   border: 1px solid #26384b;
 }
 
 .form-head {
   background: #26384b;
-  padding: 10px 20px;
+  padding: 0px 0px;
   color: white;
 }
 
 .form-head .form-title {
   margin: 0 auto;
+  padding: 10px 20px;
+}
+
+.form-head .tabs {
+  padding-top : 5px;
+  margin-top: 5px;
+  border-bottom-color: white;
+  margin-bottom: 0px;
+}
+
+.form-head .tabs .tab {
+  background: inherit;
+  border-color: white;
+  color: white;
+  /*width: 50% !important;*/
+  width: auto;
+}
+
+.form-head .tabs .tab:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.form-head .tabs .click {
+  color: #26384b;
 }
 
 .form-pendaftaran {
@@ -596,13 +671,18 @@ footer {
   clear: both;
 }
 
+select.input {
+  height: 30px;
+}
+
 .input {
   padding: 5px 15px;
   width: 100%;
   margin: 5px auto;
   box-sizing: border-box;
   border-style: none;
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.54);
+  border: 1px solid #0a5078;
+  /*box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.54);*/
   font-size: 15px;
   border-radius: 5px;
 }
