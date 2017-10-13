@@ -112,7 +112,6 @@ $(document).ready(function(){
     $(this).parent().children('.submenu').slideToggle();
     $(this).children('span').children('i').toggleClass('fa-angle-right');
     $(this).children('span').children('i').toggleClass('fa-angle-down');
-    // return false;
   });
 
   $(document).on('click', '#dlmManado',function(){
@@ -127,7 +126,20 @@ $(document).ready(function(){
     $('#luar_manado').show();
     $('.tab').removeClass('click');
     $(this).addClass('click');
-    // console.log('ada');
+  });
+
+  $(document).on('click', '#btnBantuan',function(){
+    $('#bantuan').show();
+    $('#alur-pembuatan').hide();
+    $('.tab').removeClass('click');
+    $(this).addClass('click');
+  });
+
+  $(document).on('click', '#btnAlur',function(){
+    $('#bantuan').hide();
+    $('#alur-pembuatan').show();
+    $('.tab').removeClass('click');
+    $(this).addClass('click');
   });
 
   $('#upload_file').click(function(){
@@ -136,6 +148,10 @@ $(document).ready(function(){
 
   $('#daftar').click(function(){
     window.location.replace('pendaftaran.html');
+  });
+
+  $('#berkas').click(function(){
+    window.location.replace('berkas.html');
   });
 
   $('.head').click(function(){
