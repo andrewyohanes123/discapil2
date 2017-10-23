@@ -55,7 +55,7 @@ app.config(function($routeProvider){
     templateUrl : "view/upload.html",
     controller : "upload"
   })
-  .when('/berkas', {
+  .when('/upload/berkas', {
     templateUrl : "view/berkas.html",
     controller : "berkas"
   })
@@ -595,7 +595,7 @@ app.controller('ayah', function($scope, $http, data, $cookies){
   {
     $http.get(backendUrl + "/ambil_penduduk/" + nik).then(function(resp){
       var hasil = resp.data.data;
-      var no_kk = $cookies.get('no_kk');
+      var no_kk = $cookies.getObject('no_kk');
       if (!hasil)
       {
         $('.notifikasi').css('display', 'flex');
@@ -607,6 +607,7 @@ app.controller('ayah', function($scope, $http, data, $cookies){
       }
       else if (hasil.NO_KK != no_kk.no_kk)
       {
+        console.log(hasil.NO_KK + " " + no_kk.no_kk);
         $('.notifikasi').css('display', 'flex');
         $('.notifikasi-body').empty();
         $('.notifikasi-body').text('Pemilik NIK tidak ada dalam Nomor KK yang disertakan');
@@ -661,6 +662,7 @@ app.controller('ibu', function($scope, $http, data, $cookies){
   {
     $http.get(backendUrl + "/ambil_penduduk/" + nik).then(function(resp){
       var hasil = resp.data.data;
+      var no_kk = $cookies.getObject('no_kk');
       if (!hasil)
       {
         $('.notifikasi').css('display', 'flex');
@@ -722,6 +724,9 @@ app.controller('ibu', function($scope, $http, data, $cookies){
 });
 
 // Pelapor
+$(document).on('submit', 'form',function(e){
+  e.preventDefault();
+})
 
 app.controller('pelapor', function($scope, $http, data,$cookies){
   $scope.cek = function(nik)
@@ -749,6 +754,7 @@ app.controller('pelapor', function($scope, $http, data,$cookies){
   $scope.tanggal = '';
   $scope.pekerjaan = '';
   $scope.alamat = '';
+  $scope.jenis_kelamin = 'Laki-laki'
 
 
   $scope.submit = function()
@@ -830,6 +836,7 @@ app.controller('pelapor', function($scope, $http, data,$cookies){
           plr_nik : $scope.nik_luar,
           plr_nama : $scope.nama,
           plr_tanggal_lahir : $scope.tanggal,
+          plr_jenis_kelamin : $scope.jenis_kelamin,
           plr_pekerjaan : $scope.pekerjaan,
           plr_alamat : $scope.jenis_kelamin,
           plr_org_manado : 0
@@ -978,6 +985,7 @@ app.controller('saksi1', function($scope, $http, data, $cookies){
           sk_nik1 : $scope.nik_luar,
           sk_nama1 : $scope.nama,
           sk_tanggal_lahir1 : $scope.tanggal,
+          sk_jenis_kelamin1 : $scope.jenis_kelamin,
           sk_pekerjaan1 : $scope.pekerjaan,
           sk_alamat1 : $scope.jenis_kelamin,
           sk_org_manado1 : 0
@@ -1121,6 +1129,7 @@ app.controller('saksi2', function($scope, $http, data, $cookies){
           sk_nik2 : $scope.nik_luar,
           sk_nama2 : $scope.nama,
           sk_tanggal_lahir2 : $scope.tanggal,
+          sk_jenis_kelamin2 : $scope.jenis_kelamin,
           sk_pekerjaan2 : $scope.pekerjaan,
           sk_alamat2 : $scope.jenis_kelamin,
           sk_org_manado2 : 0
@@ -1194,6 +1203,7 @@ app.controller('data_keluarga', function($scope, $cookies, $http){
         var no = resp.data.data;
         $scope.no_pendaftaran = no;
         $('#modal').show();
+        $('body').css('overflow-y', 'hidden');
         $scope.nomor = null;
         $scope.alamat = '';
         $scope.pernyataan = '';
