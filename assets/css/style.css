@@ -1322,13 +1322,13 @@ select > .input {
   color : white !important;
 }
 
-.darkblue {
+.collapse .darkblue {
   background: #1374b1 !important;
   color : white !important;
   border-bottom-color: #4297d5 !important;
 }
 
-.darkblue .collapse-icon i.fa {
+.collapse .darkblue .collapse-icon i.fa {
   color: white !important;
 }
 

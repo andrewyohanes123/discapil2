@@ -73,6 +73,10 @@ dash.config(function($routeProvider){
 });
 
 dash.controller('list', function($scope, $http, $cookies){
+  $('a').click(function(){
+    var url = $(this).attr('href');
+    window.open(url, "_blank");
+  });
   $scope.get = function()
   {
     moment.locale('id');
