@@ -73,10 +73,18 @@ dash.config(function($routeProvider){
 });
 
 dash.controller('list', function($scope, $http, $cookies){
-  $('a').click(function(){
+  $('a.ng-binding').click(function(){
     var url = $(this).attr('href');
-    window.open(url, "_blank");
-  });
+    if (url == "")
+    {
+      return false;
+    }
+    else
+    {
+      window.open(url, "_blank");
+      return false;
+    }
+  })
   $scope.get = function()
   {
     moment.locale('id');
@@ -467,6 +475,13 @@ app.controller('login', function($scope, $http, $cookies){
       }
     })
   }
+
+  $http.get(backendUrl + "/cek").then(function(resp){
+    if (resp.data.status)
+    {
+      window.location.replace('dashboard.html');
+    }
+  });
 
   $('form').submit(function(e){
     e.preventDefault();
