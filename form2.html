@@ -1,4 +1,4 @@
-<div class="container" ng-controller="pelaporan">
+<div class="container">
   <div class="form-container">
     <div class="form-head">
       <p class="form-title"><i class="fa fa-pencil fa-lg"></i>&nbsp;Jenazah</p>
@@ -6,34 +6,40 @@
     <div class="form-pendaftaran">
       <form class="group" action="index.html" method="post">
         <label for="">NIK</label>
-        <input type="number" class="input" placeholder="NIK" name="" value="">
+        <div class="input-group">
+          <input type="number" ng-model="nik" class="input" placeholder="NIK" name="" value="">
+          <div class="input-addon-btn">
+            <button type="button" ng-click="cek(nik)" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>Cek</button>
+          </div>
+        </div>
         <label for="">Nama Lengkap</label>
-        <input type="text" placeholder="Nama Lengkap" class="input" readonly name="" value="">
+        <input type="text" placeholder="Nama Lengkap" ng-model="nama_lengkap" class="input" readonly name="" value="">
         <label for="">Tanggal Kematian</label>
-        <input type="text" class="input" placeholder="Tanggal kematian" name="" value="">
+        <input type="text" data-field="date" ng-model="tanggal" class="input" placeholder="Tanggal kematian" name="" value="">
         <label for="">Pukul</label>
-        <input type="text" class="input" name="" value="" placeholder="Pukul">
+        <input type="text" data-field="time" ng-model="waktu" class="input" name="" value="" placeholder="Pukul">
         <label for="">Sebab kematian</label>
-        <select class="input" name="">
-          <option value="1">Sakit biasa / tua</option>
-          <option value="2">Wabah penyakit</option>
-          <option value="3">Kecelakaan</option>
-          <option value="4">Kriminalitas</option>
-          <option value="5">Bunuh diri</option>
-          <option value="6">Lainnya</option>
+        <select ng-model="sebab_kematian" class="input" name="">
+          <option value="Sakit Biasa/Tua">Sakit biasa / tua</option>
+          <option value="Wabah Penyakit">Wabah penyakit</option>
+          <option value="Kecelakaan">Kecelakaan</option>
+          <option value="Kriminalitas">Kriminalitas</option>
+          <option value="Bunuh Diri">Bunuh diri</option>
+          <option value="Lainnya">Lainnya</option>
         </select>
         <label for="">Yang menerangkan</label>
-        <select class="input" name="">
-          <option value="1">Dokter</option>
-          <option value="2">Tenaga Kesehatan</option>
-          <option value="3">Kepolisian</option>
-          <option value="4">Lainnya</option>
+        <select ng-model="yang_menerangkan" class="input" name="">
+          <option value="Dokter">Dokter</option>
+          <option value="Tenaga Kesehatan">Tenaga Kesehatan</option>
+          <option value="Kepolisian">Kepolisian</option>
+          <option value="Lainnya">Lainnya</option>
         </select>
         <hr>
-        <button ng-click="pindahHalaman('')" type="button" class="btn btn-prev" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Sebelumnya</button>
-        <button ng-click="pindahHalaman('halaman3')" type="button" class="btn btn-next" name="button"><i class="fa fa-angle-right fa-lg"></i>&nbsp;Selanjutnya</button>
-        <code>2 / 7 Halaman</code>
+        <button ng-click="submit()" type="button" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
       </form>
     </div>
   </div>
+</div>
+<div id="tanggal">
+
 </div>

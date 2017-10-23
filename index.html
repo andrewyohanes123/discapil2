@@ -3,101 +3,40 @@
   <head>
     <meta charset="utf-8">
     <title>Pendaftaran Akte Kematian | Dinas Kependudukan dan Catatan Sipil</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css" media="screen, print">
+    <link rel="stylesheet" href="assets/css/DateTimePicker.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="assets/js/jquery.min.js" charset="utf-8"></script>
     <script src="assets/js/angular.min.js" charset="utf-8"></script>
     <script src="assets/js/angular-route.min.js" charset="utf-8"></script>
+    <script src="assets/js/angular-cookies.min.js" charset="utf-8"></script>
+    <script src="assets/js/DateTimePicker.min.js" charset="utf-8"></script>
+    <script src="assets/js/ng-file-upload.min.js" charset="utf-8"></script>
+    <script src="assets/js/ng-file-upload-shim.min.js" charset="utf-8"></script>
+    <script src="assets/js/print.min.js" charset="utf-8"></script>
     <script src="assets/js/main.js" charset="utf-8"></script>
   </head>
-  <body ng-controller="home">
+  <body>
     <nav class="navbar">
       <a href="#" class="btn btn-collapse"><i class="fa fa-bars fa-lg"></i></a>
       <ul class="menu">
         <li><a href="#" class="logo">Dispendukcapil</a></li>
-        <li><a href="bantuan.html"><i class="fa fa-question-circle fa-lg"></i>&nbsp;Bantuan</a></li>
-        <li><a href="login.html"><i class="fa fa-sign-in fa-lg"></i>&nbsp;Login</a></li>
+        <li><a href="#!/home"><i class="fa fa-home fa-lg"></i>&nbsp;Halaman utama</a></li>
+        <li><a href="#!/bantuan"><i class="fa fa-question-circle fa-lg"></i>&nbsp;Bantuan</a></li>
+        <li><a href="#!/login"><i class="fa fa-sign-in fa-lg"></i>&nbsp;Login</a></li>
       </ul>
     </nav>
     <div class="space">
     </div>
-    <div class="container">
-      <div class="body">
-        <header class="title">
-          Pendaftaran Surat Kematian
-        </header>
-        <p class="subtitle">Dinas Kependudukan dan Catatan Sipil</p>
-        <hr>
-        <div class="row">
-          <div class="col-3">
-            <div class="body card">
-              <span class="info" title="Bantuan" ng-click="modal('pendaftaran')"><i class="fa fa-info-circle fa-lg"></i></span>
-              <header class="icon">
-                <i class="fa fa-wpforms fa-lg"></i>
-              </header>
-              <hr>
-              <h4>Buat laporan</h4>
-              <div class="spaces"></div>
-              <button type="button" class="btn btn-card btn-card-darkblue" id="daftar" name="button">LAPOR</button>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="body card">
-              <span class="info" ng-click="modal('upload')" title="Bantuan"><i class="fa fa-info-circle fa-lg"></i></span>
-              <header class="icon">
-                <i class="fa fa-upload fa-lg gray"></i>
-              </header>
-              <hr>
-              <h4>Upload Berkas</h4>
-              <div class="spaces"></div>
-              <button type="button" id="upload_file" class="btn btn-card btn-card-gray" name="button">UPLOAD</button>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="body card">
-              <span class="info" ng-click="modal('cek')" title="Bantuan"><i class="fa fa-info-circle fa-lg"></i></span>
-              <header class="icon">
-                <i class="fa fa-archive fa-lg green"></i>
-              </header>
-              <hr>
-              <h4>Info Berkas</h4>
-              <div class="spaces"></div>
-              <button type="button" id="berkas" class="btn btn-card btn-card-green" name="button">CEK BERKAS</button>
-            </div>
-          </div>
-          <div class="col-3">
-            <div class="body card">
-              <span class="info" ng-click="modal('cek_status')" title="Bantuan"><i class="fa fa-info-circle fa-lg"></i></span>
-              <header class="icon">
-                <i class="fa fa-check fa-lg blue"></i>
-              </header>
-              <hr>
-              <h4>Cek Status</h4>
-              <div class="spaces"></div>
-              <button type="button" id="cek_status" class="btn btn-card btn-card-blue" name="button">CEK</button>
-            </div>
-          </div>
-          <!--  -->
-        </div>
-        <!-- row  -->
+    <div class="notifikasi">
+      <div class="notifikasi-icon">
+        <i class="fa fa-bell fa-lg"></i>
+      </div>
+      <div class="notifikasi-body">
+        <!-- Pesan goes here -->
       </div>
     </div>
-    <div id="modal" class="modal">
-      <div class="modal-window">
-        <div class="modal-titlebar">
-          <p class="title"><i class="fa fa-info-circle fa-lg"></i>&nbsp;{{ title }}</p>
-        </div>
-        <div class="modal-content">
-          <h2><i class="fa fa-info-circle fa-lg"></i>&nbsp;{{ title }}</h2>
-          <hr>
-          <p>{{ deskripsi }}</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-modal" name="button"><i class="fa fa-times-circle fa-lg"></i>&nbsp;Tutup</button>
-        </div>
-      </div>
+    <div ng-view>
     </div>
-    <footer>Tagconn&copy; | 2017</footer>
-  </body>
 </html>

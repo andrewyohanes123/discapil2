@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="body">
+    <header class="title">
+      Pendaftaran Surat Kematian
+    </header>
+    <p class="subtitle">Dinas Kependudukan dan Catatan Sipil</p>
+    <hr>
+    <div class="row">
+      <div class="col-3">
+        <div class="body card">
+          <span class="info" title="Bantuan" ng-click="modal('pendaftaran')"><i class="fa fa-info-circle fa-lg"></i></span>
+          <header class="icon">
+            <i class="fa fa-wpforms fa-lg"></i>
+          </header>
+          <hr>
+          <h4>Buat laporan</h4>
+          <div class="spaces"></div>
+          <button type="button" class="btn btn-card btn-card-darkblue" id="daftar" name="button">LAPOR</button>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="body card">
+          <span class="info" ng-click="modal('upload')" title="Bantuan"><i class="fa fa-info-circle fa-lg"></i></span>
+          <header class="icon">
+            <i class="fa fa-upload fa-lg gray"></i>
+          </header>
+          <hr>
+          <h4>Upload Berkas</h4>
+          <div class="spaces"></div>
+          <button type="button" id="upload_file" class="btn btn-card btn-card-gray" name="button">UPLOAD</button>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="body card">
+          <span class="info" ng-click="modal('cek')" title="Bantuan"><i class="fa fa-info-circle fa-lg"></i></span>
+          <header class="icon">
+            <i class="fa fa-archive fa-lg green"></i>
+          </header>
+          <hr>
+          <h4>Info Berkas</h4>
+          <div class="spaces"></div>
+          <button type="button" id="berkas" class="btn btn-card btn-card-green" name="button">CEK BERKAS</button>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="body card">
+          <span class="info" ng-click="modal('cek_status')" title="Bantuan"><i class="fa fa-info-circle fa-lg"></i></span>
+          <header class="icon">
+            <i class="fa fa-check fa-lg blue"></i>
+          </header>
+          <hr>
+          <h4>Cek Status</h4>
+          <div class="spaces"></div>
+          <button type="button" id="cek_status" class="btn btn-card btn-card-blue" name="button">CEK</button>
+        </div>
+      </div>
+      <!--  -->
+    </div>
+    <!-- row  -->
+  </div>
+</div>
+<div id="modal" class="modal">
+  <div class="modal-window">
+    <div class="modal-titlebar">
+      <span class="close"><i class="fa fa-times fa-lg"></i></span>
+      <p class="title"><i class="fa fa-info-circle fa-lg"></i>&nbsp;{{ title }}</p>
+    </div>
+    <div class="modal-content">
+      <h2><i class="fa fa-info-circle fa-lg"></i>&nbsp;{{ title }}</h2>
+      <hr>
+      <p>{{ deskripsi }}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-modal" name="button"><i class="fa fa-times-circle fa-lg"></i>&nbsp;Tutup</button>
+    </div>
+  </div>
+</div>
+<footer>Tagconn&copy; | 2017</footer>
+</body>

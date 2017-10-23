@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="form-container" ng-controller="pelaporan">
+  <div class="form-container">
     <div class="form-head">
       <p class="form-title"><i class="fa fa-pencil fa-lg"></i>&nbsp;Pelapor</p>
       <div class="tabs">
@@ -14,41 +14,36 @@
     <div class="form-pendaftaran">
       <form class="group" action="index.html" method="post" id="manado">
         <label for="">NIK</label>
-        <input type="number" class="input" placeholder="NIK" name="" value="">
+        <div class="input-group">
+          <input type="number" class="input" ng-model="nik" placeholder="NIK" name="" value="">
+          <div class="input-addon-btn">
+            <button ng-click="cek(nik)" type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Cek</button>
+          </div>
+        </div>
         <label for="">Nama Lengkap</label>
-        <input type="text" class="input" readonly placeholder="Nama Lengkap" name="" value="">
-        <button ng-click="pindahHalaman('halaman4')" type="button" class="btn btn-prev" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Sebelumnya</button>
-        <button ng-click="pindahHalaman('halaman6')" type="button" class="btn btn-next" name="button"><i class="fa fa-angle-right fa-lg"></i>&nbsp;Selanjutnya</button>
-        <code>5 / 7 Halaman</code>
+        <input type="text" class="input" ng-model="nama_lengkap" readonly placeholder="Nama Lengkap" name="" value=""/>
+        <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
       </form>
       <form class="group" action="index.html" method="post" id="luar_manado">
         <label for="">NIK</label>
-        <input type="number" class="input" placeholder="NIK" name="" value="">
+        <input type="number" ng-model="nik_luar" class="input" placeholder="NIK" name="" value="">
         <label for="">Nama Lengkap</label>
-        <input type="text" class="input" readonly placeholder="Nama Lengkap" name="" value="">
-        <label for="">Tanggal Lahir / Umur</label>
-        <input type="text" class="input" placeholder="Tanggal Lahir / Umur" name="" value="">
+        <input type="text" ng-model="nama" class="input" placeholder="Nama Lengkap" name="" value="">
+        <label for="">Tanggal Lahir</label>
+        <input type="text" data-field="date" ng-model="tanggal" class="input" placeholder="Tanggal Lahir" name="" value="">
+        <label for="">Jenis Kelamin</label>
+        <select class="input" ng-model="jenis_kelamin" name="">
+          <option value="Laki-laki">Laki-laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
         <label for="">Pekerjaan</label>
-        <input type="text" class="input" placeholder="Pekerjaan" name="" value="">
+        <input type="text" ng-model="pekerjaan" class="input" placeholder="Pekerjaan" name="" value="">
         <label for="">Alamat</label>
-        <input type="text" class="input" name="" value="">
-        <select class="input" name="">
-          <option value="">Desa/Kelurahan</option>
-        </select>
-        <select class="input" name="">
-          <option value="">Kecamatan</option>
-        </select>
-        <select class="input" name="">
-          <option value="">Kabupaten/Kota</option>
-        </select>
-        <select class="input" name="">
-          <option value="">Provinsi</option>
-        </select>
+        <input type="text" ng-model="alamat" placeholder="Alamat" class="input" name="" value="">
         <hr>
-        <button ng-click="pindahHalaman('halaman4')" type="button" class="btn btn-prev" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Sebelumnya</button>
-        <button ng-click="pindahHalaman('halaman6')" type="button" class="btn btn-next" name="button"><i class="fa fa-angle-right fa-lg"></i>&nbsp;Selanjutnya</button>
-        <code>5 / 7 Halaman</code>
+        <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
       </form>
     </div>
   </div>
 </div>
+<div id="tanggal"></div>

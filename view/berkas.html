@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="kotak">
+    <div class="head">
+      <p class="head-title"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload berkas</p>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nama berkas</th>
+          <th>Status</th>
+          <th>Upload</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Surat kematian (visum)</td>
+          <td ng-hide="surat_kematian != null">{{ surat_kematian }}</td>
+          <td ng-show="surat_kematian != null"><a href="{{ surat_kematian_link }}">{{ surat_kematian }}</a></td>
+          <td>
+            <input type="file" name="" ngf-select ng-model="surat_kem" accept="image/*"/>
+            <button type="button" class="btn btn-next" ng-click="upload(surat_kem, 'berkas_surat_kematian')" name="button"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Surat akte kelahiran yang meninggal</td>
+          <td ng-hide="akta_kelahiran != null">{{ akta_kelahiran }}</td>
+          <td ng-hide="akta_kelahiran == null"><a href="{{ akte_kelahiran_link }}">{{ akta_kelahiran }}</a></td>
+          <td>
+            <input type="file" ngf-select ng-model="akte_kel" accept="image/*">
+            <button type="button" ng-click="upload(akte_kel, 'berkas_akta_kelahiran_jenazah')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Surat akte kematian Suami/Istri</td>
+          <td ng-show="akte_kematian_pasangan == null">{{ akte_kematian_pasangan }}</td>
+          <td ng-hide="akte_kematian_pasangan == null"><a href="{{ akte_kematian_pasangan_link }}">{{ akte_kematian_pasangan }}</a></td>
+          <td>
+            <input type="file" ngf-select ng-model="akte_kem" accept="image/*">
+            <button type="button" ng-click="upload(akte_kem, 'berkas_akta_kematian_pasangan')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Surat akte perkawinan yang meninggal</td>
+          <td ng-show="akta_perkawinan == null">{{ akta_perkawinan }}</td>
+          <td ng-hide="akta_perkawinan == null"><a href="{{ akta_perkawinan_link }}">{{ akta_perkawinan }}</a></td>
+          <td>
+            <input type="file" ngf-select ng-model="akte_kawin" accept="image/*">
+            <button type="button" ng-click="upload(akte_kawin, 'berkas_akta_perkawinan_jenazah')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Fotocopy KTP Pelapor</td>
+          <td ng-show="ktp_pelapor == null">{{ ktp_pelapor }}</td>
+          <td ng-hide="ktp_pelapor == null"><a href="{{ ktp_pelapor_link }}">{{ ktp_pelapor }}</a></td>
+          <td>
+            <input type="file" ngf-select ng-model="ktp_plr" accept="image/*">
+            <button type="button" ng-click="upload(ktp_plr, 'berkas_ktp_pelapor')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Fotocopy KTP Saksi 1</td>
+          <td ng-show="ktp_saksi1 == null">{{ ktp_saksi1 }}</td>
+          <td ng-hide="ktp_saksi1 == null"><a href="{{ ktp_saksi1_link }}">{{ ktp_saksi1 }}</a></td>
+          <td>
+            <input type="file" ngf-select ng-model="ktp_sk1" accept="image/*">
+            <button type="button" ng-click="upload(ktp_sk1, 'berkas_ktp_saksi1')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Fotocopy KTP Saksi 2</td>
+          <td ng-show="ktp_saksi2 == null">{{ ktp_saksi2 }}</td>
+          <td ng-hide="ktp_saksi2 == null"><a href="{{ ktp_saksi2_link }}">{{ ktp_saksi2 }}</a></td>
+          <td>
+            <input type="file" ngf-select ng-model="ktp_sk2" accept="image/*">
+            <button type="button" ng-click="upload(ktp_sk2, 'berkas_ktp_saksi2')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="kotak-body">
+
+    </div>
+  </div>
+</div>

@@ -1,54 +1,286 @@
-<div class="content-head">
-  <p><i class="fa fa-list-alt fa-lg"></i>&nbsp;Daftar semua laporan</p>
-</div>
-<br>
-<!-- <div class="container"> -->
 <div class="container">
-  <div class="input-group">
-    <span class="input-addon">Test 0</span>
-    <input type="text" class="input" name="" value="">
-    <span class="input-addon">Test</span>
-    <input type="text" class="input" name="" value="">
-    <span class="input-addon">Test 2</span>
-    <input type="text" class="input" name="" value="">
+  <div class="kotak">
+    <div class="head">
+      <p class="head-title"><i class="fa fa-list-ol fa-lg"></i>&nbsp;Daftar</p>
+    </div>
+    <div class="kotak-body">
+
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>NIK Jenazah</th>
+          <th>Jenazah</th>
+          <th>Tanggal meninggal</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="daftar in list">
+          <td>{{ list.indexOf(daftar) + 1 }}</td>
+          <td>{{ daftar.nik }}</td>
+          <td>{{ daftar.nama }}</td>
+          <td>{{ daftar.tanggal_kematian }}</td>
+          <td><button type="button" class="btn btn-check" ng-click="detail(daftar.no_antrian)" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Detail</button></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>No.</th>
-        <th>Nama</th>
-        <th>NIK</th>
-        <th>Pelapor</th>
-        <th>Saksi I</th>
-        <th>Saksi II</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>Seseorang</td>
-        <td>123456789</td>
-        <td>Seseorang Pelapor</td>
-        <td>Seseorang Saksi I</td>
-        <td>Seseorang Saksi II</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Seseorang 2</td>
-        <td>123466788</td>
-        <td>Seseorang Pelapor</td>
-        <td>Seseorang Saksi I</td>
-        <td>Seseorang Saksi II</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Seseorang 3</td>
-        <td>123466788</td>
-        <td>Seseorang Pelapor</td>
-        <td>Seseorang Saksi I</td>
-        <td>Seseorang Saksi II</td>
-      </tr>
-    </tbody>
-  </table>
-<!-- </div> -->
+<div id="modal" class="modal">
+  <div class="modal-window modal-lg">
+    <div class="modal-titlebar">
+      <span class="close"><i class="fa fa-times fa-lg"></i></span>
+      <p class="title"><i class="fa fa-info-circle fa-lg"></i>&nbsp;Detail</p>
+    </div>
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-6">
+          <div class="collapse">
+            <div class="head blue">
+              <p><i class="fa fa-file fa-lg"></i>&nbsp;Keluarga</p>
+              <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+            </div>
+            <div class="containers">
+              <table class="table">
+                <tr>
+                  <td>Nomor Kartu Keluarga</td>
+                  <td>{{ nomor_kk }}</td>
+                </tr>
+                <tr>
+                  <td>Nama Kepala Keluarga</td>
+                  <td>{{ nama_kepala_keluarga }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="collapse">
+            <div class="head red">
+              <p><i class="fa fa-user fa-lg"></i>&nbsp;Ibu</p>
+              <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+            </div>
+            <div class="containers">
+            <table class="table">
+              <tr>
+                <td>NIK</td>
+                <td>{{ nik_ibu }}</td>
+              </tr>
+              <tr>
+                <td>Nama Ibu</td>
+                <td>{{ nama_ibu }}</td>
+              </tr>
+            </table>
+          </div>
+          </div>
+          <div class="collapse">
+            <div class="head red">
+              <p><i class="fa fa-user fa-lg"></i>&nbsp;Ayah</p>
+              <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+            </div>
+            <div class="containers">
+            <table class="table">
+              <tr>
+                <td>NIK</td>
+                <td>{{ nik_ayah }}</td>
+              </tr>
+              <tr>
+                <td>Nama Ayah</td>
+                <td>{{ nama_ayah }}</td>
+              </tr>
+            </table>
+          </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="collapse">
+            <div class="head lightgreen">
+              <p><i class="fa fa-h-square fa-lg"></i>&nbsp;Jenazah</p>
+              <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+            </div>
+            <div class="containers">
+            <table class="table">
+              <tr>
+                <td>Nama</td>
+                <td>{{ nama }}</td>
+              </tr>
+              <tr>
+                <td>NIK</td>
+                <td>{{ nik }}</td>
+              </tr>
+              <tr>
+                <td>Tanggal kematian</td>
+                <td>{{ tanggal_kematian }}</td>
+              </tr>
+              <tr>
+                <td>Waktu kematian</td>
+                <td>{{ waktu_meninggal }}</td>
+              </tr>
+              <tr>
+                <td>Sebab kematian</td>
+                <td>{{ sebab_kematian }}</td>
+              </tr>
+              <tr>
+                <td>Yang menerangkan</td>
+                <td>{{ yang_menerangkan }}</td>
+              </tr>
+            </table>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="collapse">
+            <div class="head turquoise">
+              <p><i class="fa fa-user-o fa-lg"></i>&nbsp;Pelapor</p>
+              <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+            </div>
+            <div class="containers">
+              <table class="table">
+                <tr>
+                  <td>NIK</td>
+                  <td>{{ pelapor.nik }}</td>
+                </tr>
+                <tr>
+                  <td>Nama Pelapor</td>
+                  <td>{{ pelapor.nama }}</td>
+                </tr>
+                <tr>
+                  <td>Tanggal lahir</td>
+                  <td>{{ pelapor.tangal_lahir }}</td>
+                </tr>
+                <tr>
+                  <td>Jenis kelamin</td>
+                  <td>{{ pelapor.jenis_kelamin }}</td>
+                </tr>
+                <tr>
+                  <td>Alamat</td>
+                  <td>{{ pelapor.alamat }}</td>
+                </tr>
+                <tr>
+                  <td>Pekerjaan</td>
+                  <td>{{ pelapor.pekerjaan }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-4" ng-repeat="saksi2 in saksi">
+          <div class="collapse">
+            <div class="head darkblue">
+              <p><i class="fa fa-user-circle-o fa-lg"></i>&nbsp;Saksi {{ saksi.indexOf(saksi2) + 1 }}</p>
+              <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+            </div>
+            <div class="containers">
+              <table class="table">
+                <tr>
+                  <td>NIK</td>
+                  <td>{{ saksi2.nik }}</td>
+                </tr>
+                <tr>
+                  <td>Nama Pelapor</td>
+                  <td>{{ saksi2.nama }}</td>
+                </tr>
+                <tr>
+                  <td>Tanggal lahir</td>
+                  <td>{{ saksi2.tangal_lahir }}</td>
+                </tr>
+                <tr>
+                  <td>Jenis kelamin</td>
+                  <td>{{ saksi2.jenis_kelamin }}</td>
+                </tr>
+                <tr>
+                  <td>Alamat</td>
+                  <td>{{ saksi2.alamat }}</td>
+                </tr>
+                <tr>
+                  <td>Pekerjaan</td>
+                  <td>{{ saksi2.pekerjaan }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="collapse">
+        <div class="head">
+          <p><i class="fa fa-file fa-lg"></i>&nbsp;Berkas</p>
+          <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+        </div>
+        <div class="containers">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nama berkas</th>
+                <th>Status</th>
+                <th>Upload</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Surat kematian (visum)</td>
+                <td ng-hide="surat_kematian != null">{{ surat_kematian }}</td>
+                <td ng-show="surat_kematian != null"><a href="{{ surat_kematian_link }}">{{ surat_kematian }}</a></td>
+                <td>
+                  <button type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Verifikasi</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Surat akte kelahiran yang meninggal</td>
+                <td ng-hide="akta_kelahiran != null">{{ akta_kelahiran }}</td>
+                <td ng-hide="akta_kelahiran == null"><a href="{{ akte_kelahiran_link }}">{{ akta_kelahiran }}</a></td>
+                <td>
+                  <button type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Verifikasi</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Surat akte kematian Suami/Istri</td>
+                <td ng-show="akte_kematian_pasangan == null">{{ akte_kematian_pasangan }}</td>
+                <td ng-hide="akte_kematian_pasangan == null"><a href="{{ akte_kematian_pasangan_link }}">{{ akte_kematian_pasangan }}</a></td>
+                <td>
+                  <button type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Verifikasi</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Surat akte perkawinan yang meninggal</td>
+                <td ng-show="akta_perkawinan == null">{{ akta_perkawinan }}</td>
+                <td ng-hide="akta_perkawinan == null"><a href="{{ akta_perkawinan_link }}">{{ akta_perkawinan }}</a></td>
+                <td>
+                  <button type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Verifikasi</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Fotocopy KTP Pelapor</td>
+                <td ng-show="ktp_pelapor == null">{{ ktp_pelapor }}</td>
+                <td ng-hide="ktp_pelapor == null"><a href="{{ ktp_pelapor_link }}">{{ ktp_pelapor }}</a></td>
+                <td>
+                  <button type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Verifikasi</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Fotocopy KTP Saksi 1</td>
+                <td ng-show="ktp_saksi1 == null">{{ ktp_saksi1 }}</td>
+                <td ng-hide="ktp_saksi1 == null"><a href="{{ ktp_saksi1_link }}">{{ ktp_saksi1 }}</a></td>
+                <td>
+                  <button type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Verifikasi</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Fotocopy KTP Saksi 2</td>
+                <td ng-show="ktp_saksi2 == null">{{ ktp_saksi2 }}</td>
+                <td ng-hide="ktp_saksi2 == null"><a href="{{ ktp_saksi2_link }}">{{ ktp_saksi2 }}</a></td>
+                <td>
+                  <button type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Verifikasi</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-modal" name="button"><i class="fa fa-times-circle fa-lg"></i>&nbsp;Tutup</button>
+    </div>
+  </div>
+</div>

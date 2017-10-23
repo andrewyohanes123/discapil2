@@ -1,4 +1,4 @@
-<div class="container" ng-controller="pelaporan">
+<div class="container">
   <div class="form-container">
     <div class="form-head">
       <p class="form-title"><i class="fa fa-pencil fa-lg"></i>&nbsp;Ibu</p>
@@ -6,13 +6,16 @@
     <div class="form-pendaftaran">
       <form class="group" action="index.html" method="post">
         <label for="">NIK</label>
-        <input type="number" class="input" placeholder="NIK" name="" value="">
+        <div class="input-group">
+          <input type="number" class="input" ng-model="nik" placeholder="NIK" name="" value="">
+          <div class="input-addon-btn">
+            <button ng-click="cek(nik)" type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Cek</button>
+          </div>
+        </div>
         <label for="">Nama Lengkap</label>
-        <input type="text" class="input" readonly placeholder="Nama Lengkap" name="" value="">
+        <input type="text" class="input" ng-model="nama_lengkap" readonly placeholder="Nama Lengkap" name="" value="">
         <hr>
-        <button ng-click="pindahHalaman('halaman3')" type="button" class="btn btn-prev" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Sebelumnya</button>
-        <button ng-click="pindahHalaman('halaman5')" type="button" class="btn btn-next" name="button"><i class="fa fa-angle-right fa-lg"></i>&nbsp;Selanjutnya</button>
-        <code>4 / 7 Halaman</code>
+        <button ng-click="submit()" type="button" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
       </form>
     </div>
   </div>

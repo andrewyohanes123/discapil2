@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="form-container">
+    <div class="form-head">
+      <p class="form-title"><i class="fa fa-pencil fa-lg"></i>&nbsp;Data Keluarga</p>
+    </div>
+    <div class="form-pendaftaran">
+      <label for="">Nomor telepon</label>
+      <input type="number" class="input" ng-model="nomor" placeholder="Nomor Telepon" name="" value="">
+      <label for="">Alamat</label>
+      <input type="text" class="input" ng-model="alamat" placeholder="Alamat Lengkap" name="" value="">
+      <label for="">Pernyataan</label>
+      <textarea name="name" class="input" ng-model="pernyataan" rows="3" cols="80"></textarea>
+      <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-save fa-lg"></i>&nbsp;Simpan</button>
+    </div>
+  </div>
+</div>
+<div class="modal" id="modal">
+  <div class="modal-window">
+    <div class="modal-titlebar">
+      <!-- <span class="close"><i class="fa fa-times fa-lg"></i></span> -->
+      <p class="title"><i class="fa fa-ticket fa-lg"></i>&nbsp;Pendaftaran Berhasil</p>
+    </div>
+    <div class="modal-content">
+      <h1 class="pendaftaran-berhasil">Pendaftaran berhasil</h1>
+      <h4 class="pendaftaran-berhasil">Nomor pendaftaran anda :</h4>
+      <h1 class="nomor-pendaftaran">{{ no_pendaftaran }}</h1>
+      <button type="button" onclick="printJS('modal', 'html')" name="button" class="btn btn-prev"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>
+      <a href="#!/home"><i class="fa fa-home fa-lg"></i>Kembali ke halaman utama</a>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+  </div>
+</div>
