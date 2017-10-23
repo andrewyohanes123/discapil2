@@ -327,6 +327,19 @@ app.controller('berkas', function($scope, $http, $cookies, Upload){
     })
   }
 
+  $('a').click(function(){
+    var url = $(this).attr('href');
+    if (url == "")
+    {
+      return false;
+    }
+    else
+    {
+      window.open(url, "_blank");
+      return false;
+    }
+  })
+
   $scope.cek = function(nomor)
   {
     $http.get(backendUrl + "/ambil_berkas/" + nomor).then(function(resp){

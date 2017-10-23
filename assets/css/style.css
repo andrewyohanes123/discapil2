@@ -1294,17 +1294,17 @@ select > .input {
   color : white !important;
 }
 
-.blue {
+.collapse .blue {
   background: #3688d4 !important;
   color : white !important;
   border-bottom-color: #3c87a3 !important;
 }
 
-.blue .collapse-icon i.fa {
+.collapse .blue .collapse-icon i.fa {
   color: white !important;
 }
 
-.blue p {
+.collapse .blue p {
   color : white !important;
 }
 
