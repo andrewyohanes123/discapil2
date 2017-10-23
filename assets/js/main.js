@@ -327,7 +327,7 @@ app.controller('berkas', function($scope, $http, $cookies, Upload){
     })
   }
 
-  $('a').click(function(){
+  $('a.ng-binding').click(function(){
     var url = $(this).attr('href');
     if (url == "")
     {
