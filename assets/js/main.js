@@ -66,13 +66,323 @@ app.config(function($routeProvider){
 
 dash.config(function($routeProvider){
   $routeProvider
-  .when('/', {
+  .when('/semua_laporan', {
     templateUrl : "dashboard/semua_laporan.html",
     controller : "list"
   })
+  .when('/diverifikasi', {
+    templateUrl : "dashboard/verifikasi.html",
+    controller : "verifikasi"
+  })
+  .when('/belum_diverifikasi', {
+    templateUrl : "dashboard/blm_verifikasi.html",
+    controller : "blm_verifikasi"
+  })
+  .when('/user', {
+    templateUrl : "dashboard/user.html",
+    controller : "pengguna"
+  })
+  .otherwise({
+    redirectTo : '/semua_laporan'
+  });
 });
 
-dash.controller('list', function($scope, $http, $cookies){
+dash.controller('pengguna', function($scope, $http, $cookies){
+  $scope.limit = "5";
+  $scope.currentpage = 1;
+  $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
+  $scope.blokir = "1";
+
+  $scope.openModal = function(mode, id_user = '',username = '', nama = '', aktif = '')
+  {
+    if (mode == "Tambah user")
+    {
+      $scope.mode = mode;
+      $('#modal').modalPopup('show', {
+        titleBackground : "#6bc89b",
+        titleFontColor : "#05472c"
+      })
+    }
+    else if (mode == "Edit user")
+    {
+      $scope.mode = mode
+      $scope.username = username;
+      $scope.nama_lengkap = nama
+      $scope.blokir = aktif + "";
+      $scope.id = id_user;
+      $('#modal').modalPopup('show', {
+        titleBackground : "#dba03c",
+        titleFontColor : "#4d3604"
+      });
+    }
+    else if (mode == "Hapus user")
+    {
+      $scope.mode = mode;
+      $scope.id = id_user;
+      $scope.user = username;
+      $('#modal').modalPopup('show', {
+        titleBackground : "#c74343",
+        titleFontColor : "#4d0404"
+      });
+    }
+  }
+
+  $scope.tambah_user = function()
+  {
+    var data = {
+      username : $scope.username,
+      nama : $scope.nama_lengkap,
+      password : $scope.password,
+      aktif : parseInt($scope.blokir)
+    }
+    $http.post(backendUrl + "/tambah_pengguna", data).then(function(resp){
+      var status = resp.data.status;
+      var pesan = resp.data.data;
+      if (status)
+      {
+        $('#modal').modalPopup('hide');
+        setTimeout(function(){
+          $('.notifikasi').notifikasi(pesan, 3000);
+        }, 500)
+        $scope.username = '';
+        $scope.nama_lengkap = '';
+        $scope.password = '';
+        $scope.blokir = "1";
+        $scope.get();
+      }
+      else
+      {
+        $('.notifikasi').css('z-index', 4000)
+        $('.notifikasi').notifikasi("Lengkapi formulir");
+      }
+    })
+  }
+
+  $scope.edit_user = function()
+  {
+    if ($scope.password == '' || $scope.password == null)
+    {
+      var data = {
+        id_pengguna : $scope.id,
+        nama : $scope.nama_lengkap,
+        username : $scope.username,
+        password : '',
+        aktif : parseInt($scope.blokir)
+      }
+    }
+    else
+    {
+      var data = {
+        id_pengguna : $scope.id,
+        nama : $scope.nama_lengkap,
+        username : $scope.username,
+        password : $scope.password,
+        aktif : parseInt($scope.blokir)
+      }
+    }
+
+    $http.post(backendUrl + "/edit_pengguna", data).then(function(resp){
+      var status = resp.data.status;
+      var pesan = resp.data.data;
+      if (status)
+      {
+        $('#modal').modalPopup('hide');
+        setTimeout(function(){
+          $('.notifikasi').notifikasi(pesan, 3000);
+        }, 500)
+        $scope.get();
+      }
+      else
+      {
+        $('.notifikasi').css('z-index', 4000)
+        $('.notifikasi').notifikasi("Lengkapi formulir");
+      }
+    })
+  }
+
+  $scope.hapus_user = function()
+  {
+    $http.get(backendUrl + "/hapus_pengguna/" + $scope.id).then(function(resp){
+      var status = resp.data.status;
+      var pesan = resp.data.data;
+      if (status)
+      {
+        $('#modal').modalPopup('hide');
+        setTimeout(function(){
+          $('.notifikasi').notifikasi(pesan, 3000);
+        }, 500)
+        $scope.get();
+      }
+      else
+      {
+        $('.notifikasi').css('z-index', 4000)
+        $('.notifikasi').notifikasi("Lengkapi formulir");
+      }
+    })
+  }
+
+  $scope.prev = function()
+  {
+    if ($scope.currentpage <= 0)
+    {
+      $scope.currentpage = 1;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
+    }
+    else
+    {
+      $scope.currentpage--;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
+      $scope.get();
+    }
+  }
+
+  $scope.next = function()
+  {
+    if ($scope.currentpage == $scope.jlhHalaman)
+    {
+      $scope.currentpage = $scope.jlhHalaman;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
+    }
+    else
+    {
+      $scope.currentpage++;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
+      $scope.get();
+    }
+  }
+
+  $('#nama').keyup(function(){
+    $scope.nama = $(this).val();
+    $scope.get();
+  });
+
+  $('#limit').change(function(){
+    $scope.nama = $('#nama').val();
+    $scope.limit = $(this).val();
+    $scope.get();
+  })
+  $scope.get = function()
+  {
+    var data = {
+      nama : $scope.nama
+    }
+    $http({
+      url : backendUrl + "/ambil_pengguna/" + $scope.limit + "/" + $scope.offset,
+      method : "GET",
+      params : data
+    }).then(function(resp){
+      var status = resp.data.status;
+      if (status == "PHPDBERROR")
+      {
+        var arr = resp.data.errors;
+        $('.errors').pesanError(status, arr);
+      }
+      else if (status == "PHPERROR")
+      {
+        var error = resp.data.errors;
+        $('.errors').presanError(status, error);
+      }
+      else
+      {
+        $scope.list = resp.data.data.list;
+        angular.forEach($scope.list, function(val, key){
+          if (val.aktif == 1)
+          {
+            val.mode = "Aktif";
+          }
+          else
+          {
+            val.mode = "Blokir";
+          }
+        })
+        $scope.list = $scope.list;
+        $scope.totalData = resp.data.data.total;
+        $scope.jlhHalaman = Math.ceil($scope.totalData/parseInt($scope.limit));
+      }
+    })
+  }
+  $scope.get();
+})
+
+dash.controller('blm_verifikasi', function($scope, $http, $cookies){
+  $scope.sort = "asc";
+  $scope.order = "nik"
+  $scope.batas = "5"
+  $scope.currentpage = 1;
+
+  $('#tgl').flatpickr({
+    locale : "id"
+  });
+
+  $('#batas').change(function(){
+    $scope.batas = $(this).val();
+    $scope.get();
+  });
+
+  $('#sort').change(function(){
+    $scope.sort = $(this).val();
+    $scope.get();
+  });
+
+  $('#order').change(function(){
+    $scope.order = $(this).val();
+    $scope.get();
+  })
+
+  $scope.tgl = moment().startOf('month').format('YYYY-MM-DD');
+  $scope.tgl2 = moment().endOf('month').format('YYYY-MM-DD');
+  $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+
+  $scope.prev = function()
+  {
+    if ($scope.currentpage <= 0)
+    {
+      $scope.currentpage = 1;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+    else
+    {
+      $scope.currentpage--;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+  }
+
+  $('#cari').keyup(function(){
+    $scope.currentpage = 1;
+    $scope.get();
+  })
+
+  $scope.next = function()
+  {
+    if ($scope.currentpage > $scope.jlhHalaman)
+    {
+      $scope.currentpage = $scope.jlhHalaman;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+    else
+    {
+      $scope.currentpage++;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+  }
+
+  $('#tgl').change(function(){
+    $('#tgl2').flatpickr({
+      locale : "id",
+      minDate : $('#tgl').val()
+    })
+    $scope.tgl2 = moment().endOf('month').format('YYYY-MM-DD');
+  })
+
+  $('#tgl2').change(function(){
+    $scope.tgl = $('#tgl').val();
+    $scope.tgl2 = $('#tgl2').val();
+    $scope.get();
+  })
   $('a.ng-binding').click(function(){
     var url = $(this).attr('href');
     if (url == "")
@@ -88,9 +398,36 @@ dash.controller('list', function($scope, $http, $cookies){
   $scope.get = function()
   {
     moment.locale('id');
-    $http.get(backendUrl + "/ambil_pendaftaran").then(function(resp){
-      var hasil = resp.data.data;
+    $http({
+      url : backendUrl + "/ambil_pendaftaran/" + $scope.batas + "/" + $scope.offset,
+      method : "GET",
+      params : {
+        order_by : $scope.order,
+        sort_type : $scope.sort,
+        date_start : $scope.tgl,
+        date_end : $scope.tgl2,
+        nik : $scope.cari,
+        approved : 0
+      }
+    }).then(function(resp){
+      var status = resp.data.status;
+      if (status == "PHPERROR")
+      {
+        var data = resp.data.errors;
+        $('body').pesanError(status, data);
+      }
+      else if (status == "PHPDBERROR")
+      {
+        var array = resp.data.errors;
+        $('body').pesanError(status, array);
+      }
+      else
+      {
+        var hasil = resp.data.data.list;
+      }
+      $scope.jlhHalaman = Math.ceil(resp.data.data.total/parseInt($scope.batas));
       angular.forEach(hasil, function(val, key){
+        val.tanggal_pendaftaran = moment(val.tanggal_pendaftaran).format('DD MMMM YYYY');
         val.tanggal_kematian = moment(val.tanggal_kematian).format('DD MMMM YYYY');
       })
       $scope.list = hasil;
@@ -201,20 +538,11 @@ dash.controller('list', function($scope, $http, $cookies){
         $scope.ktp_saksi2_link = link + "/" + berkas.berkas_ktp_saksi2;
       }
     })
-    $('#modal').show();
-    $('body').css('overflow-y', 'hidden')
+    $('.modal').modalPopup('show', {
+      titleBackground : "#444",
+      titleFontColor : "white"
+    })
   }
-
-  $('.modal-window').parent().click(function(){
-    $('.modal-window').css('animation', 'modal-out 750ms forwards');
-    $('body').css('overflow', 'auto');
-    $('#modal').fadeOut();
-    setTimeout(function(){
-      $('.modal-window').css('animation', 'modal-in 750ms forwards');
-    }, 500);
-  }).children().click(function(){
-    return false;
-  });
 
   $(document).on('keyup', function(e){
     if (e.keyCode == 27)
@@ -232,23 +560,572 @@ dash.controller('list', function($scope, $http, $cookies){
     }
   })
 
-  $('.close').on('click', function(){
-    $('.modal-window').css('animation', 'modal-out 750ms forwards');
-    $('body').css('overflow', 'auto');
-    $('#modal').fadeOut();
-    setTimeout(function(){
-      $('.modal-window').css('animation', 'modal-in 750ms forwards');
-    }, 500);
+  $('.collapse .head').click(function(){
+    $(this).children('span.collapse-icon').children('i.fa').toggleClass('icon-up');
+    $(this).siblings('div.collapse-body').slideToggle();
+    $(this).siblings('div.containers').slideToggle();
   });
 
-  $('.head' ).on('click', function(){
+  $(document).on('click','.collapse #saksi',function(){
     $(this).children('span.collapse-icon').children('i.fa').toggleClass('icon-up');
     $(this).siblings('div.collapse-body').slideToggle();
     $(this).siblings('div.containers').slideToggle();
   });
 
   $scope.get();
-})
+});
+
+dash.controller('verifikasi', function($scope, $http, $cookies){
+  $scope.sort = "asc";
+  $scope.order = "nik"
+  $scope.batas = "5"
+  $scope.currentpage = 1;
+
+  $('#tgl').flatpickr({
+    locale : "id"
+  });
+
+  $('#batas').change(function(){
+    $scope.batas = $(this).val();
+    $scope.get();
+  });
+
+  $('#sort').change(function(){
+    $scope.sort = $(this).val();
+    $scope.get();
+  });
+
+  $('#order').change(function(){
+    $scope.order = $(this).val();
+    $scope.get();
+  })
+
+  $scope.tgl = moment().startOf('month').format('YYYY-MM-DD');
+  $scope.tgl2 = moment().endOf('month').format('YYYY-MM-DD');
+  $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+
+  $scope.prev = function()
+  {
+    if ($scope.currentpage <= 0)
+    {
+      $scope.currentpage = 1;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+    else
+    {
+      $scope.currentpage--;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+    console.log($scope.currentpage);
+  }
+
+  $('#cari').keyup(function(){
+    $scope.currentpage = 1;
+    $scope.get();
+  })
+
+  $scope.next = function()
+  {
+    if ($scope.currentpage > $scope.jlhHalaman)
+    {
+      $scope.currentpage = $scope.jlhHalaman;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+    else
+    {
+      $scope.currentpage++;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+  }
+
+  $('#tgl').change(function(){
+    $('#tgl2').flatpickr({
+      locale : "id",
+      minDate : $('#tgl').val()
+    })
+    $scope.tgl2 = moment().endOf('month').format('YYYY-MM-DD');
+  })
+
+  $('#tgl2').change(function(){
+    $scope.tgl = $('#tgl').val();
+    $scope.tgl2 = $('#tgl2').val();
+    $scope.get();
+  })
+  $('a.ng-binding').click(function(){
+    var url = $(this).attr('href');
+    if (url == "")
+    {
+      return false;
+    }
+    else
+    {
+      window.open(url, "_blank");
+      return false;
+    }
+  })
+  $scope.get = function()
+  {
+    moment.locale('id');
+    $http({
+      url : backendUrl + "/ambil_pendaftaran/" + $scope.batas + "/" + $scope.offset,
+      method : "GET",
+      params : {
+        order_by : $scope.order,
+        sort_type : $scope.sort,
+        date_start : $scope.tgl,
+        date_end : $scope.tgl2,
+        nik : $scope.cari,
+        approved : 1
+      }
+    }).then(function(resp){
+      var status = resp.data.status;
+      if (status == "PHPERROR")
+      {
+        var data = resp.data.errors;
+        $('body').pesanError(status, data);
+      }
+      else if (status == "PHPDBERROR")
+      {
+        var array = resp.data.errors;
+        $('body').pesanError(status, array);
+        console.log('error');
+      }
+      else
+      {
+        var hasil = resp.data.data.list;
+      }
+      $scope.jlhHalaman = Math.ceil(resp.data.data.total/parseInt($scope.batas));
+      angular.forEach(hasil, function(val, key){
+        val.tanggal_pendaftaran = moment(val.tanggal_pendaftaran).format('DD MMMM YYYY');
+        val.tanggal_kematian = moment(val.tanggal_kematian).format('DD MMMM YYYY');
+      })
+      $scope.list = hasil;
+    })
+  }
+
+  $scope.detail = function(no)
+  {
+    $http.get(backendUrl + "/ambil_detail_pendaftaran/" + no).then(function(resp){
+      var hasil = resp.data.data;
+      $scope.nomor_kk = hasil.no_kk;
+      $scope.nama_kepala_keluarga = hasil.nama_kepala_keluarga;
+      $scope.nama_ibu = hasil.nama_ibu;
+      $scope.nik_ibu = hasil.nik_ibu;
+      $scope.nik_ayah = hasil.nik_ayah;
+      $scope.nama_ayah = hasil.nama_ayah;
+      $scope.pelapor = hasil.pelapor;
+      $scope.saksi = hasil.saksi;
+      $scope.nama = hasil.nama;
+      $scope.nik = hasil.nik;
+      $scope.tanggal_kematian = hasil.tanggal_kematian;
+      $scope.waktu_meninggal = hasil.waktu_meninggal;
+      $scope.sebab_kematian = hasil.sebab_kematian;
+      $scope.yang_menerangkan = hasil.yang_menerangkan;
+
+      var berkas = resp.data.data;
+
+      if(berkas.berkas_surat_kematian == null)
+      {
+        $scope.surat_kematian = "Belum upload";
+      }
+      else
+      {
+        $scope.surat_kematian = berkas.berkas_surat_kematian;
+        $scope.surat_kematian_link = link + "/" + berkas.berkas_surat_kematian;
+      }
+
+      //
+
+      if(berkas.berkas_akta_kelahiran_jenazah == null)
+      {
+        $scope.akta_kelahiran = "Belum upload"
+      }
+      else
+      {
+        $scope.akta_kelahiran = berkas.berkas_akta_kelahiran_jenazah;
+        $scope.akta_kelahiran_link = link + "/" + berkas.berkas_akta_kelahiran_jenazah;
+      }
+
+      //
+
+      if(berkas.berkas_akta_perkawinan_jenazah == null || berkas.berkas_akta_perkawinan_jenazah == '')
+      {
+        $scope.akta_perkawinan = "Belum upload"
+        $scope.akta_perkawinan_link = "#!/berkas";
+      }
+      else
+      {
+        $scope.akta_perkawinan = berkas.berkas_akta_perkawinan_jenazah;
+        $scope.akta_perkawinan_link = link + "/" + berkas.berkas_akta_perkawinan_jenazah;
+      }
+
+      //
+
+      if(berkas.berkas_akta_kematian_pasangan == null)
+      {
+        $scope.akte_kematian_pasangan = "Belum upload"
+      }
+      else
+      {
+        $scope.akte_kematian_pasangan = berkas.berkas_akta_kematian_pasangan;
+        $scope.akte_kematian_pasangan_link = link + "/" + berkas.berkas_akta_kematian_pasangan;
+      }
+
+      //
+
+      if(berkas.berkas_ktp_pelapor == null)
+      {
+        $scope.ktp_pelapor = "Belum upload"
+      }
+      else
+      {
+        $scope.ktp_pelapor = berkas.berkas_ktp_pelapor;
+        $scope.ktp_pelapor_link = link + "/" + berkas.berkas_ktp_pelapor;
+      }
+
+      //
+
+      if(berkas.berkas_ktp_saksi1 == null)
+      {
+        $scope.ktp_saksi1 = "Belum upload"
+      }
+      else
+      {
+        $scope.ktp_saksi1 = berkas.berkas_ktp_saksi1;
+        $scope.ktp_saksi1_link = link + "/" + berkas.berkas_ktp_saksi1;
+      }
+
+      //
+
+      if(berkas.berkas_ktp_saksi2 == null)
+      {
+        $scope.ktp_saksi2 = "Belum upload"
+      }
+      else
+      {
+        $scope.ktp_saksi2 = berkas.berkas_ktp_saksi2;
+        $scope.ktp_saksi2_link = link + "/" + berkas.berkas_ktp_saksi2;
+      }
+    })
+    $('.modal').modalPopup('show', {
+      titleBackground : "#444",
+      titleFontColor : "white"
+    })
+  }
+
+  $(document).on('keyup', function(e){
+    if (e.keyCode == 27)
+    {
+      var modal = $('.modal').css('display');
+      if (modal == 'block')
+      {
+        $('.modal-window').css('animation', 'modal-out 750ms forwards');
+        $('body').css('overflow', 'auto');
+        $('#modal').fadeOut();
+        setTimeout(function(){
+          $('.modal-window').css('animation', 'modal-in 750ms forwards');
+        }, 500);
+      }
+    }
+  })
+
+  $('.collapse .head').click(function(){
+    $(this).children('span.collapse-icon').children('i.fa').toggleClass('icon-up');
+    $(this).siblings('div.collapse-body').slideToggle();
+    $(this).siblings('div.containers').slideToggle();
+  });
+
+  $(document).on('click','.collapse #saksi',function(){
+    $(this).children('span.collapse-icon').children('i.fa').toggleClass('icon-up');
+    $(this).siblings('div.collapse-body').slideToggle();
+    $(this).siblings('div.containers').slideToggle();
+  });
+
+  $scope.get();
+});
+
+dash.controller('list', function($scope, $http, $cookies){
+  $scope.sort = "asc";
+  $scope.order = "nik"
+  $scope.batas = "5"
+  $scope.currentpage = 1;
+
+  $('#tgl').flatpickr({
+    locale : "id"
+  });
+
+  $('#batas').change(function(){
+    $scope.batas = $(this).val();
+    $scope.get();
+  });
+
+  $('#sort').change(function(){
+    $scope.sort = $(this).val();
+    $scope.get();
+  });
+
+  $('#order').change(function(){
+    $scope.order = $(this).val();
+    $scope.get();
+  })
+
+  $scope.tgl = moment().startOf('month').format('YYYY-MM-DD');
+  $scope.tgl2 = moment().endOf('month').format('YYYY-MM-DD');
+  $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+
+  $scope.verifikasi = function(id_laporan)
+  {
+    $http.post(backendUrl + "/approve_pendaftaran/", { id_jenazah : id_laporan}).then(function(resp){
+      $scope.get();
+    })
+  }
+
+  $scope.prev = function()
+  {
+    if ($scope.currentpage <= 0)
+    {
+      $scope.currentpage = 1;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+    else
+    {
+      $scope.currentpage--;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+    console.log($scope.currentpage);
+  }
+
+  $('#cari').keyup(function(){
+    $scope.currentpage = 1;
+    $scope.get();
+  })
+
+  $scope.next = function()
+  {
+    if ($scope.currentpage > $scope.jlhHalaman)
+    {
+      $scope.currentpage = $scope.jlhHalaman;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+    else
+    {
+      $scope.currentpage++;
+      $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
+      $scope.get();
+    }
+  }
+
+  $('#tgl').change(function(){
+    $('#tgl2').flatpickr({
+      locale : "id",
+      minDate : $('#tgl').val()
+    })
+    $scope.tgl2 = moment().endOf('month').format('YYYY-MM-DD');
+  })
+
+  $('#tgl2').change(function(){
+    $scope.tgl = $('#tgl').val();
+    $scope.tgl2 = $('#tgl2').val();
+    $scope.get();
+  })
+  $('a.ng-binding').click(function(){
+    var url = $(this).attr('href');
+    if (url == "")
+    {
+      return false;
+    }
+    else
+    {
+      window.open(url, "_blank");
+      return false;
+    }
+  })
+  $scope.get = function()
+  {
+    moment.locale('id');
+    $http({
+      url : backendUrl + "/ambil_pendaftaran/" + $scope.batas + "/" + $scope.offset,
+      method : "GET",
+      params : {
+        order_by : $scope.order,
+        sort_type : $scope.sort,
+        date_start : $scope.tgl,
+        date_end : $scope.tgl2,
+        nik : $scope.cari
+      }
+    }).then(function(resp){
+      var status = resp.data.status;
+      if (status == "PHPERROR")
+      {
+        var data = resp.data.errors;
+        $('body').pesanError(status, data);
+      }
+      else if (status == "PHPDBERROR")
+      {
+        var array = resp.data.errors;
+        $('body').pesanError(status, array);
+        console.log('error');
+      }
+      else
+      {
+        var hasil = resp.data.data.list;
+      }
+      $scope.jlhHalaman = Math.ceil(resp.data.data.total/parseInt($scope.batas));
+      angular.forEach(hasil, function(val, key){
+        val.tanggal_pendaftaran = moment(val.tanggal_pendaftaran).format('DD MMMM YYYY');
+        val.tanggal_kematian = moment(val.tanggal_kematian).format('DD MMMM YYYY');
+      })
+      $scope.list = hasil;
+    })
+  }
+
+  $scope.detail = function(no)
+  {
+    $http.get(backendUrl + "/ambil_detail_pendaftaran/" + no).then(function(resp){
+      var hasil = resp.data.data;
+      $scope.nomor_kk = hasil.no_kk;
+      $scope.nama_kepala_keluarga = hasil.nama_kepala_keluarga;
+      $scope.nama_ibu = hasil.nama_ibu;
+      $scope.nik_ibu = hasil.nik_ibu;
+      $scope.nik_ayah = hasil.nik_ayah;
+      $scope.nama_ayah = hasil.nama_ayah;
+      $scope.pelapor = hasil.pelapor;
+      $scope.saksi = hasil.saksi;
+      $scope.nama = hasil.nama;
+      $scope.nik = hasil.nik;
+      $scope.tanggal_kematian = hasil.tanggal_kematian;
+      $scope.waktu_meninggal = hasil.waktu_meninggal;
+      $scope.sebab_kematian = hasil.sebab_kematian;
+      $scope.yang_menerangkan = hasil.yang_menerangkan;
+
+      var berkas = resp.data.data;
+
+      if(berkas.berkas_surat_kematian == null)
+      {
+        $scope.surat_kematian = "Belum upload";
+      }
+      else
+      {
+        $scope.surat_kematian = berkas.berkas_surat_kematian;
+        $scope.surat_kematian_link = link + "/" + berkas.berkas_surat_kematian;
+      }
+
+      //
+
+      if(berkas.berkas_akta_kelahiran_jenazah == null)
+      {
+        $scope.akta_kelahiran = "Belum upload"
+      }
+      else
+      {
+        $scope.akta_kelahiran = berkas.berkas_akta_kelahiran_jenazah;
+        $scope.akta_kelahiran_link = link + "/" + berkas.berkas_akta_kelahiran_jenazah;
+      }
+
+      //
+
+      if(berkas.berkas_akta_perkawinan_jenazah == null || berkas.berkas_akta_perkawinan_jenazah == '')
+      {
+        $scope.akta_perkawinan = "Belum upload"
+        $scope.akta_perkawinan_link = "#!/berkas";
+      }
+      else
+      {
+        $scope.akta_perkawinan = berkas.berkas_akta_perkawinan_jenazah;
+        $scope.akta_perkawinan_link = link + "/" + berkas.berkas_akta_perkawinan_jenazah;
+      }
+
+      //
+
+      if(berkas.berkas_akta_kematian_pasangan == null)
+      {
+        $scope.akte_kematian_pasangan = "Belum upload"
+      }
+      else
+      {
+        $scope.akte_kematian_pasangan = berkas.berkas_akta_kematian_pasangan;
+        $scope.akte_kematian_pasangan_link = link + "/" + berkas.berkas_akta_kematian_pasangan;
+      }
+
+      //
+
+      if(berkas.berkas_ktp_pelapor == null)
+      {
+        $scope.ktp_pelapor = "Belum upload"
+      }
+      else
+      {
+        $scope.ktp_pelapor = berkas.berkas_ktp_pelapor;
+        $scope.ktp_pelapor_link = link + "/" + berkas.berkas_ktp_pelapor;
+      }
+
+      //
+
+      if(berkas.berkas_ktp_saksi1 == null)
+      {
+        $scope.ktp_saksi1 = "Belum upload"
+      }
+      else
+      {
+        $scope.ktp_saksi1 = berkas.berkas_ktp_saksi1;
+        $scope.ktp_saksi1_link = link + "/" + berkas.berkas_ktp_saksi1;
+      }
+
+      //
+
+      if(berkas.berkas_ktp_saksi2 == null)
+      {
+        $scope.ktp_saksi2 = "Belum upload"
+      }
+      else
+      {
+        $scope.ktp_saksi2 = berkas.berkas_ktp_saksi2;
+        $scope.ktp_saksi2_link = link + "/" + berkas.berkas_ktp_saksi2;
+      }
+    })
+    $('.modal').modalPopup('show', {
+      titleBackground : "#444",
+      titleFontColor : "white"
+    })
+  }
+
+  $(document).on('keyup', function(e){
+    if (e.keyCode == 27)
+    {
+      var modal = $('.modal').css('display');
+      if (modal == 'block')
+      {
+        $('.modal-window').css('animation', 'modal-out 750ms forwards');
+        $('body').css('overflow', 'auto');
+        $('#modal').fadeOut();
+        setTimeout(function(){
+          $('.modal-window').css('animation', 'modal-in 750ms forwards');
+        }, 500);
+      }
+    }
+  })
+
+  $('.collapse .head').click(function(){
+    $(this).children('span.collapse-icon').children('i.fa').toggleClass('icon-up');
+    $(this).siblings('div.collapse-body').slideToggle();
+    $(this).siblings('div.containers').slideToggle();
+  });
+
+  $(document).on('click','.collapse #saksi',function(){
+    $(this).children('span.collapse-icon').children('i.fa').toggleClass('icon-up');
+    $(this).siblings('div.collapse-body').slideToggle();
+    $(this).siblings('div.containers').slideToggle();
+  });
+
+  $scope.get();
+});
 
 dash.controller('user', function($scope, $http){
   // var user = $cookies.get('username');
@@ -1212,45 +2089,32 @@ app.controller('data_keluarga', function($scope, $cookies, $http){
 
     if (nomor == null)
     {
-      $('.notifikasi').css('display', 'flex');
-      $('.notifikasi-body').empty();
-      $('.notifikasi-body').text('Masukkan nomor telepon');
-      setTimeout(function(){
-        $('.notifikasi').hide();
-      }, 5000);
+      $('notifikasi').notifikasi('Masukkan nomor telepon');
     }
-    else if (alamat == '')
+    else if (alamat == null || alamat == '')
     {
-      $('.notifikasi').css('display', 'flex');
-      $('.notifikasi-body').empty();
-      $('.notifikasi-body').text('Masukkan alamat');
-      setTimeout(function(){
-        $('.notifikasi').hide();
-      }, 5000);
+      $('.notifikasi').notifikasi('Masukkan alamat', 5000);
     }
     else
     {
       var merge = Object.assign(no_kk, jenazah, ayah, ibu, plr, sk1, sk2, persetujuan);
       $http.post(backendUrl + '/simpan_data_awal', merge).then(function(resp){
         var no = resp.data.data;
-        $scope.no_pendaftaran = no;
-        $('#modal').show();
-        $('body').css('overflow-y', 'hidden');
-        $scope.nomor = null;
-        $scope.alamat = '';
-        $scope.pernyataan = '';
+        var status = resp.data.status;
+        if (status)
+        {
+          $scope.no_pendaftaran = no;
+          $('#modal').modalPopup('show', {
+            backgroundClick : false,
+            keyboardDetect : false
+          });
+          $scope.nomor = null;
+          $scope.alamat = '';
+          $scope.pernyataan = '';
+        }
       });
     }
   }
-
-  // $('.close').on('click', function(){
-  //   $('.modal-window').css('animation', 'modal-out 750ms forwards');
-  //   $('body').css('overflow', 'auto');
-  //   $('#modal').fadeOut();
-  //   setTimeout(function(){
-  //     $('.modal-window').css('animation', 'modal-in 750ms forwards');
-  //   }, 500);
-  // });
 });
 
 /*
@@ -1279,6 +2143,19 @@ app.controller('bantuan', function($scope){
     $(this).siblings('div.collapse-body').slideToggle();
   });
 });
+
+$(document).ready(function(){
+  $(document).on('click','.btn-collapse',function(){
+    $('.menu li').not('.menu li:first-child').slideToggle();
+  });
+
+  if ($(window).width() <= 514)
+  {
+    $(document).on('click', '.menu li:not(.menu li:first-child)', function(){
+      $('.menu li').not('.menu li:first-child').slideToggle();
+    })
+  }
+})
 
 app.controller('home', function($scope, request){
   var data = [{
@@ -1336,38 +2213,10 @@ app.controller('home', function($scope, request){
   });
 
   $('span.info').click(function(){
-    $('#modal').css('display', 'block');
-    $('body').css('overflow', 'hidden');
-  });
-
-  $('.btn-modal').on('click', function(){
-    $('.modal-window').css('animation', 'modal-out 750ms forwards');
-    $('body').css('overflow', 'auto');
-    $('#modal').fadeOut();
-    setTimeout(function(){
-      $('.modal-window').css('animation', 'modal-in 750ms forwards');
-    }, 500);
-  });
-
-  $('.modal-window').parent().on("click", function(){
-    $('.modal-window').css('animation', 'modal-out 750ms forwards');
-    $('body').css('overflow', 'auto');
-    $('#modal').fadeOut();
-    setTimeout(function(){
-      $('.modal-window').css('animation', 'modal-in 750ms forwards');
-    }, 500);
-  }).children().click(function(){
-    return false;
-  });
-
-  $('.close i.fa').on('click',function(){
-    console.log('test');
-    $('.modal-window').css('animation', 'modal-out 750ms forwards');
-    $('body').css('overflow', 'auto');
-    $('#modal').fadeOut();
-    setTimeout(function(){
-      $('.modal-window').css('animation', 'modal-in 750ms forwards');
-    }, 500);
+    $('.modal').modalPopup('show', {
+      titleBackground : "#565656",
+      titleFontColor : "white"
+    });
   });
 });
 
@@ -1405,127 +2254,3 @@ app.controller('pelaporan', function($scope, $location){
     window.location.replace(baseUrl + '#!/' + halaman);
   }
 });
-
-
-  // $(document).ready(function(){
-  //   $(document).on('click', 'span.info',function(){
-  //     $('#modal').css('display', 'block');
-  //     $('body').css('overflow', 'hidden');
-  //   });
-  //
-  //   $('.submenu li a').click(function(){
-  //     $('.submenu li a').removeClass('submenu-active');
-  //     $('.sidebar-menu li:first-child a').removeClass('active');
-  //     $(this).addClass('submenu-active');
-  //   });
-  //
-  //   $('.sidebar-menu li:first-child a').not('.submenu li:first-child a').click(function(){
-  //     $('.submenu li a').removeClass('submenu-active');
-  //     $('.sidebar-menu li:first-child a').not('.submenu li:first-child a').addClass('active');
-  //   });
-  //
-  //   $('.sidebar-menu').children('li').children('a').click(function(){
-  //     $(this).parent().children('.submenu').slideToggle();
-  //     $(this).children('span').children('i').toggleClass('fa-angle-right');
-  //     $(this).children('span').children('i').toggleClass('fa-angle-down');
-  //   });
-  //
-  //   $(document).on('click', '#dlmManado',function(){
-  //     $('#manado').show();
-  //     $('#luar_manado').hide();
-  //     $('.tab').removeClass('click');
-  //     $(this).addClass('click');
-  //   });
-  //
-  //   $(document).on('click', '#luarManado',function(){
-  //     $('#manado').hide();
-  //     $('#luar_manado').show();
-  //     $('.tab').removeClass('click');
-  //     $(this).addClass('click');
-  //   });
-  //
-  //   $(document).on('click', '#btnBantuan',function(){
-  //     $('#bantuan').show();
-  //     $('#alur-pembuatan').hide();
-  //     $('.tab').removeClass('click');
-  //     $(this).addClass('click');
-  //   });
-  //
-  //   $(document).on('click', '#btnAlur',function(){
-  //     $('#bantuan').hide();
-  //     $('#alur-pembuatan').show();
-  //     $('.tab').removeClass('click');
-  //     $(this).addClass('click');
-  //   });
-  //
-  //   $('#upload_file').click(function(){
-  //     window.location.replace('upload_file.html');
-  //   });
-  //
-  //   $('#daftar').click(function(){
-  //     window.location.replace('pendaftaran.html');
-  //   });
-  //
-  //   $('#berkas').click(function(){
-  //     window.location.replace('berkas.html');
-  //   });
-  //
-  //   $('.head').on('click',function(){
-  //     $(this).children('span.collapse-icon').children('i.fa').toggleClass('icon-up');
-  //     $(this).siblings('div.collapse-body').slideToggle();
-  //   });
-  //
-  //   $('.btn-modal').on('click', function(){
-  //     $('.modal-window').css('animation', 'modal-out 750ms forwards');
-  //     $('body').css('overflow', 'auto');
-  //     $('#modal').fadeOut();
-  //     setTimeout(function(){
-  //       $('.modal-window').css('animation', 'modal-in 750ms forwards');
-  //     }, 500);
-  //   });
-  //
-  //   $(document).on('keydown', function(e){
-  //     if ($('#modal').css('display') == 'block')
-  //     {
-  //       if (e.keyCode == 27)
-  //       {
-  //         $('.modal-window').css('animation', 'modal-out 750ms forwards');
-  //         $('#modal').fadeOut();
-  //         $('body').css('overflow', 'auto');
-  //         setTimeout(function(){
-  //           $('.modal-window').css('animation', 'modal-in 750ms forwards');
-  //         }, 500);
-  //       }
-  //     }
-  //   });
-  //
-  //   $('.btn-collapse').click(function(){
-  //     $('.menu li').not('.menu li:first-child').slideToggle();
-  //   });
-  //
-  //   $('form').on('submit', function(e){
-  //     e.preventDefault();
-  //   });
-  //
-  //   $(document).on("click",'.modal',function(){
-  //     $('.modal-window').css('animation', 'modal-out 750ms forwards');
-  //     $('body').css('overflow', 'auto');
-  //     $('#modal').fadeOut();
-  //     setTimeout(function(){
-  //       $('.modal-window').css('animation', 'modal-in 750ms forwards');
-  //     }, 500);
-  //   }).children().click(function(){
-  //     return false;
-  //   });
-  //
-  //   $('.close i.fa').on('click',function(){
-  //     console.log('test');
-  //     $('.modal-window').css('animation', 'modal-out 750ms forwards');
-  //     $('body').css('overflow', 'auto');
-  //     $('#modal').fadeOut();
-  //     setTimeout(function(){
-  //       $('.modal-window').css('animation', 'modal-in 750ms forwards');
-  //     }, 500);
-  //   });
-  //
-  // });

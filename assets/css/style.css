@@ -115,11 +115,11 @@ footer {
   margin: 5px auto;
   width: 100%;
   padding: 0 !important;
-  border : 1px solid #45ac8a;
+  border : 1px solid #26384b;
 }
 
 .kotak .head {
-  background: #45ac8a;
+  background: #26384b;
   padding: 0;
   margin: 0;
 }
@@ -271,6 +271,7 @@ footer {
   width: 100%;
   float: left;
   min-height: 1px;
+  padding: 0 5px;
 }
 
 .col-1 { width: 8.333%; }
@@ -280,7 +281,7 @@ footer {
 .col-5 { width: 41.667%;}
 .col-6 { width: 50%;}
 .col-7 { width: 58.333%;}
-.col-8 { width: 66.667;}
+.col-8 { width: 66.667%;}
 .col-9 { width: 75%;}
 .col-10 { width: 83.333%;}
 .col-11 {width: 91.667%;}
@@ -310,11 +311,12 @@ footer {
 }
 
 .sidebar {
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   right: 0;
-  height: 100vh;
+  height: 100%;
+  width: 255px;
   top : 0px;
   background: #f0f0f0;
   overflow: auto;
@@ -557,7 +559,7 @@ footer {
   .col-5 { width: 41.667%;}
   .col-6 { width: 50%;}
   .col-7 { width: 58.333%;}
-  .col-8 { width: 66.667;}
+  .col-8 { width: 66.667%;}
   .col-9 { width: 75%;}
   .col-10 { width: 83.333%;}
   .col-11 {width: 91.667%;}
@@ -760,7 +762,8 @@ footer {
     transform: translate(-50%) rotateX(0deg);
   }
   50% {
-    transform: rotateX(1deg) translate(-50%);
+    transform: translate(-50%);
+    opacity: 1;
   }
   100% {
     transform: rotateX(-90deg) translate(-50%);
@@ -966,6 +969,11 @@ select > .input {
   cursor: pointer;
 }
 
+.btn-check:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
 .btn-next {
   background: #82b54d;
   border : 1px solid #8ebf5c;
@@ -997,6 +1005,54 @@ select > .input {
   color : white;
   font-size: 12px;
 }
+
+.btn-next:disabled {
+  background: #a1af94;
+  border-color: #a1af94;
+  cursor: not-allowed;
+}
+
+.btn-prev:disabled {
+  background: #5b86a4;
+  cursor: not-allowed;
+  border-color: #58808b;
+}
+
+.btn-edit {
+  background: #ec923f;
+  border : 1px solid #e28b3b;
+  color: #592f09;
+  font-size: 13px;
+}
+
+.btn-edit:hover {
+  background: #f2a55d;
+  border : 1px solid #e78327;
+}
+
+.btn-edit:disabled {
+  background: #d7b696;
+  border : 1px solid #e7c8ac;
+}
+
+.btn-hapus {
+  background: #d04e46;
+  border : 1px solid #bf4a43;
+  color: white;
+  font-size: 13px;
+}
+
+.btn-hapus:hover {
+  background: #f25d5d;
+  border : 1px solid #e72727;
+}
+
+.btn-hapus:disabled {
+  background: #d79797;
+  border : 1px solid #e7acac;
+}
+
+/**/
 
 .body {
   width: 80%;
@@ -1422,6 +1478,8 @@ select > .input {
   padding: 5px 20px;
   border-bottom: .25px solid #ccc;
   position: relative;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .modal-titlebar .title {
@@ -1436,7 +1494,6 @@ select > .input {
   font-size: 12px;
 }
 
-
 .modal-titlebar .close i.fa-times {
   cursor: pointer;
 }
@@ -1448,7 +1505,11 @@ select > .input {
 .modal-content {
   background: #eee;
   padding: 5px 20px;
-  text-align: justify;
+  text-align: left;
+}
+
+.modal-content .group label {
+  text-align: left !important;
 }
 
 .modal-content .pendaftaran-berhasil {
@@ -1478,6 +1539,8 @@ select > .input {
   border-top: .25px solid #ccc;
   background: #eee;
   padding: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .modal-footer .btn-modal {
@@ -1491,6 +1554,36 @@ select > .input {
 
 .modal-footer .btn-modal:hover {
   background: #226595;
+}
+
+/**/
+
+.errors {
+  z-index: 4000;
+  background: #b64f4f;
+  position: fixed;
+  top : 0;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+
+.errors p {
+  text-align: center;
+  font-size: 15px;
+  font-weight: lighter;
+  color: white;
+}
+
+.errors p:first-child {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.errors p:last-child:last-child {
+  font-size: 20px;
 }
 
 @keyframes menu-down {

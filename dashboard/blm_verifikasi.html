@@ -1,7 +1,7 @@
 <div class="container">
   <div class="kotak">
     <div class="head">
-      <p class="head-title"><i class="fa fa-list-ol fa-lg"></i>&nbsp;Daftar</p>
+      <p class="head-title"><i class="fa fa-check-square fa-lg"></i>&nbsp;Laporan (Belum diverifikasi)</p>
     </div>
     <div class="kotak-body">
       <div class="row">
@@ -84,10 +84,7 @@
           <td>{{ daftar.nama }}</td>
           <td>{{ daftar.tanggal_kematian }}</td>
           <td>{{ daftar.tanggal_pendaftaran }}</td>
-          <td>
-            <button type="button" class="btn btn-check" ng-click="detail(daftar.id_jenazah)" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Detail</button>
-            <button type="button" class="btn btn-prev" ng-disabled="daftar.approved == 1" ng-click="verifikasi(daftar.no_antrian)" name="button">Verifikasi</button>
-          </td>
+          <td><button type="button" class="btn btn-check" ng-click="detail(daftar.no_antrian)" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Detail</button></td>
         </tr>
       </tbody>
     </table>
@@ -283,7 +280,7 @@
             <thead>
               <tr>
                 <th>Nama berkas</th>
-                <th>Status</th>
+                <th>File</th>
               </tr>
             </thead>
             <tbody>

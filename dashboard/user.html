@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="kotak">
+    <div class="head">
+      <p class="head-title"><i class="fa fa-user-circle fa-lg"></i>&nbsp;Pengguna</p>
+    </div>
+    <div class="kotak-body">
+      <div class="row">
+        <div class="col-3">
+          <button type="button" ng-click="openModal('Tambah user')" class="btn btn-next" name="button"><i class="fa fa-user-plus fa-lg"></i>&nbsp;Tambah pengguna</button>
+        </div>
+        <div class="col-3">
+          <div class="input-group">
+            <div class="input-addon">
+              Batas per halaman
+            </div>
+            <select class="input" id="limit" ng-model="limit" name="">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+              <option value="25">25</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-2">
+
+        </div>
+        <div class="col-4">
+          <div class="input-group">
+            <input type="text" class="input" id="nama" ng-model="nama" placeholder="Cari nama pengguna"/>
+            <span class="input-addon-btn">
+              <button type="button" class="btn btn-check" name="button"><i class="fa fa-search fa-lg"></i>&nbsp;Cari</button>
+            </span>
+          </div>
+        </div>
+
+        <!-- row -->
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Nama</th>
+          <th>Username</th>
+          <th>Aktif/Blokir</th>
+          <th>Edit/Hapus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-show="totalData == 0">
+          <td colspan="5" style="text-align:center;">Pengguna tidak ada</td>
+        </tr>
+        <tr ng-repeat="pengguna in list">
+          <td>{{ list.indexOf(pengguna) + 1 }}</td>
+          <td>{{ pengguna.nama }}</td>
+          <td>{{ pengguna.username }}</td>
+          <td>{{ pengguna.mode }}</td>
+          <td>
+            <button type="button" ng-click="openModal('Edit user', pengguna.id_pengguna, pengguna.username, pengguna.nama, pengguna.aktif)" class="btn btn-edit"><i class="fa fa-edit fa-lg"></i>&nbsp;Edit</button>
+            <button type="button" ng-click="openModal('Hapus user', pengguna.id_pengguna, pengguna.username, pengguna.nama)" class="btn btn-hapus"><i class="fa fa-trash fa-lg"></i>&nbsp;Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="kotak-body">
+      <button type="button" ng-disabled="currentpage == 1" ng-click="prev()"; class="btn btn-prev" name="button">Sebelumnya</button>
+      <button type="button" ng-disabled="currentpage == jlhHalaman" ng-click="next()"; class="btn btn-prev" name="button">Berikutnya</button>
+      <code ng-hide="jlhHalaman == 0">{{ currentpage }} dari {{ jlhHalaman }} halaman</code>
+    </div>
+  </div>
+</div>
+<div class="errors">
+</div>
+<div class="modal" id="modal">
+  <div class="modal-window">
+    <div class="modal-titlebar">
+      <span class="close"><i class="fa fa-times fa-lg"></i></span>
+      <p class="title"><i class="fa fa-user-circle fa-lg"></i>&nbsp;{{ mode }}</p>
+    </div>
+    <div class="modal-content">
+      <h3 style="text-align : center; font-weight : lighter;" ng-hide="mode != 'Hapus user'">Apakah Anda yakin ingin menghapus {{ user }}</h3>
+      <form ng-hide="mode == 'Hapus user'" class="group" action="index.html" method="post">
+        <label for="">Nama lengkap</label>
+        <input type="text" class="input" placeholder="Nama lengkap" ng-model="nama_lengkap" name="" value="">
+        <label for="">Username</label>
+        <input type="text" class="input" placeholder="Username" ng-model="username" name="" value="">
+        <label for="">Password</label>
+        <input type="password" class="input" ng-model="password" placeholder="Password">
+        <input type="hidden" ng-model="id" name="" value="">
+        <label for="">Blokir</label>
+        <select class="input" ng-model="blokir" name="">
+          <option value="1">Aktif</option>
+          <option value="0">Blokir</option>
+        </select>
+        <hr>
+        <button type="button" class="btn btn-next" ng-hide="mode != 'Tambah user'" ng-click="tambah_user()" name="button"><i class="fa fa-user-plus fa-lg"></i>&nbsp;Tambah user</button>
+        <button type="button" class="btn btn-edit" ng-hide="mode != 'Edit user'" ng-click="edit_user()" name="button"><i class="fa fa-save fa-lg"></i>&nbsp;Simpan</button>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <div style="text-align: center;" ng-hide="mode != 'Hapus user'">
+        <button type="button" class="btn btn-next" onclick="$('#modal').modalPopup('hide')" name="button">Tidak</button>
+        <button type="button" class="btn btn-hapus" ng-click="hapus_user()" name="button">Hapus</button>
+      </div>
+    </div>
+  </div>
+</div>
