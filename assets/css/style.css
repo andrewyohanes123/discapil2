@@ -56,6 +56,10 @@ footer {
 }
 
 /* Table */
+.table-responsive {
+  overflow: auto;
+}
+
 .table {
   width: 100%;
   margin: 0;
@@ -102,10 +106,95 @@ footer {
   margin: 0 auto;
 }
 
+.table tbody tr td .ng-binding {
+  color: #444;
+  text-decoration: none;
+  padding: 5px 5px;
+  border-radius: 5px;
+  background: #eee;
+  display: inline-block;
+}
+
 .table tr:nth-child(even) td {
   background: rgb(250,250,250) !important;
   /*padding: 8px 15px;*/
 }
+
+/* image modal */
+
+.img-modal {
+  background: rgba(0, 0, 0, 0.21);
+  position: fixed;
+  top : 0;
+  left : 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 5000;
+  overflow-y: auto;
+}
+
+.img-content {
+  width: 50%;
+  height: auto;
+  border: 3px solid #efefef;
+  position: absolute;
+  top : 50%;
+  left : 50%;
+  border-radius: 5px;
+  transform : translate(-50%, -50%);
+  cursor: zoom-in;
+  transform-origin: left !important;
+  animation: img-modal-in 750ms forwards;
+  display: none;
+  transition: width 750ms ease-in-out;
+}
+
+.img-close {
+  background: rgba(255, 255, 255, 0.73);
+  padding: 5px 10px;
+  border-radius: 50%;
+  color: maroon;
+  position: absolute;
+  top : 60px;
+  right : 15px;
+  cursor: pointer;
+}
+
+.img-width {
+  width: 90% !important;
+  transition: width 750ms ease-in-out;
+}
+
+@keyframes img-modal-in {
+  0% {
+    opacity: 0;
+    transform: scale(0) translateX(-50%) translate(-50%, -50%);
+  }
+  50% {
+    transform: scale(1.05) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(0) translate(-50%, -50%);
+  }
+}
+
+@keyframes img-modal-out {
+  0% {
+    opacity: 0;
+    transform: scale(1) translateX(0) translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(0) translateX(-50%) translate(-50%, -50%);
+  }
+}
+
+/**/
 
 /* Kotak */
 .kotak {
@@ -479,6 +568,12 @@ footer {
   .col-3 {min-width: 50%;}
   .subtitle {display: block;}
   .btn-collapse { display: none !important;}
+}
+
+@media screen and (max-width : 1000px) {
+  .table {
+    min-width: 1000px;
+  }
 }
 
 @media screen and (max-width : 720px) {

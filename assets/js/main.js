@@ -391,7 +391,7 @@ dash.controller('blm_verifikasi', function($scope, $http, $cookies){
     }
     else
     {
-      window.open(url, "_blank");
+      $('.img-modal').imgModal(url)
       return false;
     }
   })
@@ -618,7 +618,6 @@ dash.controller('verifikasi', function($scope, $http, $cookies){
       $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
       $scope.get();
     }
-    console.log($scope.currentpage);
   }
 
   $('#cari').keyup(function(){
@@ -663,7 +662,7 @@ dash.controller('verifikasi', function($scope, $http, $cookies){
     }
     else
     {
-      window.open(url, "_blank");
+      $('.img-modal').imgModal(url);
       return false;
     }
   })
@@ -692,7 +691,6 @@ dash.controller('verifikasi', function($scope, $http, $cookies){
       {
         var array = resp.data.errors;
         $('body').pesanError(status, array);
-        console.log('error');
       }
       else
       {
@@ -898,7 +896,6 @@ dash.controller('list', function($scope, $http, $cookies){
       $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
       $scope.get();
     }
-    console.log($scope.currentpage);
   }
 
   $('#cari').keyup(function(){
@@ -943,7 +940,7 @@ dash.controller('list', function($scope, $http, $cookies){
     }
     else
     {
-      window.open(url, "_blank");
+      $('.img-modal').imgModal(url)
       return false;
     }
   })
@@ -1207,7 +1204,6 @@ app.controller('berkas', function($scope, $http, $cookies, Upload){
       url : backendUrl + "/upload_berkas",
       data : { no_antrian : nomor, file : file, nama_field_berkas : nama_field}
     }).then(function(resp){
-      console.log(resp);
       $scope.cek(nomor);
     })
   }
@@ -1220,7 +1216,7 @@ app.controller('berkas', function($scope, $http, $cookies, Upload){
     }
     else
     {
-      window.open(url, "_blank");
+      $('.img-modal').imgModal(url)
       return false;
     }
   })
@@ -2084,7 +2080,7 @@ app.controller('saksi2', function($scope, $http, data, $cookies){
   });
 });
 
-app.controller('data_keluarga', function($scope, $cookies, $http){
+app.controller('data_keluarga', function($scope, $cookies, $http, Upload){
 
   var no_kk = $cookies.getObject('no_kk');
   var jenazah = $cookies.getObject('jenazah');
@@ -2093,6 +2089,115 @@ app.controller('data_keluarga', function($scope, $cookies, $http){
   var plr = $cookies.getObject('plr');
   var sk1 = $cookies.getObject('sk1')
   var sk2 = $cookies.getObject('sk2')
+
+  $scope.cek = function(nomor)
+  {
+    $http.get(backendUrl + "/ambil_berkas/" + nomor).then(function(resp){
+      var status = resp.data.status;
+      if (!status)
+      {
+        window.location.replace('#!/upload');
+      }
+
+      var berkas = resp.data.data;
+
+      if(berkas.berkas_surat_kematian == null)
+      {
+        $scope.surat_kematian = "Belum upload";
+      }
+      else
+      {
+        $scope.surat_kematian = berkas.berkas_surat_kematian;
+        $scope.surat_kematian_link = link + "/" + berkas.berkas_surat_kematian;
+      }
+
+      //
+
+      if(berkas.berkas_akta_kelahiran_jenazah == null)
+      {
+        $scope.akta_kelahiran = "Belum upload"
+      }
+      else
+      {
+        $scope.akta_kelahiran = berkas.berkas_akta_kelahiran_jenazah;
+        $scope.akta_kelahiran_link = link + "/" + berkas.berkas_akta_kelahiran_jenazah;
+      }
+
+      //
+
+      if(berkas.berkas_akta_perkawinan_jenazah == null || berkas.berkas_akta_perkawinan_jenazah == '')
+      {
+        $scope.akta_perkawinan = "Belum upload"
+        $scope.akta_perkawinan_link = "#!/berkas";
+      }
+      else
+      {
+        $scope.akta_perkawinan = berkas.berkas_akta_perkawinan_jenazah;
+        $scope.akta_perkawinan_link = link + "/" + berkas.berkas_akta_perkawinan_jenazah;
+      }
+
+      //
+
+      if(berkas.berkas_akta_kematian_pasangan == null)
+      {
+        $scope.akte_kematian_pasangan = "Belum upload"
+      }
+      else
+      {
+        $scope.akte_kematian_pasangan = berkas.berkas_akta_kematian_pasangan;
+        $scope.akte_kematian_pasangan_link = link + "/" + berkas.berkas_akta_kematian_pasangan;
+      }
+
+      //
+
+      if(berkas.berkas_ktp_pelapor == null)
+      {
+        $scope.ktp_pelapor = "Belum upload"
+      }
+      else
+      {
+        $scope.ktp_pelapor = berkas.berkas_ktp_pelapor;
+        $scope.ktp_pelapor_link = link + "/" + berkas.berkas_ktp_pelapor;
+      }
+
+      //
+
+      if(berkas.berkas_ktp_saksi1 == null)
+      {
+        $scope.ktp_saksi1 = "Belum upload"
+      }
+      else
+      {
+        $scope.ktp_saksi1 = berkas.berkas_ktp_saksi1;
+        $scope.ktp_saksi1_link = link + "/" + berkas.berkas_ktp_saksi1;
+      }
+
+      //
+
+      if(berkas.berkas_ktp_saksi2 == null)
+      {
+        $scope.ktp_saksi2 = "Belum upload"
+      }
+      else
+      {
+        $scope.ktp_saksi2 = berkas.berkas_ktp_saksi2;
+        $scope.ktp_saksi2_link = link + "/" + berkas.berkas_ktp_saksi2;
+      }
+    });
+  }
+
+
+  $scope.upload = function(file, nama_field)
+  {
+    var nomor = $cookies.get('nomor')
+    Upload.upload({
+      url : backendUrl + "/upload_berkas",
+      data : { no_antrian : nomor, file : file, nama_field_berkas : nama_field}
+    }).then(function(resp){
+      $scope.cek(nomor);
+    });
+  }
+
   $scope.submit = function()
   {
     var nomor = $scope.nomor;
@@ -2122,6 +2227,8 @@ app.controller('data_keluarga', function($scope, $cookies, $http){
         if (status)
         {
           $scope.no_pendaftaran = no;
+          $cookies.put('nomor', no);
+          $scope.cek(no);
           $('#modal').modalPopup('show', {
             backgroundClick : false,
             keyboardDetect : false
