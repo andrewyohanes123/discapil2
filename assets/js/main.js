@@ -1556,6 +1556,15 @@ app.controller('ayah', function($scope, $http, data, $cookies){
         $('.notifikasi').hide();
       }, 5000);
     }
+    else if ($scope.nik != '' && $scope.nama_lengkap == '' || $scope.nama_lengkap == null)
+    {
+      $('.notifikasi').css('display', 'flex');
+      $('.notifikasi-body').empty();
+      $('.notifikasi-body').text('NIK tidak valid');
+      setTimeout(function(){
+        $('.notifikasi').hide();
+      }, 5000);
+    }
     else
     {
       $cookies.putObject('ayah', data);
@@ -1614,6 +1623,15 @@ app.controller('ibu', function($scope, $http, data, $cookies){
     }
 
     if ($scope.nama_lengkap == '' || $scope.nama_lengkap == null)
+    {
+      $('.notifikasi').css('display', 'flex');
+      $('.notifikasi-body').empty();
+      $('.notifikasi-body').text('NIK tidak valid');
+      setTimeout(function(){
+        $('.notifikasi').hide();
+      }, 5000);
+    }
+    else if ($scope.nik != '' && $scope.nama_lengkap == '' || $scope.nama_lengkap == null)
     {
       $('.notifikasi').css('display', 'flex');
       $('.notifikasi-body').empty();
