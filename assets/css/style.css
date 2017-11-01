@@ -963,6 +963,15 @@ footer {
   margin: 0 auto;
 }
 
+.form-pendaftaran .group .btn-next {
+  cursor: pointer;
+  float: right;
+}
+
+.form-pendaftaran .btn {
+  cursor: pointer;
+}
+
 .form-container .group:after {
   content : " ";
   display: block;

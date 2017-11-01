@@ -22,6 +22,14 @@
         </div>
         <label for="">Nama Lengkap</label>
         <input type="text" class="input" ng-model="nama_lengkap" readonly placeholder="Nama Lengkap" name="" value=""/>
+        <label for="">Hubungan pelapor dengan jenazah</label>
+        <select class="input" ng-model="hubungan_kel" name="">
+          <option value="Ayah">Ayah</option>
+          <option value="Ayah">Ibu</option>
+          <option value="Saudara">Saudara</option>
+          <option value="Kerabat">Kerabat</option>
+        </select>
+        <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/ayah')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
         <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
       </form>
       <form class="group" action="index.html" method="post" id="luar_manado">
@@ -29,6 +37,13 @@
         <input type="number" ng-model="nik_luar" class="input" placeholder="NIK" name="" value="">
         <label for="">Nama Lengkap</label>
         <input type="text" ng-model="nama" class="input" placeholder="Nama Lengkap" name="" value="">
+        <label for="">Hubungan pelapor dengan jenazah</label>
+        <select class="input" ng-model="hubungan_kel" name="">
+          <option value="Ayah">Ayah</option>
+          <option value="Ayah">Ibu</option>
+          <option value="Saudara">Saudara</option>
+          <option value="Kerabat">Kerabat</option>
+        </select>
         <label for="">Tanggal Lahir</label>
         <input type="text" data-field="date" ng-model="tanggal" class="input" placeholder="Tanggal Lahir" name="" value="">
         <label for="">Jenis Kelamin</label>
@@ -41,6 +56,7 @@
         <label for="">Alamat</label>
         <input type="text" ng-model="alamat" placeholder="Alamat" class="input" name="" value="">
         <hr>
+        <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/ayah')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
         <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
       </form>
     </div>

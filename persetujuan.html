@@ -5,11 +5,12 @@
     </div>
     <div class="form-pendaftaran">
       <label for="">Nomor telepon</label>
-      <input type="number" class="input" ng-model="nomor" placeholder="Nomor Telepon" name="" value="">
+      <input type="number" class="input" id="nomor" ng-model="nomor" placeholder="Nomor Telepon" name="" value="">
       <label for="">Alamat</label>
-      <input type="text" class="input" ng-model="alamat" placeholder="Alamat Lengkap" name="" value="">
+      <input type="text" id="alamat" class="input" ng-model="alamat" placeholder="Alamat Lengkap" name="" value="">
       <label for="">Pernyataan</label>
-      <textarea name="name" class="input" ng-model="pernyataan" rows="3" cols="80"></textarea>
+      <textarea id="pernyataan" placeholder="Saya setuju..." name="name" class="input" ng-model="pernyataan" rows="3" cols="80"></textarea>
+      <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/saksi2')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
       <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-save fa-lg"></i>&nbsp;Simpan</button>
     </div>
   </div>

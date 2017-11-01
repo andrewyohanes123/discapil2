@@ -1413,6 +1413,29 @@ app.controller('no_kk', function($scope, $http, data, $cookies){
 });
 
 app.controller('jenazah', function($scope, $http, data, $cookies){
+  var prevPage = $cookies.getObject('no_kk');
+  var current = $cookies.getObject('jenazah');
+  if (!current)
+  {
+    $scope.nik = '';
+    $scope.nama_lengkap = '';
+  }
+  else
+  {
+    $scope.nik = data.nik;
+    $scope.nama_lengkap = data.nama;
+    $scope.tanggal = data.tanggal_kematian;
+    $scope.waktu = data.waktu_meninggal;
+    $scope.sebab_kematian = data.sebab_kematian;
+    $scope.yang_menerangkan = data.yang_menerangkan;
+  }
+
+  if (!prevPage)
+  {
+    alert('Masukkan data di halaman sebelumnya');
+    window.location.replace('#!/daftar/no_kk');
+  }
+
   $scope.cek = function(nik)
   {
     no_kk = $cookies.getObject('no_kk');
@@ -1496,6 +1519,25 @@ app.controller('jenazah', function($scope, $http, data, $cookies){
 });
 
 app.controller('ayah', function($scope, $http, data, $cookies){
+  var prevPage = $cookies.getObject('jenazah');
+  var current = $cookies.getObject('ayah');
+  if (!current)
+  {
+    $scope.nik = '';
+    $scope.nama_lengkap = '';
+  }
+  else
+  {
+    $scope.nik = current.nik_ayah;
+    $scope.nama_lengkap = current.nik_ayah;
+  }
+
+  if (!prevPage)
+  {
+    window.location.replace('#!/daftar/jenazah');
+    $('.notifikasi').notifikasi('Masukkan data sebelumnya')
+  }
+
   $scope.cek = function(nik)
   {
     $http.get(backendUrl + "/ambil_penduduk/" + nik).then(function(resp){
@@ -1561,6 +1603,15 @@ app.controller('ayah', function($scope, $http, data, $cookies){
         $('.notifikasi').hide();
       }, 5000);
     }
+    else if ($scope.nama_lengkap != '' || $scope.nama_lengkap != null && $scope.nik == '' || $scope.nik == null)
+    {
+      var data = {
+        nik_ayah : '',
+        nama_ayah : $scope.nama_lengkap
+      }
+      $cookies.putObject('ayah', data);
+      window.location.replace('#!/daftar/ibu');
+    }
     else
     {
       $cookies.putObject('ayah', data);
@@ -1572,6 +1623,25 @@ app.controller('ayah', function($scope, $http, data, $cookies){
 });
 
 app.controller('ibu', function($scope, $http, data, $cookies){
+  var prevPage = $cookies.getObject('ayah');
+  var current = $cookies.getObject('ibu');
+  if (!current)
+  {
+    $scope.nik = '';
+    $scope.nama_lengkap = '';
+  }
+  else
+  {
+    $scope.nik = current.nik_ibu;
+    $scope.nama_lengkap = current.nik_ibu;
+  }
+
+  if (!prevPage)
+  {
+    window.location.replace('#!/daftar/ayah');
+    $('.notifikasi').notifikasi('Masukkan data sebelumnya')
+  }
+
   $scope.cek = function(nik)
   {
     $http.get(backendUrl + "/ambil_penduduk/" + nik).then(function(resp){
@@ -1579,30 +1649,11 @@ app.controller('ibu', function($scope, $http, data, $cookies){
       var no_kk = $cookies.getObject('no_kk');
       if (!hasil)
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('NIK Tidak Valid');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-       }, 3000);
-      }
-      else if (hasil.NO_KK != no_kk.no_kk)
-      {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('Pemilik NIK tidak ada dalam Nomor KK yang disertakan');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 5000);
+        $('.notifikasi').notifikasi('NIK Tidak Valid');
       }
       else if (hasil.JENIS_KLMIN != "2")
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('Pemilik NIK harus berjenis kelamin perempuan');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-       }, 3000);
+        $('.notifikasi').notifikasi('Pemilik NIK harus berjenis kelamin perempuan');
       }
       else
       {
@@ -1620,21 +1671,20 @@ app.controller('ibu', function($scope, $http, data, $cookies){
 
     if ($scope.nama_lengkap == '' || $scope.nama_lengkap == null)
     {
-      $('.notifikasi').css('display', 'flex');
-      $('.notifikasi-body').empty();
-      $('.notifikasi-body').text('NIK tidak valid');
-      setTimeout(function(){
-        $('.notifikasi').hide();
-      }, 5000);
+      $('.notifikasi').notifikasi('NIK tidak valid', 5000);
     }
     else if ($scope.nik != '' && $scope.nama_lengkap == '' || $scope.nama_lengkap == null)
     {
-      $('.notifikasi').css('display', 'flex');
-      $('.notifikasi-body').empty();
-      $('.notifikasi-body').text('NIK tidak valid');
-      setTimeout(function(){
-        $('.notifikasi').hide();
-      }, 5000);
+      $('.notifikasi').notifikasi('NIK tidak valid', 5000);
+    }
+    else if ($scope.nama_lengkap != '' || $scope.nama_lengkap != null && $scope.nik == '' || $scope.nik == null)
+    {
+      var data = {
+        nik_ibu : '',
+        nama_ibu : $scope.nama_lengkap
+      }
+      $cookies.putObject('ibu', data);
+      window.location.replace('#!/daftar/pelapor');
     }
     else
     {
@@ -1651,19 +1701,50 @@ $(document).on('submit', 'form',function(e){
   e.preventDefault();
 })
 
-app.controller('pelapor', function($scope, $http, data,$cookies){
+app.controller('pelapor', function($scope, $http, data, $cookies){
+  $scope.hubungan_kel = "Ayah";
+  var prevPage = $cookies.getObject('ayah');
+  var current = $cookies.getObject('pelapor');
+  if (!current)
+  {
+    $scope.nik = '';
+    $scope.nama_lengkap = '';
+  }
+  else
+  {
+    if (current.plr_org_manado == 0)
+    {
+      $('#luarManado').addClass('click');
+      $('#dlmManado').removeClass('click');
+      $('#manado').hide();
+      $('#luar_manado').show();
+      $scope.nik_luar = current.plr_nik;
+      $scope.nama = current.plr_nama;
+      $scope.tanggal = current.plr_tanggal_lahir;
+      $scope.jenis_kelamin = current.plr_jenis_kelamin;
+      $scope.pekerjaan = current.plr_pekerjaan;
+      $scope.alamat = current.plr_alamat;
+    }
+    else
+    {
+      $scope.nik = current.plr_nik;
+      $scope.nama_lengkap = current.plr_nama;
+    }
+  }
+
+  if (!prevPage)
+  {
+    window.location.replace('#!/daftar/ayah');
+    $('.notifikasi').notifikasi('Masukkan data sebelumnya')
+  }
+
   $scope.cek = function(nik)
   {
     $http.get(backendUrl + "/ambil_penduduk/" + nik).then(function(resp){
       var hasil = resp.data.data;
       if (!hasil)
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('NIK Tidak Valid');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-       }, 3000);
+        $('.notifikasi').notifikasi('NIK Tidak Valid', 3000);
       }
       else
       {
@@ -1693,12 +1774,7 @@ app.controller('pelapor', function($scope, $http, data,$cookies){
     {
       if ($scope.nama_lengkap == '' || $scope.nama_lengkap == null)
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('NIK tidak valid');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 5000);
+        $('.notifikasi').notifikasi('NIK tidak valid', 3000);
       }
       else
       {
@@ -1710,39 +1786,19 @@ app.controller('pelapor', function($scope, $http, data,$cookies){
     {
       if ($scope.nik_luar == null)
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('Masukkan NIK');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 5000);
+        $('.notifikasi').notifikasi('Masukkan NIK', 3000);
       }
       else if ($scope.nama == '')
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('Masukkan nama lengkap');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 5000);
+        $('.notifikasi').notifikasi('Masukkan nama lengkap', 3000);
       }
       else if ($scope.tanggal == '')
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('Masukkan tanggal lahir');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 5000);
+        $('.notifikasi').notifikasi('Masukkan tanggal lahir', 3000);
       }
       else if ($scope.pekerjaan == '')
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('Masukkan pekerjaan');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 5000);
+        $('.notifikasi').notifikasi('Masukkan pekerjaan', 3000);
       }
       else if ($scope.alamat == '')
       {
@@ -1795,6 +1851,42 @@ app.controller('pelapor', function($scope, $http, data,$cookies){
 // Saksi 1
 
 app.controller('saksi1', function($scope, $http, data, $cookies){
+
+  var prevPage = $cookies.getObject('plr');
+  var current = $cookies.getObject('sk1');
+  if (!current)
+  {
+    $scope.nik = '';
+    $scope.nama_lengkap = '';
+  }
+  else
+  {
+    if (current.sk_org_manado1 == 0)
+    {
+      $('#luarManado').addClass('click');
+      $('#dlmManado').removeClass('click');
+      $('#manado').hide();
+      $('#luar_manado').show();
+      $scope.nik_luar = current.sk_nik1;
+      $scope.nama = current.sk_nama1;
+      $scope.tanggal = current.sk_tanggal_lahir1;
+      $scope.jenis_kelamin = current.sk_jenis_kelamin1;
+      $scope.pekerjaan = current.sk_pekerjaan1;
+      $scope.alamat = current.sk_alamat1;
+    }
+    else
+    {
+      $scope.nik = current.sk_nik1;
+      $scope.nama_lengkap = current.sk_nama1;
+    }
+  }
+
+  if (!prevPage)
+  {
+    window.location.replace('#!/daftar/pelapor');
+    $('.notifikasi').notifikasi('Masukkan data sebelumnya')
+  }
+
   $('#dlmManado').on('click',function(){
     $('#manado').show();
     $('#luar_manado').hide();
@@ -1939,6 +2031,35 @@ app.controller('saksi1', function($scope, $http, data, $cookies){
 // Saksi 2
 
 app.controller('saksi2', function($scope, $http, data, $cookies){
+  var prevPage = $cookies.getObject('sk1');
+  var current = $cookies.getObject('sk2');
+  if (!current)
+  {
+    $scope.nik = '';
+    $scope.nama_lengkap = '';
+  }
+  else
+  {
+    if (current.sk_org_manado2 == 0)
+    {
+      $('#luarManado').addClass('click');
+      $('#dlmManado').removeClass('click');
+      $('#manado').hide();
+      $('#luar_manado').show();
+      $scope.nik_luar = current.sk_nik2;
+      $scope.nama = current.sk_nama2;
+      $scope.tanggal = current.sk_tanggal_lahir2;
+      $scope.jenis_kelamin = current.sk_jenis_kelamin2;
+      $scope.pekerjaan = current.sk_pekerjaan2;
+      $scope.alamat = current.sk_alamat2;
+    }
+    else
+    {
+      $scope.nik = current.sk_nik2;
+      $scope.nama_lengkap = current.sk_nama2;
+    }
+  }
+
   $('#dlmManado').on('click',function(){
     $('#manado').show();
     $('#luar_manado').hide();
@@ -1959,12 +2080,11 @@ app.controller('saksi2', function($scope, $http, data, $cookies){
       var hasil = resp.data.data;
       if (!hasil)
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('NIK tidak valid');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 5000);
+        $('.notifikasi').notifikasi('NIK tidak valid', 3000);
+      }
+      else if (nik == prevPage.sk_nik1)
+      {
+        $('.notifikasi').notifikasi('Saksi kedua tidak boleh sama dengan saksi pertama', 3000)
       }
       else
       {
@@ -2081,6 +2201,59 @@ app.controller('saksi2', function($scope, $http, data, $cookies){
 });
 
 app.controller('data_keluarga', function($scope, $cookies, $http, Upload){
+
+  var data = {
+    p_no_telfon : $scope.nomor,
+    p_alamat : $scope.alamat,
+    p_pernyataan : $scope.pernyataan
+  }
+
+  $('#nomor').blur(function(){
+    var data = {
+      p_no_telfon : $scope.nomor,
+      p_alamat : $scope.alamat,
+      p_pernyataan : $scope.pernyataan
+    }
+    $cookies.putObject('p_pernyataan', data);
+  });
+
+  $('#pernyataan').blur(function(){
+    var data = {
+      p_no_telfon : $scope.nomor,
+      p_alamat : $scope.alamat,
+      p_pernyataan : $scope.pernyataan
+    }
+    $cookies.putObject('p_pernyataan', data);
+  });
+
+  $('#alamat').blur(function(){
+    var data = {
+      p_no_telfon : $scope.nomor,
+      p_alamat : $scope.alamat,
+      p_pernyataan : $scope.pernyataan
+    }
+    $cookies.putObject('p_pernyataan', data);
+  });
+
+  var current = $cookies.getObject('p_pernyataan');
+  if (!current)
+  {
+    $scope.nomor = '';
+    $scope.alamat = '';
+    $scope.pernyataan = '';
+  }
+  else
+  {
+    $scope.nomor = current.p_no_telfon;
+    $scope.alamat = current.p_alamat;
+    $scope.pernyataan = current.p_pernyataan;
+  }
+
+  var prevPage = $cookies.getObject('sk2');
+  if (!prevPage)
+  {
+    window.location.replace('#!/daftar/saksi2');
+  }
 
   var no_kk = $cookies.getObject('no_kk');
   var jenazah = $cookies.getObject('jenazah');
@@ -2231,7 +2404,9 @@ app.controller('data_keluarga', function($scope, $cookies, $http, Upload){
           $scope.cek(no);
           $('#modal').modalPopup('show', {
             backgroundClick : false,
-            keyboardDetect : false
+            keyboardDetect : false,
+            titleBackground : "#2c3237",
+            titleFontColor : "#f0f0f0"
           });
           $scope.nomor = null;
           $scope.alamat = '';
