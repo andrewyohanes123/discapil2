@@ -132,22 +132,21 @@ footer {
   display: none;
   z-index: 5000;
   overflow-y: auto;
+  text-align: center;
 }
 
 .img-content {
+  background: #fefefe;
   width: 50%;
   height: auto;
   border: 3px solid #efefef;
-  position: absolute;
-  top : 50%;
-  left : 50%;
+  margin: 5px auto;
   border-radius: 5px;
-  transform : translate(-50%, -50%);
   cursor: zoom-in;
-  transform-origin: left !important;
   animation: img-modal-in 750ms forwards;
   display: none;
-  transition: width 750ms ease-in-out;
+  transition: 750ms ease-in-out;
+  transform-origin: top;
 }
 
 .img-close {
@@ -163,34 +162,33 @@ footer {
 
 .img-width {
   width: 90% !important;
-  transition: width 750ms ease-in-out;
+  height: auto;
+  transition: 750ms ease-in-out;
+  cursor: zoom-out;
 }
 
 @keyframes img-modal-in {
   0% {
     opacity: 0;
-    transform: scale(0) translateX(-50%) translate(-50%, -50%);
+    transform: scale(0) translateX(-50%);
   }
   50% {
-    transform: scale(1.05) translate(-50%, -50%);
+    transform: scale(1.05);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateX(0) translate(-50%, -50%);
+    transform: scale(1) translateX(0);
   }
 }
 
 @keyframes img-modal-out {
   0% {
     opacity: 0;
-    transform: scale(1) translateX(0) translate(-50%, -50%);
-  }
-  50% {
-    transform: translate(-50%, -50%);
+    transform: scale(1) translateX(0);
   }
   100% {
     opacity: 1;
-    transform: scale(0) translateX(-50%) translate(-50%, -50%);
+    transform: scale(0) translateX(-50%);
   }
 }
 
@@ -577,24 +575,25 @@ footer {
 }
 
 @media screen and (max-width : 720px) {
-  .col-3 { width: 25% !important;}
+  .subtitle {max-width: 90% !important;}
+  .col-3 { width: 100% !important;}
   .col-6 { width: 100% !important;}
   .col-4 {width: 100% !important;}
 }
 
 @media screen and (max-width : 640px) {
-  .col-3 { width: 25% !important;}
+  .col-3 { width: 100% !important;}
   .col-6 { width: 100% !important;}
 }
 
 @media screen and (max-width : 550px) {
-  .subtitle {
+  /*.subtitle {
     display: none;
-  }
+  }*/
 }
 
 @media screen and (max-width : 500px) {
-  .subtitle {display: none;}
+  .subtitle {max-width: 90%;}
   .col-3 { min-width: 100% !important;}
   .body {min-width: 95%;}
   .btn-collapse { display: none !important;}
@@ -618,9 +617,6 @@ footer {
     /*opacity: 0;*/
   }
   .body {min-width: 95%;}
-  .subtitle {
-    display: none;
-  }
   .menu {display: block;}
   .menu li:last-child{
     float: left !important;
@@ -1032,6 +1028,59 @@ select > .input {
   font-size: 2em !important;
 }
 
+/* Loading */
+.loading {
+  background: #c84747;
+  padding: 5px 15px;
+  position: fixed;
+  border-radius: 15px;
+  left : 50%;
+  text-align: center;
+  top : 50%;
+  transform: translate(-50%, -50%);
+  z-index: 300;
+  display: none;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.34);
+}
+
+.loading i.fa {
+  margin: 5px 5px;
+  padding: 15px 5px;
+  font-size: 45px;
+  color: white;
+  text-align: center;
+}
+
+.loading .text {
+  color: white;
+  margin: 5px 5px;
+  text-align: center;
+}
+
+.loading .progress {
+  color: white;
+  font-size: 15px;
+  display: none;
+}
+
+@keyframes loading-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes loading-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /**/
 
 .btn {
@@ -1287,13 +1336,23 @@ select > .input {
   padding: 2.5px 10px;
   border-top: .5px solid #bbb;
   border-top-style: solid;
-  max-width: 30%;
+  max-width: 35%;
 }
 
 .body .icon {
   font-size: 45px;
   text-align: center;
   color : #2a6d9e;
+}
+
+.body .list li {
+  margin: 15px auto;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.body img {
+  width: 100%;
 }
 
 .card {
@@ -1620,6 +1679,13 @@ select > .input {
   text-align: center;
   font-weight: lighter !important;
   margin: 5px auto;
+  width: 80%;
+}
+
+.modal-content .pendaftaran-berhasil .logo {
+  width: 50px;
+  height: auto;
+  float : left;
 }
 
 .modal-content .nomor-pendaftaran {
@@ -1669,9 +1735,22 @@ select > .input {
   top : 0;
   width: 100%;
   height: 100%;
-  bottom: 0;
   left: 0;
   display: none;
+  overflow-y: auto;
+}
+
+.error {
+  background: white;
+  padding: 5px 15px;
+  border-radius: 5px;
+  color: black !important;
+  max-width: 80%;
+  margin: 15px auto;
+}
+
+.error p {
+  color: black !important;
 }
 
 .errors p {

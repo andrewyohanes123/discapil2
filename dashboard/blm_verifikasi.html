@@ -69,6 +69,7 @@
           <th>No.</th>
           <th>NIK Jenazah</th>
           <th>Jenazah</th>
+          <th>No. Pendaftaran</th>
           <th>Tanggal meninggal</th>
           <th>Tanggal pendaftaran</th>
           <th>Detail</th>
@@ -82,6 +83,7 @@
           <td>{{ list.indexOf(daftar) + 1 }}</td>
           <td>{{ daftar.nik }}</td>
           <td>{{ daftar.nama }}</td>
+          <td>{{ daftar.no_antrian }}</td>
           <td>{{ daftar.tanggal_kematian }}</td>
           <td>{{ daftar.tanggal_pendaftaran }}</td>
           <td><button type="button" class="btn btn-check" ng-click="detail(daftar.no_antrian)" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Detail</button></td>
@@ -193,6 +195,28 @@
               </tr>
             </table>
           </div>
+          </div>
+          <div class="collapse">
+            <div class="head red">
+              <p><i class="fa fa-edit fa-lg"></i>&nbsp;Data Keluarga</p>
+              <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+            </div>
+            <div class="containers">
+              <table class="table">
+                <tr>
+                  <td>Nomor Telepon</td>
+                  <td>{{ data_keluarga.p_no_telfon }}</td>
+                </tr>
+                <tr>
+                  <td>Alamat</td>
+                  <td>{{ data_keluarga.p_alamat }}</td>
+                </tr>
+                <tr>
+                  <td>Pernyataan</td>
+                  <td>{{ data_keluarga.p_pernyataan }}</td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -318,6 +342,11 @@
                 <td>Fotocopy KTP Saksi 2</td>
                 <td ng-show="ktp_saksi2 == null">{{ ktp_saksi2 }}</td>
                 <td ng-hide="ktp_saksi2 == null"><a href="{{ ktp_saksi2_link }}">{{ ktp_saksi2 }}</a></td>
+              </tr>
+              <tr>
+                <td>Surat Hubungan Pelapor Dengan Jenazah</td>
+                <td ng-show="ktp_saksi2 == null">{{ hubkel }}</td>
+                <td ng-hide="ktp_saksi2 == null"><a href="{{ hubkel_link }}">{{ hubkel }}</a></td>
               </tr>
             </tbody>
           </table>

@@ -3,9 +3,21 @@
     <header class="title">
       Pendaftaran Surat Kematian
     </header>
-    <p class="subtitle">Dinas Kependudukan dan Catatan Sipil</p>
+    <p class="subtitle">Dinas Kependudukan dan Pencatatan Sipil</p>
     <hr>
     <div class="row">
+      <div class="col-3">
+        <div class="body card">
+          <span class="info" ng-click="modal('cek')" title="Bantuan"><i class="fa fa-info-circle fa-lg"></i></span>
+          <header class="icon">
+            <i class="fa fa-archive fa-lg green"></i>
+          </header>
+          <hr>
+          <h4>Kelengkapan</h4>
+          <div class="spaces"></div>
+          <button type="button" id="berkas" class="btn btn-card btn-card-green" name="button">KELENGKAPAN</button>
+        </div>
+      </div>
       <div class="col-3">
         <div class="body card">
           <span class="info" title="Bantuan" ng-click="modal('pendaftaran')"><i class="fa fa-info-circle fa-lg"></i></span>
@@ -32,18 +44,6 @@
       </div>
       <div class="col-3">
         <div class="body card">
-          <span class="info" ng-click="modal('cek')" title="Bantuan"><i class="fa fa-info-circle fa-lg"></i></span>
-          <header class="icon">
-            <i class="fa fa-archive fa-lg green"></i>
-          </header>
-          <hr>
-          <h4>Info Berkas</h4>
-          <div class="spaces"></div>
-          <button type="button" id="berkas" class="btn btn-card btn-card-green" name="button">CEK BERKAS</button>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="body card">
           <span class="info" ng-click="modal('cek_status')" title="Bantuan"><i class="fa fa-info-circle fa-lg"></i></span>
           <header class="icon">
             <i class="fa fa-check fa-lg blue"></i>
@@ -51,7 +51,7 @@
           <hr>
           <h4>Cek Status</h4>
           <div class="spaces"></div>
-          <button type="button" id="cek_status" class="btn btn-card btn-card-blue" name="button">CEK</button>
+          <button type="button" id="cek_status" onclick="window.location.replace('#!/cek_status')" class="btn btn-card btn-card-blue" name="button">CEK</button>
         </div>
       </div>
       <!--  -->

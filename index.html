@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="assets/css/style.css" media="screen, print">
     <link rel="stylesheet" href="assets/css/DateTimePicker.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/css/flatpickr.min.css">
+    <link rel="stylesheet" href="assets/css/dark.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="assets/js/jquery.min.js" charset="utf-8"></script>
     <script src="assets/js/angular.min.js" charset="utf-8"></script>
@@ -16,6 +18,11 @@
     <script src="assets/js/ng-file-upload-shim.min.js" charset="utf-8"></script>
     <script src="assets/js/print.min.js" charset="utf-8"></script>
     <script src="assets/js/disdukcapil.js" charset="utf-8"></script>
+    <script src="assets/js/moment.js" charset="utf-8"></script>
+    <script src="assets/js/flatpickr" charset="utf-8"></script>
+    <script src="assets/js/id.js" charset="utf-8"></script>
+    <script src="assets/js/jspdf.min.js" charset="utf-8"></script>
+    <script src="assets/js/from_html.js" charset="utf-8"></script>
     <script src="assets/js/main.js" charset="utf-8"></script>
   </head>
   <body>
@@ -37,6 +44,11 @@
       <div class="notifikasi-body">
         <!-- Pesan goes here -->
       </div>
+    </div>
+    <div class="loading">
+      <p class="text"></p>
+      <i class="fa fa-spinner fa-lg fa-spin"></i>
+      <p class="progress"></p>
     </div>
     <div ng-view>
     </div>

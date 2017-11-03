@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="form-container">
+    <div class="form-head">
+      <p class="form-title"><i class="fa fa-file fa-lg"></i>&nbsp;Cek status laporan</p>
+    </div>
+    <div class="form-pendaftaran">
+      <form class="group" action="index.html" method="post">
+        <label for="">Nomor pendaftaran</label>
+        <div class="input-group">
+          <input type="number" class="input" ng-model="nomor" placeholder="Nomor pendaftaran"/>
+          <div class="input-addon-btn">
+            <button type="submit" class="btn btn-check" ng-click="cek()" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Cek</button>
+          </div>
+        </div>
+      </form>
+      <button type="button" class="btn btn-edit" ng-show="data" ng-click="pdf()" name="button"><i class="fa fa-file-pdf-o fa-lg"></i>&nbsp;Simpan ke PDF</button>
+      <button type="button" class="btn btn-prev" ng-show="data" onclick="printJS('data', 'html')" name="button"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>
+      <hr>
+      <div id="data" ng-show="data" class="table-responsive">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Data</th>
+              <th>Pendaftaran</th>
+            </tr>
+            <tr>
+              <td>Nama Jenazah</td>
+              <td>{{ nama }}</td>
+            </tr>
+            <tr>
+              <td>NIK</td>
+              <td>{{ nik }}</td>
+            </tr>
+            <tr>
+              <td>Nomor Pendaftaran</td>
+              <td>{{ nomor_pendaftaran }}</td>
+            </tr>
+            <tr>
+              <td>Verifikasi</td>
+              <td>{{ verifikasi }}</td>
+            </tr>
+            <tr>
+              <td>Status</td>
+              <td>{{ status }}</td>
+            </tr>
+            <tr>
+              <td>Keterangan operator</td>
+              <td><textarea name="name" readonly ng-model="keterangan" class="input" rows="5" cols="50"></textarea></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

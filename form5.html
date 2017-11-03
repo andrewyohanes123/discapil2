@@ -23,12 +23,7 @@
         <label for="">Nama Lengkap</label>
         <input type="text" class="input" ng-model="nama_lengkap" readonly placeholder="Nama Lengkap" name="" value=""/>
         <label for="">Hubungan pelapor dengan jenazah</label>
-        <select class="input" ng-model="hubungan_kel" name="">
-          <option value="Ayah">Ayah</option>
-          <option value="Ayah">Ibu</option>
-          <option value="Saudara">Saudara</option>
-          <option value="Kerabat">Kerabat</option>
-        </select>
+        <input type="text" class="input" ng-model="hubungan_kel" placeholder="Hubungan pelapor dengan jenazah" name="" value="">
         <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/ayah')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
         <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
       </form>
@@ -38,14 +33,9 @@
         <label for="">Nama Lengkap</label>
         <input type="text" ng-model="nama" class="input" placeholder="Nama Lengkap" name="" value="">
         <label for="">Hubungan pelapor dengan jenazah</label>
-        <select class="input" ng-model="hubungan_kel" name="">
-          <option value="Ayah">Ayah</option>
-          <option value="Ayah">Ibu</option>
-          <option value="Saudara">Saudara</option>
-          <option value="Kerabat">Kerabat</option>
-        </select>
+        <input type="text" class="input" ng-model="hubungan_kel_pelapor" placeholder="Hubungan pelapor dengan jenazah" name="" value="">
         <label for="">Tanggal Lahir</label>
-        <input type="text" data-field="date" ng-model="tanggal" class="input" placeholder="Tanggal Lahir" name="" value="">
+        <input type="text" id="date" ng-model="tanggal" class="input" placeholder="Tanggal Lahir" name="" value="">
         <label for="">Jenis Kelamin</label>
         <select class="input" ng-model="jenis_kelamin" name="">
           <option value="Laki-laki">Laki-laki</option>

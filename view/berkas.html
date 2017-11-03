@@ -24,7 +24,7 @@
         <tr>
           <td>Surat akte kelahiran yang meninggal</td>
           <td ng-hide="akta_kelahiran != null">{{ akta_kelahiran }}</td>
-          <td ng-hide="akta_kelahiran == null"><a href="{{ akte_kelahiran_link }}">{{ akta_kelahiran }}</a></td>
+          <td ng-hide="akta_kelahiran == null"><a href="{{ akta_kelahiran_link }}">{{ akta_kelahiran }}</a></td>
           <td>
             <input type="file" ngf-select ng-model="akte_kel" accept="image/*">
             <button type="button" ng-click="upload(akte_kel, 'berkas_akta_kelahiran_jenazah')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
@@ -73,6 +73,15 @@
           <td>
             <input type="file" ngf-select ng-model="ktp_sk2" accept="image/*">
             <button type="button" ng-click="upload(ktp_sk2, 'berkas_ktp_saksi2')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
+          </td>
+        </tr>
+        <tr>
+          <td>Surat Hubungan Pelapor Dengan Jenazah</td>
+          <td ng-show="ktp_saksi2 == null">{{ hubkel }}</td>
+          <td ng-hide="ktp_saksi2 == null"><a href="{{ hubkel_link }}">{{ hubkel }}</a></td>
+          <td>
+            <input type="file" ngf-select ng-model="hubungan" accept="image/*">
+            <button type="button" ng-click="upload(hubungan, 'berkas_hubkel_jenazah_pelapor')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
           </td>
         </tr>
       </tbody>

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="kotak">
     <div class="head">
-      <p class="head-title"><i class="fa fa-list-ol fa-lg"></i>&nbsp;Daftar</p>
+      <p class="head-title"><i class="fa fa-check-square fa-lg"></i>&nbsp;Selesai</p>
     </div>
     <div class="kotak-body">
       <div class="row">
@@ -27,7 +27,7 @@
         </div>
         <div class="col-4">
           <div class="input-group">
-            <input type="number" ng-model="cari" id="cari" placeholder="Cari NIK" class="input" name="" value="">
+            <input type="text" ng-model="cari" id="cari" placeholder="Cari NIK" class="input" name="" value="">
             <span class="input-addon-btn">
               <button type="button" class="btn btn-next" name="button"><i class="fa fa-search fa-lg"></i>&nbsp;Cari</button>
             </span>
@@ -63,37 +63,35 @@
         </div>
       </div>
     </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>No.</th>
-          <th>NIK Jenazah</th>
-          <th>Jenazah</th>
-          <th>No. pendaftaran</th>
-          <th>Tanggal meninggal</th>
-          <th>Tanggal pendaftaran</th>
-          <th>Detail</th>
-          <th>Verifikasi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-show="jlhHalaman == 0">
-          <td colspan="8" style="text-align : center;">Tidak ada laporan</td>
-        </tr>
-        <tr ng-repeat="daftar in list">
-          <td>{{ list.indexOf(daftar) + 1 }}</td>
-          <td>{{ daftar.nik }}</td>
-          <td>{{ daftar.nama }}</td>
-          <td>{{ daftar.no_antrian }}</td>
-          <td>{{ daftar.tanggal_kematian }}</td>
-          <td>{{ daftar.tanggal_pendaftaran }}</td>
-          <td>
-            <button type="button" class="btn btn-check" ng-click="detail(daftar.id_jenazah, daftar.approved)" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Detail</button>
-          </td>
-          <td><button type="button" class="btn btn-prev" ng-disabled="daftar.approved == 1" ng-click="verifikasi(daftar.no_antrian)" name="button">Verifikasi</button></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>NIK Jenazah</th>
+            <th>Jenazah</th>
+            <th>No Pendaftaran</th>
+            <th>Tanggal meninggal</th>
+            <th>Tanggal pendaftaran</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-show="jlhHalaman == 0">
+            <td colspan="8" style="text-align : center;">Tidak ada laporan</td>
+          </tr>
+          <tr ng-repeat="daftar in list">
+            <td>{{ list.indexOf(daftar) + 1 }}</td>
+            <td>{{ daftar.nik }}</td>
+            <td>{{ daftar.nama }}</td>
+            <td>{{ daftar.no_antrian }}</td>
+            <td>{{ daftar.tanggal_kematian }}</td>
+            <td>{{ daftar.tanggal_pendaftaran }}</td>
+            <td><button type="button" class="btn btn-check" ng-click="detail(daftar.no_antrian)" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Detail</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="kotak-body">
       <button type="button" ng-disabled="currentpage == 1 || jlhHalaman == 0" class="btn btn-prev" ng-click="prev()">Sebelumnya</button>
       <button type="button" ng-disabled="currentpage == jlhHalaman || jlhHalaman == 0" class="btn btn-prev" ng-click="next()">Berikutnya</button>
@@ -165,14 +163,14 @@
           </div>
           </div>
           <div class="collapse">
-            <div class="head blue">
-              <p><i class="fa fa-edit fa-lg"></i>&nbsp;Keterangan operator</p>
+            <div class="head darkblue">
+              <p><i class="fa fa-edit fa-lg"></i>&nbsp;Keterangan Operator</p>
               <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
             </div>
             <div class="collapse-body">
               <label for="">Keterangan operator</label>
-              <textarea name="name" class="input" ng-model="keterangan" placeholder="Keterangan" rows="8" cols="80"></textarea>
-              <button type="button" class="btn btn-next" ng-click="catatan(nomor)" name="button">Masukkan</button>
+              <textarea name="name" class="input" ng-model="keterangan" readonly placeholder="Keterangan" rows="8" cols="80"></textarea>
+              <button type="button" class="btn btn-next" name="button" disabled>Simpan</button>
             </div>
           </div>
         </div>
@@ -213,25 +211,25 @@
           </div>
           <div class="collapse">
             <div class="head red">
-              <p><i class="fa fa-user fa-lg"></i>&nbsp;Data Keluarga</p>
+              <p><i class="fa fa-wpforms fa-lg"></i>&nbsp;Data Keluarga</p>
               <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
             </div>
             <div class="containers">
-            <table class="table">
-              <tr>
-                <td>Nomor telepon</td>
-                <td>{{ data_keluarga.p_no_telfon }}</td>
-              </tr>
-              <tr>
-                <td>Alamat</td>
-                <td>{{ data_keluarga.p_alamat }}</td>
-              </tr>
-              <tr>
-                <td>Pernyataan</td>
-                <td>{{ data_keluarga.p_pernyataan }}</td>
-              </tr>
-            </table>
-          </div>
+              <table class="table">
+                <tr>
+                  <td>Nomor telepon</td>
+                  <td>{{ data_keluarga.p_no_telfon }}</td>
+                </tr>
+                <tr>
+                  <td>Alamat</td>
+                  <td>{{ data_keluarga.p_alamat }}</td>
+                </tr>
+                <tr>
+                  <td>Pernyataan</td>
+                  <td>{{ data_keluarga.p_pernyataan }}</td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -267,10 +265,6 @@
                 <tr>
                   <td>Pekerjaan</td>
                   <td>{{ pelapor.pekerjaan }}</td>
-                </tr>
-                <tr>
-                  <td>Hubungan pelapor dengan jenazah</td>
-                  <td>{{ pelapor.hubungan_kel_pelapor }}</td>
                 </tr>
               </table>
             </div>
@@ -313,7 +307,6 @@
           </div>
         </div>
       </div>
-      <input type="hidden" ng-model="verif" name="" value="">
       <div class="collapse">
         <div class="head">
           <p><i class="fa fa-file fa-lg"></i>&nbsp;Berkas</p>
@@ -374,9 +367,6 @@
       </div>
     </div>
     <div class="modal-footer">
-      <input type="hidden" ng-model="nomor" name="" value="">
-      <button type="button" class="btn btn-hapus" onclick="$('.modal').modalPopup('hide')" name="button"><i class="fa fa-times fa-lg"></i>&nbsp;Tutup</button>
-      <button type="button" class="btn btn-prev" ng-disabled="verif == 1" ng-click="verifikasi(nomor)" name="button">Verifikasi</button>
     </div>
   </div>
 </div>

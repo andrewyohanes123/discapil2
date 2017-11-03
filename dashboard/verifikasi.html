@@ -69,22 +69,26 @@
           <th>No.</th>
           <th>NIK Jenazah</th>
           <th>Jenazah</th>
+          <th>No Pendaftaran</th>
           <th>Tanggal meninggal</th>
           <th>Tanggal pendaftaran</th>
           <th>Detail</th>
+          <th>Selesai</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-show="jlhHalaman == 0">
-          <td colspan="6" style="text-align : center;">Tidak ada laporan</td>
+          <td colspan="8" style="text-align : center;">Tidak ada laporan</td>
         </tr>
         <tr ng-repeat="daftar in list">
           <td>{{ list.indexOf(daftar) + 1 }}</td>
           <td>{{ daftar.nik }}</td>
           <td>{{ daftar.nama }}</td>
+          <td>{{ daftar.no_antrian }}</td>
           <td>{{ daftar.tanggal_kematian }}</td>
           <td>{{ daftar.tanggal_pendaftaran }}</td>
           <td><button type="button" class="btn btn-check" ng-click="detail(daftar.no_antrian)" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Detail</button></td>
+          <td><button type="button" class="btn btn-next" ng-click="selesai(daftar.id_jenazah)" name="button"><i class="fa fa-list fa-lg"></i>&nbsp;Selesai</button></td>
         </tr>
       </tbody>
     </table>
@@ -158,7 +162,20 @@
             </table>
           </div>
           </div>
+          <div class="collapse">
+            <div class="head darkblue">
+              <p><i class="fa fa-edit fa-lg"></i>&nbsp;Keterangan Operator</p>
+              <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+            </div>
+            <div class="collapse-body">
+              <input type="hidden" ng-model="nomor" name="" value="">
+              <label for="">Keterangan operator</label>
+              <textarea name="name" class="input" ng-model="keterangan" placeholder="Keterangan" rows="8" cols="80"></textarea>
+              <button type="button" class="btn btn-next" ng-click="catatan(nomor)" name="button">Simpan</button>
+            </div>
+          </div>
         </div>
+        <input type="hidden" ng-model="selesai_status" name="" value="">
         <div class="col-6">
           <div class="collapse">
             <div class="head lightgreen">
@@ -193,6 +210,28 @@
               </tr>
             </table>
           </div>
+          </div>
+          <div class="collapse">
+            <div class="head red">
+              <p><i class="fa fa-wpforms fa-lg"></i>&nbsp;Data Keluarga</p>
+              <span class="collapse-icon"><i class="fa fa-angle-down fa-lg"></i></span>
+            </div>
+            <div class="containers">
+              <table class="table">
+                <tr>
+                  <td>Nomor telepon</td>
+                  <td>{{ data_keluarga.p_no_telfon }}</td>
+                </tr>
+                <tr>
+                  <td>Alamat</td>
+                  <td>{{ data_keluarga.p_alamat }}</td>
+                </tr>
+                <tr>
+                  <td>Pernyataan</td>
+                  <td>{{ data_keluarga.p_pernyataan }}</td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -319,12 +358,18 @@
                 <td ng-show="ktp_saksi2 == null">{{ ktp_saksi2 }}</td>
                 <td ng-hide="ktp_saksi2 == null"><a href="{{ ktp_saksi2_link }}">{{ ktp_saksi2 }}</a></td>
               </tr>
+              <tr>
+                <td>Surat Hubungan Pelapor Dengan Jenazah</td>
+                <td ng-show="ktp_saksi2 == null">{{ hubkel }}</td>
+                <td ng-hide="ktp_saksi2 == null"><a href="{{ hubkel_link }}">{{ hubkel }}</a></td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
     <div class="modal-footer">
+      <button type="button" class="btn btn-next" ng-disabled="selesai_status == 1" ng-click="selesai(nomor)" name="button"><i class="fa fa-list fa-lg"></i>&nbsp;Selesai</button>
     </div>
   </div>
 </div>

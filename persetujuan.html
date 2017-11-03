@@ -22,10 +22,22 @@
       <p class="title"><i class="fa fa-ticket fa-lg"></i>&nbsp;Pendaftaran Berhasil</p>
     </div>
     <div class="modal-content">
+      <h1 class="pendaftaran-berhasil"><img src="assets/img/lamb.jpg" class="logo" alt="">Dinas Pencatatan dan Kependudukan Sipil</h1>
+      <h2 class="pendaftaran-berhasil">Kota Manado</h2>
+      <hr>
       <h1 class="pendaftaran-berhasil">Pendaftaran berhasil</h1>
       <h4 class="pendaftaran-berhasil">Nomor pendaftaran anda :</h4>
       <h1 class="nomor-pendaftaran">{{ no_pendaftaran }}</h1>
+      <h4 class="pendaftaran-berhasil">Nama Kepala Keluarga :</h4>
+      <h3 class="pendaftaran-berhasil">{{ nama_kk }}</h3>
+      <h4 class="pendaftaran-berhasil">Nomor KK :</h4>
+      <h3 class="pendaftaran-berhasil">{{ no_kk }}</h3>
+      <h4 class="pendaftaran-berhasil">Alamat :</h4>
+      <h3 class="pendaftaran-berhasil">{{ p_alamat }}</h3>
+      <h4 class="pendaftaran-berhasil">Nama Jenazah :</h4>
+      <h3 class="pendaftaran-berhasil">{{ nama_jnz }}</h3>
       <button type="button" onclick="printJS('modal', 'html')" name="button" class="btn btn-prev"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>
+      <button type="button" ng-click="pdf()" class="btn btn-edit" name="button"><i class="fa fa-file-pdf-o fa-lg"></i>&nbsp;Simpan ke PDF</button>
       <a href="#!/home"><i class="fa fa-home fa-lg"></i>Kembali ke halaman utama</a>
       <h4><i class="fa fa-upload fa-lg"></i>&nbsp;Upload file</h4>
       <div class="table-responsive">
@@ -99,6 +111,15 @@
               <td>
                 <input type="file" ngf-select ng-model="ktp_sk2" accept="image/*">
                 <button type="button" ng-click="upload(ktp_sk2, 'berkas_ktp_saksi2')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Surat Keterangan Hubungan pelapor dengan jenazah</td>
+              <td ng-show="ktp_saksi2 == null">{{ hubkel }}</td>
+              <td ng-hide="ktp_saksi2 == null"><a href="{{ hubkel_link }}">{{ hubkel }}</a></td>
+              <td>
+                <input type="file" ngf-select ng-model="hubkel_file" accept="image/*">
+                <button type="button" ng-click="upload(hubkel_file, 'berkas_hubkel_jenazah_pelapor')" class="btn btn-next"><i class="fa fa-upload fa-lg"></i>&nbsp;Upload</button>
               </td>
             </tr>
           </tbody>
