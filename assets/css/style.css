@@ -44,14 +44,15 @@ code {
 }
 
 footer {
+  background: rgba(255, 255, 255, 0.32);
+  text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.34);
   position: fixed;
-  margin: 5px auto;
   padding: 5px auto;
   text-align: center;
   font-size: 12px;
   font-family: Helvetica !important;
   right: 0;
-  bottom: 0px;
+  bottom: 0;
   left : 0;
 }
 
@@ -776,7 +777,7 @@ footer {
   z-index: 300;
   top : 60px;
   left : 50%;
-  max-width: 75%;
+  max-width: 90%;
   transform: translate(-50%);
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.33);
   animation: notif-in 500ms forwards;
@@ -975,7 +976,7 @@ footer {
 }
 
 select.input {
-  font-size: 15px;
+  font-size: 12px;
   height: 30px;
 }
 
@@ -985,7 +986,8 @@ textarea.input {
 }
 
 .input {
-  padding: 5px 15px;
+  font-size: 12px !important;
+  padding: 8px 15px;
   width: 100%;
   margin: 5px auto;
   box-sizing: border-box;

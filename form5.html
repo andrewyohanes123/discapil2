@@ -15,15 +15,15 @@
       <form class="group" action="index.html" method="post" id="manado">
         <label for="">NIK</label>
         <div class="input-group">
-          <input type="number" class="input" ng-model="nik" placeholder="NIK" name="" value="">
+          <input type="number" id="nik" class="input" ng-model="nik" placeholder="NIK" name="" value="">
           <div class="input-addon-btn">
             <button ng-click="cek(nik)" type="button" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Cek</button>
           </div>
         </div>
         <label for="">Nama Lengkap</label>
-        <input type="text" class="input" ng-model="nama_lengkap" readonly placeholder="Nama Lengkap" name="" value=""/>
+        <input type="text" class="input" id="nama_lengkap" ng-model="nama_lengkap" readonly placeholder="Nama Lengkap" name="" value=""/>
         <label for="">Hubungan pelapor dengan jenazah</label>
-        <input type="text" class="input" ng-model="hubungan_kel" placeholder="Hubungan pelapor dengan jenazah" name="" value="">
+        <input type="text" class="input" id="hub_kel" ng-model="hubungan_kel" placeholder="Hubungan pelapor dengan jenazah" name="" value="">
         <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/ayah')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
         <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
       </form>
@@ -33,7 +33,7 @@
         <label for="">Nama Lengkap</label>
         <input type="text" ng-model="nama" class="input" placeholder="Nama Lengkap" name="" value="">
         <label for="">Hubungan pelapor dengan jenazah</label>
-        <input type="text" class="input" ng-model="hubungan_kel_pelapor" placeholder="Hubungan pelapor dengan jenazah" name="" value="">
+        <input type="text" class="input" id="hubkel" ng-model="hubungan_kel_pelapor" placeholder="Hubungan pelapor dengan jenazah" name="" value="">
         <label for="">Tanggal Lahir</label>
         <input type="text" id="date" ng-model="tanggal" class="input" placeholder="Tanggal Lahir" name="" value="">
         <label for="">Jenis Kelamin</label>

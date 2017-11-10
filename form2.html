@@ -7,17 +7,17 @@
       <form class="group" action="index.html" method="post">
         <label for="">NIK</label>
         <div class="input-group">
-          <input type="number" ng-model="nik" class="input" placeholder="NIK" name="" value="">
+          <input type="number" ng-model="nik" class="input" id="nik" placeholder="NIK" name="" value="">
           <div class="input-addon-btn">
             <button type="button" ng-click="cek(nik)" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>Cek</button>
           </div>
         </div>
         <label for="">Nama Lengkap</label>
-        <input type="text" placeholder="Nama Lengkap" ng-model="nama_lengkap" class="input" readonly name="" value="">
+        <input type="text" placeholder="Nama Lengkap" id="nama_lengkap" ng-model="nama_lengkap" class="input" readonly name="" value="">
         <label for="">Tanggal Kematian</label>
-        <input type="text" id="date" ng-model="tanggal" class="input" placeholder="Tanggal kematian" name="" value="">
+        <input type="text" ng-model="tanggal" class="input date" placeholder="Tanggal kematian"/>
         <label for="">Pukul</label>
-        <input type="text" data-field="time" ng-model="waktu" class="input" name="" value="" placeholder="Pukul">
+        <input type="text" data-field="time" id="time" ng-model="waktu" class="input" name="" value="" placeholder="Pukul">
         <label for="">Sebab kematian</label>
         <select ng-model="sebab_kematian" class="input" name="">
           <option value="Sakit Biasa/Tua">Sakit biasa / tua</option>
@@ -42,5 +42,4 @@
   </div>
 </div>
 <div id="tanggal">
-
 </div>

@@ -15,13 +15,13 @@
       <form class="group" action="index.html" method="post" id="manado">
         <label for="">NIK</label>
         <div class="input-group">
-          <input type="number" ng-model="nik" class="input" placeholder="NIK" name="" value="">
+          <input type="number" ng-model="nik" id="nik" class="input" placeholder="NIK" name="" value="">
           <div class="input-addon-btn">
             <button type="button" ng-click="cek(nik)" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Cek</button>
           </div>
         </div>
         <label for="">Nama Lengkap</label>
-        <input type="text" ng-model="nama_lengkap" class="input" readonly placeholder="Nama Lengkap" name="" value=""/>
+        <input type="text" ng-model="nama_lengkap" id="nama_lengkap" class="input" readonly placeholder="Nama Lengkap" name="" value=""/>
         <hr>
         <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/pelapor')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
         <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
@@ -32,7 +32,7 @@
         <label for="">Nama Lengkap</label>
         <input type="text" ng-model="nama" class="input" placeholder="Nama Lengkap" name="" value="">
         <label for="">Tanggal Lahir</label>
-        <input type="text" data-field="date" ng-model="tanggal" class="input" placeholder="Tanggal Lahir" name="" value="">
+        <input type="text" id="tanggal" ng-model="tanggal" class="input" placeholder="Tanggal Lahir" name="" value="">
         <label for="">Jenis Kelamin</label>
         <select class="input" ng-model="jenis_kelamin" name="">
           <option value="Laki-laki">Laki-laki</option>
@@ -49,4 +49,3 @@
     </div>
   </div>
 </div>
-<div id="tanggal"></div>

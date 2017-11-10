@@ -12,42 +12,39 @@
       </div>
     </div>
     <div class="form-pendaftaran">
-      <div class="form-pendaftaran">
-        <form class="group" action="index.html" method="post" id="manado">
-          <label for="">NIK</label>
-          <div class="input-group">
-            <input type="number" class="input" ng-model="nik" placeholder="NIK" name="" value="">
-            <div class="input-addon-btn">
-              <button type="button" ng-click="cek(nik)" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Cek</button>
-            </div>
+      <form class="group" action="index.html" method="post" id="manado">
+        <label for="">NIK</label>
+        <div class="input-group">
+          <input type="number" class="input" id="nik" ng-model="nik" placeholder="NIK" name="" value="">
+          <div class="input-addon-btn">
+            <button type="button" ng-click="cek(nik)" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Cek</button>
           </div>
-          <label for="">Nama Lengkap</label>
-          <input type="text" class="input" ng-model="nama_lengkap" readonly placeholder="Nama Lengkap" name="" value=""/>
-          <hr>
-          <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/saksi1')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
-          <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
-        </form>
-        <form class="group" action="index.html" method="post" id="luar_manado">
-          <label for="">NIK</label>
-          <input type="number" ng-model="nik_luar" class="input" placeholder="NIK" name="" value="">
-          <label for="">Nama Lengkap</label>
-          <input type="text" ng-model="nama" class="input" placeholder="Nama Lengkap" name="" value="">
-          <label for="">Tanggal Lahir</label>
-          <input type="text" data-field="date" ng-model="tanggal" class="input" placeholder="Tanggal Lahir" name="" value="">
-          <label for="">Jenis Kelamin</label>
-          <select class="input" ng-model="jenis_kelamin" name="">
-            <option value="Laki-laki">Laki-laki</option>
-            <option value="Perempuan">Perempuan</option>
-          </select>
-          <label for="">Pekerjaan</label>
-          <input type="text" ng-model="pekerjaan" class="input" placeholder="Pekerjaan" name="" value="">
-          <label for="">Alamat</label>
-          <input type="text" ng-model="alamat" placeholder="Alamat" class="input" name="" value="">
-          <hr>
-          <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/saksi1')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
-          <button type="submit" class="btn btn-next" ng-click="submit()" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
-        </form>
-    </div>
+        </div>
+        <label for="">Nama Lengkap</label>
+        <input type="text" id="nama_lengkap" class="input" ng-model="nama_lengkap" readonly placeholder="Nama Lengkap" name="" value=""/>
+        <hr>
+        <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/saksi1')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
+        <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
+      </form>
+      <form class="group" action="index.html" method="post" id="luar_manado">
+        <label for="">NIK</label>
+        <input type="number" ng-model="nik_luar" class="input" placeholder="NIK" name="" value="">
+        <label for="">Nama Lengkap</label>
+        <input type="text" ng-model="nama" class="input" placeholder="Nama Lengkap" name="" value="">
+        <label for="">Tanggal Lahir</label>
+        <input type="text" id="tanggal" ng-model="tanggal" class="input" placeholder="Tanggal Lahir" name="" value="">
+        <label for="">Jenis Kelamin</label>
+        <select class="input" ng-model="jenis_kelamin" name="">
+          <option value="Laki-laki">Laki-laki</option>
+          <option value="Perempuan">Perempuan</option>
+        </select>
+        <label for="">Pekerjaan</label>
+        <input type="text" ng-model="pekerjaan" class="input" placeholder="Pekerjaan" name="" value="">
+        <label for="">Alamat</label>
+        <input type="text" ng-model="alamat" placeholder="Alamat" class="input" name="" value="">
+        <hr>
+        <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/saksi1')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
+        <button type="submit" class="btn btn-next" ng-click="submit()" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>
+      </form>
   </div>
 </div>
-<div id="tanggal"></div>

@@ -105,7 +105,7 @@ dash.controller('pengguna', function($scope, $http, $cookies){
   $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
   $scope.blokir = "1";
 
-  $scope.openModal = function(mode, id_user = '',username = '', nama = '', aktif = '')
+  $scope.openModal = function(mode, id_user,username, nama, aktif)
   {
     if (mode == "Tambah user")
     {
@@ -1216,14 +1216,36 @@ dash.controller('selesai', function($scope, $http, $cookies){
 });
 
 dash.controller('list', function($scope, $http, $cookies){
-  $scope.sort = "asc";
-  $scope.order = "nik"
+  $scope.sort = "desc";
+  $scope.order = "tanggal_pendaftaran"
   $scope.batas = "5"
   $scope.currentpage = 1;
 
   $('#tgl').flatpickr({
     locale : "id"
   });
+
+  $('th').click(function(){
+    var data = $(this).data('order');
+    if (!data)
+    {
+      return false;
+    }
+    else
+    {
+      if ($scope.sort == 'desc')
+      {
+        $scope.sort = 'asc';
+      }
+      else
+      {
+        $scope.sort = 'desc';
+      }
+
+      $scope.order = data;
+      $scope.get();
+    }
+  })
 
   $('#batas').change(function(){
     $scope.batas = $(this).val();
@@ -1875,51 +1897,62 @@ app.controller('login', function($scope, $http, $cookies){
   $('form').submit(function(e){
     e.preventDefault();
   });
-})
+});
 
 app.controller('no_kk', function($scope, $http, data, $cookies){
+  var datas = $cookies.getObject('no_kk');
+  if (!datas)
+  {
+    return;
+  }
+  else
+  {
+    $scope.no_kk = datas.no_kk;
+    $scope.nama_kepala_keluarga = datas.nama_kepala_keluarga;
+  }
+
+  $('#nik').bind('input keypress',function(e){
+    if ($(this).val().length == 0)
+    {
+      $('#nama_kk').val('');
+    }
+    else if ($(this).val().length == 16)
+    {
+      $scope.cek($(this).val())
+    }
+  })
+
   $scope.cek = function(no_kk)
   {
-    $('.notifikasi').loadingMsg('show', 'Loading');
+    $('.loading').loadingMsg('show', 'Loading');
     $http.get(backendUrl + "/ambil_keluarga/" + no_kk).then(function(resp){
       var hasil = resp.data.data;
       var status = resp.data.status;
-      $('.notifikasi').loadingMsg('hide', 'Loading');
-      // console.log(hasil);
-      // console.log(resp.status);
-      if (!hasil.kepala_keluarga)
+      $('.loading').loadingMsg('hide', 'Loading');
+
+      if (status)
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('Nomor KK Tidak Valid');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 3000)
-      }
-      else
-      {
-        hasil = hasil.kepala_keluarga;
-        $scope.nama_kepala_keluarga = hasil.NAMA_LGKP;
+        if (!hasil.kepala_keluarga)
+        {
+          $('.notifikasi').notifikasi('Nomor KK Tidak Valid', 3000);
+        }
+        else
+        {
+          hasil = hasil.kepala_keluarga;
+          $scope.nama_kepala_keluarga = hasil.NAMA_LGKP;
+          $('#nama_kk').val($scope.nama_kepala_keluarga);
+        }
       }
     }, null, function(resp){
       console.log(resp);
     });
   }
 
-  $('#nik').on('change', function(){
-    $scope.cek($(this).val());
-  })
-
   $scope.submit = function()
   {
     if ($scope.nama_kepala_keluarga == '' || $scope.nama_kepala_keluarga == null)
     {
-      $('.notifikasi').css('display', 'flex');
-      $('.notifikasi-body').empty();
-      $('.notifikasi-body').text('Nomor KK Tidak Valid');
-      setTimeout(function(){
-        $('.notifikasi').hide();
-      }, 3000);
+      $('.notifikasi').notifikasi('Nomor KK Tidak Valid');
     }
     else
     {
@@ -1943,18 +1976,34 @@ app.controller('jenazah', function($scope, $http, data, $cookies){
   }
   else
   {
-    $scope.nik = data.nik;
-    $scope.nama_lengkap = data.nama;
-    $scope.tanggal = data.tanggal_kematian;
-    $scope.waktu = data.waktu_meninggal;
-    $scope.sebab_kematian = data.sebab_kematian;
-    $scope.yang_menerangkan = data.yang_menerangkan;
+    $scope.nik = current.nik;
+    $scope.nama_lengkap = current.nama;
+    $scope.tanggal = current.tanggal_kematian;
+    $scope.waktu = current.waktu_meninggal;
+    $scope.sebab_kematian = current.sebab_kematian;
+    $scope.yang_menerangkan = current.yang_menerangkan;
   }
 
-  $('#date').flatpickr({
-    locale : "id",
-    maxDate : moment().format('YYYY-MM-DD')
+  $('#nik').bind('input keypress', function(){
+    if ($(this).val().length == 0)
+    {
+      $('#nama_lengkap').val('');
+    }
+    else if ($(this).val().length == 16)
+    {
+      $scope.cek($(this).val());
+    }
   })
+
+  $('.date').flatpickr({
+    locale : "id",
+    maxDate : moment().format('YYYY-MM-DD'),
+    disableMobile : true
+  });
+
+  $('#tanggal').DateTimePicker(data.datepickerSetting());
+
+  // $('#time').lolliclock({autoclose : true});
 
   if (!prevPage)
   {
@@ -1991,6 +2040,7 @@ app.controller('jenazah', function($scope, $http, data, $cookies){
       else
       {
         $scope.nama_lengkap = hasil.NAMA_LGKP;
+        $('#nama_lengkap').val($scope.nama_lengkap);
       }
     });
   }
@@ -2042,8 +2092,6 @@ app.controller('jenazah', function($scope, $http, data, $cookies){
       window.location.replace('#!/daftar/ayah')
     }
   }
-
-  $('#tanggal').DateTimePicker(data.datepickerSetting());
 });
 
 app.controller('ayah', function($scope, $http, data, $cookies){
@@ -2059,6 +2107,18 @@ app.controller('ayah', function($scope, $http, data, $cookies){
     $scope.nik = current.nik_ayah;
     $scope.nama_lengkap = current.nik_ayah;
   }
+
+  $('#nik').bind('input keypress', function(){
+    var length = $(this).val().length;
+    if (length == 0)
+    {
+      $('#nama_lengkap').val('');
+    }
+    else if (length == 16)
+    {
+      $scope.cek($(this).val());
+    }
+  })
 
   if (!prevPage)
   {
@@ -2104,6 +2164,7 @@ app.controller('ayah', function($scope, $http, data, $cookies){
       else
       {
         $scope.nama_lengkap = hasil.NAMA_LGKP;
+        $('#nama_lengkap').val($scope.nama_lengkap);
       }
     });
   }
@@ -2172,6 +2233,18 @@ app.controller('ibu', function($scope, $http, data, $cookies){
     $('.notifikasi').notifikasi('Masukkan data sebelumnya')
   }
 
+  $('#nik').bind('input keypress', function(){
+    var length = $(this).val().length;
+    if (length == 0)
+    {
+      $('#nama_lengkap').val('');
+    }
+    else if (length == 16)
+    {
+      $scope.cek($(this).val());
+    }
+  });
+
   $scope.cek = function(nik)
   {
     $('.loading').loadingMsg('show', 'Loading');
@@ -2190,6 +2263,7 @@ app.controller('ibu', function($scope, $http, data, $cookies){
       else
       {
         $scope.nama_lengkap = hasil.NAMA_LGKP;
+        $('#nama_lengkap').val($scope.nama_lengkap);
       }
     });
   }
@@ -2231,7 +2305,7 @@ app.controller('ibu', function($scope, $http, data, $cookies){
 // Pelapor
 $(document).on('submit', 'form',function(e){
   e.preventDefault();
-})
+});
 
 app.controller('pelapor', function($scope, $http, data, $cookies){
   var prevPage = $cookies.getObject('ayah');
@@ -2240,7 +2314,8 @@ app.controller('pelapor', function($scope, $http, data, $cookies){
 
   $('#date').flatpickr({
     locale : "id",
-    maxDate : moment().format('YYYY-MM-DD')
+    maxDate : moment().format('YYYY-MM-DD'),
+    disableMobile : true
   });
 
   if (!current)
@@ -2272,6 +2347,18 @@ app.controller('pelapor', function($scope, $http, data, $cookies){
     }
   }
 
+  $('#nik').bind('input keypress', function(){
+    var length = $(this).val().length;
+    if (length == 0)
+    {
+      $('#nama_lengkap').val('');
+    }
+    else if (length == 16)
+    {
+      $scope.cek($(this).val());
+    }
+  });
+
   if (!prevPage)
   {
     window.location.replace('#!/daftar/ayah');
@@ -2300,6 +2387,7 @@ app.controller('pelapor', function($scope, $http, data, $cookies){
       else
       {
         $scope.nama_lengkap = hasil.NAMA_LGKP;
+        $('#nama_lengkap').val($scope.nama_lengkap);
       }
     });
   }
@@ -2328,6 +2416,10 @@ app.controller('pelapor', function($scope, $http, data, $cookies){
       {
         $('.notifikasi').notifikasi('NIK tidak valid', 3000);
       }
+      else if ($scope.hubungan_kel == '' || $scope.hubungan_kel == null)
+      {
+        $('.notifikasi').notifikasi('Masukkan hubungan pelapor', 3000);
+      }
       else
       {
         $cookies.putObject('plr', data);
@@ -2344,6 +2436,10 @@ app.controller('pelapor', function($scope, $http, data, $cookies){
       {
         $('.notifikasi').notifikasi('Masukkan nama lengkap', 3000);
       }
+      else if ($scope.hubungan_kel_pelapor == '')
+      {
+        $('.notifikasi').notifikasi('Masukkan hubungan pelapor', 3000);
+      }
       else if ($scope.tanggal == '')
       {
         $('.notifikasi').notifikasi('Masukkan tanggal lahir', 3000);
@@ -2354,12 +2450,7 @@ app.controller('pelapor', function($scope, $http, data, $cookies){
       }
       else if ($scope.alamat == '')
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('Masukkan alamat');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 5000);
+        $('.notifikasi').notifikasi('Masukkan alamat', 3000);
       }
       else
       {
@@ -2382,9 +2473,6 @@ app.controller('pelapor', function($scope, $http, data, $cookies){
   }
 
   $scope.jenis_kelamin = "Laki-laki"
-
-
-  $('#tanggal').DateTimePicker(data.datepickerSetting());
 
   $('#dlmManado').on('click',function(){
     $('#manado').show();
@@ -2435,6 +2523,18 @@ app.controller('saksi1', function($scope, $http, data, $cookies){
     }
   }
 
+  $('#nik').bind('input keypress', function(){
+    var length = $(this).val().length;
+    if (length == 0)
+    {
+      $('#nama_lengkap').val('');
+    }
+    else if (length == 16)
+    {
+      $scope.cek($(this).val());
+    }
+  });
+
   if (!prevPage)
   {
     window.location.replace('#!/daftar/pelapor');
@@ -2454,7 +2554,8 @@ app.controller('saksi1', function($scope, $http, data, $cookies){
     $('.tab').removeClass('click');
     $(this).addClass('click');
   });
-  $scope.jenis_kelamin = "Laki-laki"
+  $scope.jenis_kelamin = "Laki-laki";
+
   $scope.cek = function(nik)
   {
     $('.loading').loadingMsg('show', 'Loading');
@@ -2477,6 +2578,7 @@ app.controller('saksi1', function($scope, $http, data, $cookies){
       else
       {
         $scope.nama_lengkap = hasil.NAMA_LGKP;
+        $('#nama_lengkap').val($scope.nama_lengkap);
       }
     });
   }
@@ -2547,12 +2649,7 @@ app.controller('saksi1', function($scope, $http, data, $cookies){
       }
       else if ($scope.alamat == '' || $scope.alamat == null)
       {
-        $('.notifikasi').css('display', 'flex');
-        $('.notifikasi-body').empty();
-        $('.notifikasi-body').text('Masukkan alamat');
-        setTimeout(function(){
-          $('.notifikasi').hide();
-        }, 5000);
+        $('.notifikasi').notifikasi('Masukkan alamat', 3000);
       }
       else
       {
@@ -2572,7 +2669,12 @@ app.controller('saksi1', function($scope, $http, data, $cookies){
     }
   }
 
-  $('#tanggal').DateTimePicker(data.datepickerSetting());
+  $('#tanggal').flatpickr({
+    locale : "id",
+    maxDate : moment().format('YYYY-MM-DD'),
+    disableMobile : true
+  });
+
   $('#dlmManado').on('click',function(){
     $('#manado').show();
     $('#luar_manado').hide();
@@ -2628,6 +2730,18 @@ app.controller('saksi2', function($scope, $http, data, $cookies){
     $(this).addClass('click');
   });
 
+  $('#nik').bind('input keypress', function(){
+    var length = $(this).val().length;
+    if (length == 0)
+    {
+      $('#nama_lengkap').val('');
+    }
+    else if (length == 16)
+    {
+      $scope.cek($(this).val());
+    }
+  })
+
   $('#luarManado').on('click',function(){
     $('#manado').hide();
     $('#luar_manado').show();
@@ -2661,6 +2775,7 @@ app.controller('saksi2', function($scope, $http, data, $cookies){
       else
       {
         $scope.nama_lengkap = hasil.NAMA_LGKP;
+        $('#nama_lengkap').val($scope.nama_lengkap);
       }
     });
   }
@@ -2755,8 +2870,12 @@ app.controller('saksi2', function($scope, $http, data, $cookies){
       //
     }
   }
+  $('#tanggal').flatpickr({
+    locale : "id",
+    maxDate : moment().format('YYYY-MM-DD'),
+    disableMobile : true
+  });
 
-  $('#tanggal').DateTimePicker(data.datepickerSetting());
   $('#dlmManado').on('click',function(){
     $('#manado').show();
     $('#luar_manado').hide();
@@ -3014,25 +3133,59 @@ app.controller('data_keluarga', function($scope, $cookies, $http, Upload){
     }
   }
 
+  $('.btn-home').click(function(){
+    $cookies.remove('no_kk');
+    $cookies.remove('jenazah');
+    $cookies.remove('ayah');
+    $cookies.remove('ibu');
+    $cookies.remove('plr');
+    $cookies.remove('sk1');
+    $cookies.remove('sk2');
+    $cookies.remove('persetujuan');
+  });
+
   $scope.pdf = function()
   {
-    var doc = new jsPDF();
-    doc.addImage(img,10, 10, 23, 25);
-    doc.setFontSize(20);
-    doc.text(40, 15, "Dinas Kependudukan dan Pencatatan Sipil");
-    doc.setFontSize(16);
-    doc.text(75, 20, "Pemerintah Kota Manado");
-    doc.setFontSize(14);
-    doc.text(80, 45, "Pendaftaran Akte Kematian")
-    doc.setFontSize(12);
-    doc.text(10,60, "Nomor Pendaftaran : " + $scope.no_pendaftaran);
-    doc.text(10,65, "Nomor KK : " + $scope.no_kk);
-    doc.text(10,70, "Nama Kepala Keluarga : " + $scope.nama_kk);
-    doc.text(10,75, "Alamat : " + $scope.p_alamat);
-    doc.text(10,80, "Nama jenazah : " + $scope.nama_jnz);
-    doc.text(10, 245, "Cek status berita di : http://");
-    doc.text(10, 250, "Pendaftaran antrian di : http://");
-    doc.save('Pendaftaran.pdf');
+    var doc = new jsPDF({
+      orientaion : 'landscape',
+      unit : 'in',
+      format : [4, 4]
+    });
+    doc.setFontSize(9);
+    doc.setFont("helvetica");
+    doc.setFontType("bold");
+    doc.text(2, 0.25, "Dinas Kependudukan dan Pencatatan Sipil", null, null, 'center');
+    doc.setFontSize(8);
+    doc.text(2, 0.40, "Pemerintah Kota Manado", null, null, 'center');
+    doc.addImage(img, 0.19, 0.191, 0.2, 0.24);
+    doc.setFontType("normal");
+    doc.setFontSize(8)
+    doc.text(0.2, 8/10, "Nomor Pendaftaran");
+    doc.text(0.2, 9.5/10, "Nomor KK");
+    doc.text(0.2, 11/10, "Nama kepala keluarga");
+    doc.text(0.2, 12.5/10, "Nama Lengkap jenazah");
+    doc.text(0.2, 14/10, "Alamat");
+    // doc.text(0.2, 15.5/10, "Keterangan operator");
+    //
+    doc.text(1.8, 8/10, ":");
+    doc.text(1.8, 9.5/10, ":");
+    doc.text(1.8, 11/10, ":");
+    doc.text(1.8, 12.5/10, ":");
+    doc.text(1.8, 14/10, ":");
+    // doc.text(1.8, 15.5/10, ":");
+    //
+    doc.text(2, 8/10, $scope.no_pendaftaran + "");
+    doc.text(2, 9.5/10, $scope.no_kk + "");
+    doc.text(2, 11/10, $scope.nama_kk);
+    doc.text(2, 12.5/10, $scope.nama_jnz);
+    doc.text(2, 14/10, $scope.p_alamat);
+    // doc.text(2, 15.5/10, $scope.data.approving_note);
+    //
+    doc.setFontSize(8);
+    doc.setFontType('courier');
+    doc.text(0.2, 3, "Cek status di : http://");
+    doc.text(0.2, 3.15, "Pendaftaran antrian di : http://");
+    doc.save(parseInt(Math.random() * 39 + 54 - 2) + $scope.no_kk + $scope.nama_jnz + $scope.alamat + '-PendaftaranAkteKematian.pdf');
   }
 });
 

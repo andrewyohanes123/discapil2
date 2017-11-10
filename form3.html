@@ -7,13 +7,13 @@
       <form class="group" action="index.html" method="post">
         <label for="">NIK</label>
         <div class="input-group">
-          <input type="number" class="input" ng-model="nik" placeholder="NIK" name="" value="">
+          <input type="number" class="input" id="nik" ng-model="nik" placeholder="NIK" name="" value="">
           <div class="input-addon-btn">
             <button type="button" ng-click="cek(nik)" class="btn btn-check" name="button"><i class="fa fa-check fa-lg"></i>&nbsp;Cek</button>
           </div>
         </div>
         <label for="">Nama Lengkap</label>
-        <input type="text" class="input" ng-model="nama_lengkap" placeholder="Nama Lengkap" name="" value="">
+        <input type="text" class="input" id="nama_lengkap" ng-model="nama_lengkap" placeholder="Nama Lengkap" name="" value="">
         <hr>
         <button type="button" class="btn btn-prev" onclick="window.location.replace('#!/daftar/jenazah')" name="button"><i class="fa fa-angle-left fa-lg"></i>&nbsp;Kembali</button>
         <button type="submit" ng-click="submit()" class="btn btn-next" name="button"><i class="fa fa-floppy-o fa-lg"></i>&nbsp;Simpan</button>

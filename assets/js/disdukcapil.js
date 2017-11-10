@@ -1,6 +1,11 @@
 (function($){
-  $.fn.notifikasi = function(pesan, timeout = 2000)
+  $.fn.notifikasi = function(pesan, timeout)
   {
+      if (timeout === undefined)
+      {
+        timeout = 2000;
+      }
+      
       $('.notifikasi').css('animation', '750ms notif-in forwards');
       $('.notifikasi').css('display', 'flex');
       $('.notifikasi-body').empty();
@@ -169,8 +174,13 @@
     }
   }
 
-  $.fn.loadingMsg = function(mode, pesan, progress = null)
+  $.fn.loadingMsg = function(mode, pesan, progress)
   {
+    if (progress === undefined)
+    {
+      progress = null;
+    }
+
     if (mode == 'show')
     {
       $(this).css('animation', '750ms loading-in forwards');
@@ -208,7 +218,7 @@
         '<p>Message : ' + key.message + '</p>' +
         '<p>File : ' + key.file + '</p>' +
         '<p>Line : ' + key.line + '</p>' +
-        '<p>Code :' + key.code + '</p></div>' 
+        '<p>Code :' + key.code + '</p></div>'
       );
       })
     }

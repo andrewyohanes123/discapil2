@@ -28,17 +28,29 @@
       <h1 class="pendaftaran-berhasil">Pendaftaran berhasil</h1>
       <h4 class="pendaftaran-berhasil">Nomor pendaftaran anda :</h4>
       <h1 class="nomor-pendaftaran">{{ no_pendaftaran }}</h1>
-      <h4 class="pendaftaran-berhasil">Nama Kepala Keluarga :</h4>
-      <h3 class="pendaftaran-berhasil">{{ nama_kk }}</h3>
-      <h4 class="pendaftaran-berhasil">Nomor KK :</h4>
-      <h3 class="pendaftaran-berhasil">{{ no_kk }}</h3>
-      <h4 class="pendaftaran-berhasil">Alamat :</h4>
-      <h3 class="pendaftaran-berhasil">{{ p_alamat }}</h3>
-      <h4 class="pendaftaran-berhasil">Nama Jenazah :</h4>
-      <h3 class="pendaftaran-berhasil">{{ nama_jnz }}</h3>
+      <div class="table-responsive">
+        <table class="table">
+          <tr>
+            <td>Nomor KK</td>
+            <td>{{ no_kk }}</td>
+          </tr>
+          <tr>
+            <td>Nama Kepala Keluarga</td>
+            <td>{{ nama_kk }}</td>
+          </tr>
+          <tr>
+            <td>Nama Jenazah</td>
+            <td>{{ nama_jnz }}</td>
+          </tr>
+          <tr>
+            <td>Alamat</td>
+            <td>{{ p_alamat }}</td>
+          </tr>
+        </table>
+      </div>
       <button type="button" onclick="printJS('modal', 'html')" name="button" class="btn btn-prev"><i class="fa fa-print fa-lg"></i>&nbsp;Print</button>
       <button type="button" ng-click="pdf()" class="btn btn-edit" name="button"><i class="fa fa-file-pdf-o fa-lg"></i>&nbsp;Simpan ke PDF</button>
-      <a href="#!/home"><i class="fa fa-home fa-lg"></i>Kembali ke halaman utama</a>
+      <a class="btn-home" href="#!/home"><i class="fa fa-home fa-lg"></i>Kembali ke halaman utama</a>
       <h4><i class="fa fa-upload fa-lg"></i>&nbsp;Upload file</h4>
       <div class="table-responsive">
         <table class="table">
