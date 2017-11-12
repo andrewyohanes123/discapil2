@@ -139,6 +139,9 @@ dash.controller('pengguna', function($scope, $http, $cookies){
     }
   }
 
+  $('.submenu li a').removeClass('submenu-active');
+  $('.submenu li a#user').addClass('submenu-active');
+
   $scope.tambah_user = function()
   {
     var data = {
@@ -321,6 +324,36 @@ dash.controller('blm_verifikasi', function($scope, $http, $cookies){
   $scope.order = "nik"
   $scope.batas = "5"
   $scope.currentpage = 1;
+
+  $('th').click(function(){
+    var data = $(this).data('order');
+    if (!data)
+    {
+      return false;
+    }
+    else
+    {
+      if ($scope.sort == 'desc')
+      {
+        $scope.sort = 'asc';
+        $('th').children('i.fa').remove();
+        $(this).children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-asc fa-lg"></i>');
+      }
+      else
+      {
+        $scope.sort = 'desc';
+        $('th').children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-desc fa-lg"></i>');
+      }
+
+      $scope.order = data;
+      $scope.get();
+    }
+  })
+
+  $('.submenu li a').removeClass('submenu-active');
+  $('.submenu li a#blm_verif').addClass('submenu-active');
 
   $('#tgl').flatpickr({
     locale : "id"
@@ -628,6 +661,35 @@ dash.controller('verifikasi', function($scope, $http, $cookies){
     $scope.get();
   });
 
+  $('.submenu li a').removeClass('submenu-active');
+  $('.submenu li a#verifikasi').addClass('submenu-active');
+
+  $('th').click(function(){
+    var data = $(this).data('order');
+    if (!data)
+    {
+      return false;
+    }
+    else
+    {
+      if ($scope.sort == 'desc')
+      {
+        $scope.sort = 'asc';
+        $('th').children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-asc fa-lg"></i>');
+      }
+      else
+      {
+        $scope.sort = 'desc';
+        $('th').children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-desc fa-lg"></i>');
+      }
+
+      $scope.order = data;
+      $scope.get();
+    }
+  })
+
   $scope.tgl = moment().startOf('month').format('YYYY-MM-DD');
   $scope.tgl2 = moment().endOf('month').format('YYYY-MM-DD');
   $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.batas));
@@ -924,14 +986,43 @@ dash.controller('verifikasi', function($scope, $http, $cookies){
 });
 
 dash.controller('selesai', function($scope, $http, $cookies){
-  $scope.sort = "asc";
-  $scope.order = "nik"
+  $scope.sort = "desc";
+  $scope.order = "no_antrian"
   $scope.batas = "5"
   $scope.currentpage = 1;
 
   $('#tgl').flatpickr({
     locale : "id"
   });
+
+  $('th').click(function(){
+    var data = $(this).data('order');
+    if (!data)
+    {
+      return false;
+    }
+    else
+    {
+      if ($scope.sort == 'desc')
+      {
+        $scope.sort = 'asc';
+        $('th').children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-asc fa-lg"></i>');
+      }
+      else
+      {
+        $scope.sort = 'desc';
+        $('th').children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-desc fa-lg"></i>');
+      }
+
+      $scope.order = data;
+      $scope.get();
+    }
+  });
+
+  $('.submenu li a').removeClass('submenu-active');
+  $('.submenu li a#selesai').addClass('submenu-active');
 
   $('#batas').change(function(){
     $scope.batas = $(this).val();
@@ -1225,6 +1316,9 @@ dash.controller('list', function($scope, $http, $cookies){
     locale : "id"
   });
 
+  $('.submenu li a').removeClass('submenu-active');
+  $('.submenu li a#semua').addClass('submenu-active');
+
   $('th').click(function(){
     var data = $(this).data('order');
     if (!data)
@@ -1236,10 +1330,14 @@ dash.controller('list', function($scope, $http, $cookies){
       if ($scope.sort == 'desc')
       {
         $scope.sort = 'asc';
+        $('th').children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-asc fa-lg"></i>');
       }
       else
       {
         $scope.sort = 'desc';
+        $('th').children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-desc fa-lg"></i>');
       }
 
       $scope.order = data;
@@ -1318,7 +1416,7 @@ dash.controller('list', function($scope, $http, $cookies){
     });
   }
 
-  $('#cari').keyup(function(){
+  $('#cari').bind('input',function(){
     $scope.currentpage = 1;
     $scope.get();
   });
@@ -1585,6 +1683,9 @@ dash.controller('user', function($scope, $http){
   }
 });
 
+$('.submenu li a').removeClass('submenu-active');
+$('.submenu li a#user').addClass('submenu-active');
+
 dash.controller('sidebar', function($scope){
     $('.submenu li a').click(function(){
       $('.submenu li a').removeClass('submenu-active');
@@ -1649,38 +1750,49 @@ app.controller('cek_status', function($scope, $http, $cookies){
 
   $scope.pdf = function()
   {
-    var doc = new jsPDF();
-    var data = {
-      '#data' : function(element, renderer){
-        return true;
-      }
-    }
-    doc.addImage(img,10, 10, 18, 20);
-    doc.setFontSize(20);
+    var doc = new jsPDF({
+      orientaion : 'landscape',
+      unit : 'in',
+      format : [4, 4]
+    });
+    doc.setFontSize(9);
     doc.setFont("helvetica");
     doc.setFontType("bold");
-    doc.text(105, 15, "Dinas Kependudukan dan Pencatatan Sipil", null, null, 'center');
-    doc.setFontSize(16);
-    doc.text(105, 20, "Pemerintah Kota Manado", null, null, 'center');
-    doc.setFontSize(14);
-    doc.text(105, 35, "Pendaftaran Akte Kematian", null, null, 'center')
-    doc.setFontSize(10);
+    doc.text(2, 0.25, "Dinas Kependudukan dan Pencatatan Sipil", null, null, 'center');
+    doc.setFontSize(8);
+    doc.text(2, 0.40, "Pemerintah Kota Manado", null, null, 'center');
+    doc.addImage(img, 0.19, 0.191, 0.2, 0.24);
     doc.setFontType("normal");
-    // doc.text(10,60, "Nomor Pendaftaran : " + $scope.nomor_pendaftaran);
-    // doc.text(10,65, "NIK : " + $scope.nik);
-    // doc.text(10,70, "Nama Jenazah : " + $scope.nama);
-    // doc.text(10,75, "Verifikasi : " + $scope.verifikasi);
-    // doc.text(10,80, "Status : " + $scope.status);
-    // doc.text(10,85, "Keterangan : " + $scope.keterangan);
-    doc.fromHTML($('#data').get(0), 10, 45, {
-      width : 250,
-      elementHandlers : data
-    })
-    doc.setFontSize(10);
+    doc.setFontSize(8)
+    doc.text(0.2, 8/10, "Nomor Pendaftaran");
+    doc.text(0.2, 9.5/10, "NIK");
+    // doc.text(0.2, 11/10, "Nama kepala keluarga");
+    doc.text(0.2, 11/10, "Nama Lengkap jenazah"); // 11
+    doc.text(0.2, 12.5/10, "Alamat"); // 12.5
+    doc.text(0.2, 14/10, "Status"); // 14
+    doc.text(0.2, 15.5/10, "Keterangan operator"); // 15.5
+    //
+    doc.text(1.8, 8/10, ":");
+    doc.text(1.8, 9.5/10, ":");
+    // doc.text(1.8, 11/10, ":");
+    doc.text(1.8, 11/10, ":");
+    doc.text(1.8, 12.5/10, ":");
+    doc.text(1.8, 14/10, ":");
+    doc.text(1.8, 15.5/10, ":");
+    //
+    doc.text(2, 8/10, $scope.nomor_pendaftaran + "");
+    doc.text(2, 9.5/10, $scope.nik + "");
+    // doc.text(2, 11/10, "Nama KK");
+    doc.text(2, 11/10, $scope.nama);
+    doc.text(2, 12.5/10, "Ujung jalan");
+    doc.text(2, 14/10, $scope.status);
+    doc.text(2, 15.5/10, $scope.keterangan)
+    //
+    doc.setFontSize(8);
     doc.setFontType('courier');
-    doc.text(10, 275, "Cek status berita di : http://");
-    doc.text(10, 280, "Pendaftaran antrian di : http://");
-    doc.save(Math.random() * 39 + $scope.nik + $scope.nama + '_pendaftaran.pdf');
+    doc.text(0.2, 3, "Cek status di : http://");
+    doc.text(0.2, 3.15, "Pendaftaran antrian di : http://");
+    doc.save(parseInt(Math.random() * 39 + 54 - 2) + $scope.nik + $scope.nama + $scope.nomor_pendaftaran + 'Cek_Status.pdf');
   }
 })
 

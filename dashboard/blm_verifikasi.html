@@ -5,51 +5,7 @@
     </div>
     <div class="kotak-body">
       <div class="row">
-        <div class="col-8">
-          <div class="input-group">
-            <div class="input-addon">
-              <i class="fa fa-filter fa-lg"></i>&nbsp;Urut berdasarkan
-            </div>
-            <select ng-model="order" id="order" class="input" name="">
-              <option value="nik">NIK Jenazah</option>
-              <option value="nama">Nama jenazah</option>
-              <option value="tanggal_pendaftaran">Tanggal pendaftaran</option>
-              <option value="tanggal_kematian">Tanggal kematian</option>
-            </select>
-            <div class="input-addon">
-              <i class="fa fa-sort fa-lg"></i>&nbsp;Sortir
-            </div>
-            <select id="sort" ng-model="sort" class="input" name="">
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="input-group">
-            <input type="text" ng-model="cari" id="cari" placeholder="Cari NIK" class="input" name="" value="">
-            <span class="input-addon-btn">
-              <button type="button" class="btn btn-next" name="button"><i class="fa fa-search fa-lg"></i>&nbsp;Cari</button>
-            </span>
-          </div>
-        </div>
-        <div class="col-2">
-          <div class="input-group">
-            <div class="input-addon">
-              Batas
-            </div>
-            <select ng-model="batas" id="batas" class="input" name="">
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-              <option value="25">25</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-4">
-        </div>
-        <div class="col-6">
+        <div class="col-5">
           <div class="input-group">
             <span class="input-addon">
               Range tanggal
@@ -61,17 +17,28 @@
             <input type="text" id="tgl2" ng-model="tgl2" placeholder="Tanggal akhir" class="input" name="" value="">
           </div>
         </div>
+        <div class="col-3">
+
+        </div>
+        <div class="col-4">
+          <div class="input-group">
+            <input type="number" ng-model="cari" id="cari" placeholder="Cari NIK" class="input" name="" value="">
+            <span class="input-addon-btn">
+              <button type="button" class="btn btn-next" name="button"><i class="fa fa-search fa-lg"></i>&nbsp;Cari</button>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <table class="table">
       <thead>
         <tr>
           <th>No.</th>
-          <th>NIK Jenazah</th>
-          <th>Jenazah</th>
-          <th>No. Pendaftaran</th>
-          <th>Tanggal meninggal</th>
-          <th>Tanggal pendaftaran</th>
+          <th data-order="nik">NIK Jenazah</th>
+          <th data-order="nama">Jenazah</th>
+          <th data-order="no_antrian">No. pendaftaran</th>
+          <th data-order="tanggal_kematian">Tanggal meninggal</th>
+          <th data-order="tanggal_pendaftaran">Tanggal pendaftaran</th>
           <th>Detail</th>
         </tr>
       </thead>
@@ -93,6 +60,20 @@
     <div class="kotak-body">
       <button type="button" ng-disabled="currentpage == 1 || jlhHalaman == 0" class="btn btn-prev" ng-click="prev()">Sebelumnya</button>
       <button type="button" ng-disabled="currentpage == jlhHalaman || jlhHalaman == 0" class="btn btn-prev" ng-click="next()">Berikutnya</button>
+      <div style="width : 16.667%; float: right;">
+        <div class="input-group">
+          <div class="input-addon">
+            Batas
+          </div>
+          <select ng-model="batas" id="batas" class="input" name="">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+          </select>
+        </div>
+      </div>
       <code ng-hide="jlhHalaman == 0">{{ currentpage }} dari {{ jlhHalaman }} halaman</code>
     </div>
   </div>

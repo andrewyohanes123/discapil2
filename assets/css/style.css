@@ -87,6 +87,11 @@ footer {
   text-align: left;
   border-right: 1px solid #ddd;
   border-bottom: 2.5px solid #ddd;
+  cursor: pointer;
+}
+
+.table tr th:hover {
+  cursor: pointer;
 }
 
 .table tr th:last-child {
@@ -1604,7 +1609,7 @@ select > .input {
   padding: 5px 15px;
   margin: 0 auto;
   border: #fafafa 1px solid;
-  display: none;
+  /*display: none;*/
 }
 /* -- Modal window -- */
 
