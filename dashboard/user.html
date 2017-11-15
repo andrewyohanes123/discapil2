@@ -41,9 +41,9 @@
       <thead>
         <tr>
           <th>No.</th>
-          <th>Nama</th>
-          <th>Username</th>
-          <th>Aktif/Blokir</th>
+          <th data-order="nama">Nama</th>
+          <th data-order="username">Username</th>
+          <th data-order="aktif">Aktif/Blokir</th>
           <th>Edit/Hapus</th>
         </tr>
       </thead>
@@ -58,7 +58,7 @@
           <td>{{ pengguna.mode }}</td>
           <td>
             <button type="button" ng-click="openModal('Edit user', pengguna.id_pengguna, pengguna.username, pengguna.nama, pengguna.aktif)" class="btn btn-edit"><i class="fa fa-edit fa-lg"></i>&nbsp;Edit</button>
-            <button type="button" ng-click="openModal('Hapus user', pengguna.id_pengguna, pengguna.username, pengguna.nama)" class="btn btn-hapus"><i class="fa fa-trash fa-lg"></i>&nbsp;Hapus</button>
+            <button type="button" ng-disabled="user.id_pengguna == pengguna.id_pengguna" ng-click="openModal('Hapus user', pengguna.id_pengguna, pengguna.username, pengguna.nama)" class="btn btn-hapus"><i class="fa fa-trash fa-lg"></i>&nbsp;Hapus</button>
           </td>
         </tr>
       </tbody>
@@ -89,7 +89,7 @@
         <input type="password" class="input" ng-model="password" placeholder="Password">
         <input type="hidden" ng-model="id" name="" value="">
         <label for="">Blokir</label>
-        <select class="input" ng-model="blokir" name="">
+        <select ng-disabled="id == user.id_pengguna" class="input" ng-model="blokir" name="">
           <option value="1">Aktif</option>
           <option value="0">Blokir</option>
         </select>

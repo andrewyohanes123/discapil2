@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/font-awesome.css">
     <link rel="stylesheet" href="assets/css/flatpickr.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="assets/js/jquery.min.js" charset="utf-8"></script>
     <script src="assets/js/angular.min.js" charset="utf-8"></script>
     <script src="assets/js/angular-route.min.js" charset="utf-8"></script>
@@ -15,6 +14,7 @@
     <script src="assets/js/moment.js" charset="utf-8"></script>
     <script src="assets/js/flatpickr" charset="utf-8"></script>
     <script src="assets/js/id.js" charset="utf-8"></script>
+    <script src="assets/js/Chart.js" charset="utf-8"></script>
     <script src="assets/js/main.js" charset="utf-8"></script>
   </head>
   <body>
@@ -32,13 +32,13 @@
           </span>
           <!-- Sidebar menu -->
           <ul class="sidebar-menu" ng-controller="sidebar">
-            <li><a href="javascript:void(0)"><i class="fa fa-dashboard fa-lg"></i>&nbsp;Dashboard</a></li>
+            <li><a href="#!/dashboard" id="dash"><i class="fa fa-dashboard fa-lg"></i>&nbsp;Dashboard</a></li>
             <li><a href="javascript:void(0)"><i class="fa fa-list fa-lg"></i>&nbsp;Daftar laporan <span class="slide-icon"><i class="fa fa-angle-down fa-lg"></i></span></a>
               <ul class="submenu">
                 <li><a href="#!/semua_laporan" id="semua"><i class="fa fa-list-alt fa-lg"></i>&nbsp;Semua</a></li>
-                <li><a href="#!/diverifikasi" id="verifikasi" ><i class="fa fa-check-circle fa-lg"></i>&nbsp;Diverifikasi</a></li>
-                <li><a href="#!/belum_diverifikasi" id="blm_verif"><i class="fa fa-times fa-lg"></i>&nbsp;Belum diverifikasi</a></li>
-                <li><a href="#!/selesai" id="selesai"><i class="fa fa-check-square fa-lg"></i>&nbsp;Selesai</a></li>
+                <li><a href="#!/diverifikasi" id="verifikasi" ><i class="fa fa-wpforms fa-lg"></i>&nbsp;Diverifikasi</a></li>
+                <li><a href="#!/belum_diverifikasi" id="blm_verif"><i class="fa fa-times-circle fa-lg"></i>&nbsp;Belum diverifikasi</a></li>
+                <li><a href="#!/selesai" id="selesai"><i class="fa fa-check-circle fa-lg"></i>&nbsp;Selesai</a></li>
               </ul>
             </li>
             <li><a href="javascript:void(0)"><i class="fa fa-cog fa-lg"></i>&nbsp;Pengaturan<span class="slide-icon"><i class="fa fa-angle-down fa-lg"></i></span></a>

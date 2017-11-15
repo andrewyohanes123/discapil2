@@ -78,6 +78,10 @@ dash.config(function($routeProvider){
     templateUrl : "dashboard/semua_laporan.html",
     controller : "list"
   })
+  .when('/dashboard', {
+    templateUrl : "dashboard/dash.html",
+    controller : "dash"
+  })
   .when('/diverifikasi', {
     templateUrl : "dashboard/verifikasi.html",
     controller : "verifikasi"
@@ -95,15 +99,68 @@ dash.config(function($routeProvider){
     controller : "selesai"
   })
   .otherwise({
-    redirectTo : '/semua_laporan'
+    redirectTo : '/dashboard'
   });
 });
+
+dash.controller('dash', function($scope, $http){
+  $scope.get = function()
+  {
+    $http.get(backendUrl + "/ambil_jumlah_pendaftaran").then(function(resp){
+      $scope.jumlah = resp.data.data;
+      var data = {
+        datasets : [{
+          data : [$scope.jumlah.approved_selesai, $scope.jumlah.approved_belum_selesai, $scope.jumlah.belum_approved],
+          backgroundColor : ['#0ad071', '#0b9bd0', 'rgb(101, 101, 101)']
+        }],
+        labels : ['Selesai', 'Diverifikasi', 'Belum verifikasi'],
+      }
+      var ctx = $('#canvas');
+      var pie = new Chart(ctx, {
+        type : 'doughnut',
+        data : data
+      });
+    });
+  }
+  $('.sidebar-menu #dash').addClass('active');
+  $('.submenu li a').removeClass('submenu-active');
+  $scope.get();
+})
 
 dash.controller('pengguna', function($scope, $http, $cookies){
   $scope.limit = "5";
   $scope.currentpage = 1;
   $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
   $scope.blokir = "1";
+  $scope.sort = 'asc';
+  $scope.order = 'nama';
+
+  $('th').click(function(){
+    var data = $(this).data('order');
+    if (!data)
+    {
+      return false;
+    }
+    else
+    {
+      if ($scope.sort == 'desc')
+      {
+        $scope.sort = 'asc';
+        $('th').children('i.fa').remove();
+        $(this).children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-asc fa-lg"></i>');
+      }
+      else
+      {
+        $scope.sort = 'desc';
+        $('th').children('i.fa').remove();
+        $(this).append(' <i class="fa fa-sort-desc fa-lg"></i>');
+      }
+
+      $scope.order = data;
+      $scope.get();
+    }
+  })
 
   $scope.openModal = function(mode, id_user,username, nama, aktif)
   {
@@ -266,6 +323,15 @@ dash.controller('pengguna', function($scope, $http, $cookies){
     }
   }
 
+  $scope.currentUser = function()
+  {
+    $http.get(backendUrl + "/cek").then(function(resp){
+      $scope.user = resp.data.data;
+    })
+  }
+
+  $scope.currentUser();
+
   $('#nama').keyup(function(){
     $scope.nama = $(this).val();
     $scope.get();
@@ -273,13 +339,17 @@ dash.controller('pengguna', function($scope, $http, $cookies){
 
   $('#limit').change(function(){
     $scope.nama = $('#nama').val();
+    $scope.currentpage = 1;
+    $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
     $scope.limit = $(this).val();
     $scope.get();
   })
   $scope.get = function()
   {
     var data = {
-      nama : $scope.nama
+      nama : $scope.nama,
+      order_by : $scope.order,
+      sort_type : $scope.sort
     }
     $http({
       url : backendUrl + "/ambil_pengguna/" + $scope.limit + "/" + $scope.offset,
@@ -350,8 +420,9 @@ dash.controller('blm_verifikasi', function($scope, $http, $cookies){
       $scope.order = data;
       $scope.get();
     }
-  })
+  });
 
+  $('.sidebar-menu #dash').removeClass('active');
   $('.submenu li a').removeClass('submenu-active');
   $('.submenu li a#blm_verif').addClass('submenu-active');
 
@@ -360,6 +431,8 @@ dash.controller('blm_verifikasi', function($scope, $http, $cookies){
   });
 
   $('#batas').change(function(){
+    $scope.currentpage = 1;
+    $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
     $scope.batas = $(this).val();
     $scope.get();
   });
@@ -396,6 +469,7 @@ dash.controller('blm_verifikasi', function($scope, $http, $cookies){
 
   $('#cari').keyup(function(){
     $scope.currentpage = 1;
+    $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
     $scope.get();
   })
 
@@ -647,6 +721,8 @@ dash.controller('verifikasi', function($scope, $http, $cookies){
   });
 
   $('#batas').change(function(){
+    $scope.currentpage = 1;
+    $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
     $scope.batas = $(this).val();
     $scope.get();
   });
@@ -712,6 +788,7 @@ dash.controller('verifikasi', function($scope, $http, $cookies){
 
   $('#cari').keyup(function(){
     $scope.currentpage = 1;
+    $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
     $scope.get();
   });
 
@@ -954,21 +1031,21 @@ dash.controller('verifikasi', function($scope, $http, $cookies){
     })
   }
 
-  $(document).on('keyup', function(e){
-    if (e.keyCode == 27)
-    {
-      var modal = $('.modal').css('display');
-      if (modal == 'block')
-      {
-        $('.modal-window').css('animation', 'modal-out 750ms forwards');
-        $('body').css('overflow', 'auto');
-        $('#modal').fadeOut();
-        setTimeout(function(){
-          $('.modal-window').css('animation', 'modal-in 750ms forwards');
-        }, 500);
-      }
-    }
-  })
+  // $(document).on('keyup', function(e){
+  //   if (e.keyCode == 27)
+  //   {
+  //     var modal = $('.modal').css('display');
+  //     if (modal == 'block')
+  //     {
+  //       $('.modal-window').css('animation', 'modal-out 750ms forwards');
+  //       $('body').css('overflow', 'auto');
+  //       $('#modal').fadeOut();
+  //       setTimeout(function(){
+  //         $('.modal-window').css('animation', 'modal-in 750ms forwards');
+  //       }, 500);
+  //     }
+  //   }
+  // })
 
   $('.collapse .head').click(function(){
     $(this).children('span.collapse-icon').children('i.fa').toggleClass('icon-up');
@@ -1025,6 +1102,8 @@ dash.controller('selesai', function($scope, $http, $cookies){
   $('.submenu li a#selesai').addClass('submenu-active');
 
   $('#batas').change(function(){
+    $scope.currentpage = 1;
+    $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
     $scope.batas = $(this).val();
     $scope.get();
   });
@@ -1061,6 +1140,7 @@ dash.controller('selesai', function($scope, $http, $cookies){
 
   $('#cari').keyup(function(){
     $scope.currentpage = 1;
+    $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
     $scope.get();
   })
 
@@ -1275,21 +1355,21 @@ dash.controller('selesai', function($scope, $http, $cookies){
     })
   }
 
-  $(document).on('keyup', function(e){
-    if (e.keyCode == 27)
-    {
-      var modal = $('.modal').css('display');
-      if (modal == 'block')
-      {
-        $('.modal-window').css('animation', 'modal-out 750ms forwards');
-        $('body').css('overflow', 'auto');
-        $('#modal').fadeOut();
-        setTimeout(function(){
-          $('.modal-window').css('animation', 'modal-in 750ms forwards');
-        }, 500);
-      }
-    }
-  })
+  // $(document).on('keyup', function(e){
+  //   if (e.keyCode == 27)
+  //   {
+  //     var modal = $('.modal').css('display');
+  //     if (modal == 'block')
+  //     {
+  //       $('.modal-window').css('animation', 'modal-out 750ms forwards');
+  //       $('body').css('overflow', 'auto');
+  //       $('#modal').fadeOut();
+  //       setTimeout(function(){
+  //         $('.modal-window').css('animation', 'modal-in 750ms forwards');
+  //       }, 500);
+  //     }
+  //   }
+  // })
 
   $('.collapse .head').click(function(){
     $(this).children('span.collapse-icon').children('i.fa').toggleClass('icon-up');
@@ -1346,6 +1426,8 @@ dash.controller('list', function($scope, $http, $cookies){
   })
 
   $('#batas').change(function(){
+    $scope.currentpage = 1;
+    $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
     $scope.batas = $(this).val();
     $scope.get();
   });
@@ -1418,6 +1500,7 @@ dash.controller('list', function($scope, $http, $cookies){
 
   $('#cari').bind('input',function(){
     $scope.currentpage = 1;
+    $scope.offset = ($scope.currentpage - 1) * (parseInt($scope.limit));
     $scope.get();
   });
 

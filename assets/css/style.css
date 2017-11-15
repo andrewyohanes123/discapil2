@@ -56,6 +56,64 @@ footer {
   left : 0;
 }
 
+.score {
+  display: flex;
+  background: #f0715b;
+  margin: 5px auto;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 250px;
+}
+
+.green {
+  background-color: #0ad071 !important;
+}
+
+.blue {
+  background: #0b9bd0 !important;
+}
+
+.gray {
+  background: rgb(101, 101, 101) !important;
+}
+
+.score .score-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  resize: vertical;
+  background: rgba(0, 0, 0, 0.1313);
+  padding: 15px 15px;
+  font-size: 2.5em;
+  color: white;
+}
+
+.score .score-icon i.fa {
+  margin: auto;
+  padding: 0;
+}
+
+.score .score-body {
+  padding: 5px 15px;
+  margin: 0;
+}
+
+.score .score-body .category {
+  font-weight: lighter;
+  margin: 0 auto;
+  padding: 0;
+  color: white;
+}
+
+.score .score-body .value {
+  color: white;
+  font-size: 3em;
+  font-weight: normal;
+  margin: 0 auto;
+  padding: 2.5px;
+}
+
 /* Table */
 .table-responsive {
   overflow: auto;
@@ -1411,16 +1469,19 @@ select > .input {
   height: 20px;
 }
 
-.blue {
+.card .blue {
+  background: transparent !important;
   color: #2e90d7 !important;
 }
 
-.green {
+.card .green {
+  background: transparent !important;
   color: #0d9162;
   font-size: 44.5px !important;
 }
 
-.gray {
+.card .gray {
+  background: transparent !important;
   color: #7b797d;
 }
 
